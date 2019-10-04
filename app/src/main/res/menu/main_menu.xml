@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/start"
+        android:title="@string/start"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/plany"
+        android:title="@string/plany"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/prowadzacy"
+        android:title="@string/prowadzacy"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/aktualnosci"
+    android:title="@string/aktualnosci"
+    app:showAsAction="never" />
+
+
+</menu>

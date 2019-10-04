@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Szkielet</string>
+    <string name="start">Menu główne</string>
+    <string name="plany">Plany zajęć</string>
+    <string name="prowadzacy">Prowadzący</string>
+    <string name="aktualnosci">Aktualności</string>
+</resources>
