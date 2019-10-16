@@ -61,23 +61,16 @@ public class Plany extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.plany) {
-            /*Toast.makeText(Plany.this, "Plany Zajęć", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Plany.this, Plany.class);
-            startActivity(intent);*/
-        }
+        if(item.getItemId() == R.id.plany) {}
         else if(item.getItemId() == R.id.prowadzacy) {
-            //Toast.makeText(Plany.this, "Prowadzący", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Plany.this, Prowadzacy.class);
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.aktualnosci) {
-            //Toast.makeText(Plany.this, "Aktualności", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Plany.this, Aktualnosci.class);
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.start) {
-            //Toast.makeText(Plany.this, "Menu główne", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Plany.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

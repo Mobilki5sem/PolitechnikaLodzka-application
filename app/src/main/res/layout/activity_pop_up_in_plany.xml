@@ -20,6 +20,94 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
+    <EditText
+        android:id="@+id/ptName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:ems="10"
+        android:hint="Enter your name"
+        android:inputType="textPersonName"
+        android:scrollbarThumbHorizontal="@android:color/white"
+        android:scrollbarThumbVertical="@android:color/white"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wybierz stopien studiów:"
+        android:textAlignment="center" />
+
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbIstopien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="I"
+            android:textAlignment="center" />
+
+        <RadioButton
+            android:id="@+id/rbIIstopien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="II"
+            android:textAlignment="center" />
+
+        <RadioButton
+            android:id="@+id/rbIIIstopien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="III"
+            android:textAlignment="center" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wybierz rodzaj studiów:"
+        android:textAlignment="center" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbStacjonarne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Stacjonarne" />
+
+        <RadioButton
+            android:id="@+id/rbNiestacjonarne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Niestacjonarne" />
+
+    </RadioGroup>
+
     <Button
         android:id="@+id/btnOK"
         android:layout_width="match_parent"
@@ -28,4 +116,5 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:text="confirm" />
+
 </LinearLayout>
