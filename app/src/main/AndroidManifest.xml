@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Aktualnosci"></activity>
+        <activity android:name=".PopUpInPlany" android:theme="@style/AppTheme.PopUp"></activity>
+        <activity android:name=".Aktualnosci" />
         <activity android:name=".Prowadzacy" />
         <activity android:name=".Plany" />
         <activity android:name=".MainActivity">

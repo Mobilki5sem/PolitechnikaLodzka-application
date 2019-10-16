@@ -3,14 +3,20 @@ package com.team.szkielet;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
 
 public class Plany extends AppCompatActivity {
+
+    private Button btnDownload;
+    //DownloadManager downloadManager;
+    boolean czyMamyZapisaneDane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,30 @@ public class Plany extends AppCompatActivity {
         //actionBar.setIcon();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        if(!czyMamyZapisaneDane) {
+            Intent intent = new Intent(Plany.this, PopUpInPlany.class);
+            startActivity(intent);
+        }
+
+        btnDownload = findViewById(R.id.btnDownload);
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                Uri uri = Uri.parse("https://drive.google.com/uc?export=download&id=0B6U4g2ILG3VWQ0c5STRNRVRGalU");
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                Long reference = downloadManager.enqueue(request);*/
+
+                //Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://drive.google.com/file/d/0B6U4g2ILG3VWQ0c5STRNRVRGalU/view?usp=sharing"));
+                //startActivity(browserIntent);
+
+                WebView webView = (WebView) findViewById(R.id.wvPDF);
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.loadUrl("https://drive.google.com/file/d/17rS8PT2h1yhER5ZdunkjJJaaWazPX2fo/view?usp=sharing");
+            }
+        });
     }
 
     @Override
