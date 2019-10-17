@@ -16,7 +16,7 @@ public class Plany extends AppCompatActivity {
 
     private Button btnDownload;
     //DownloadManager downloadManager;
-    boolean czyMamyZapisaneDane = false;
+    static boolean czyMamyZapisaneDane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

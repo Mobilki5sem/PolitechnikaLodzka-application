@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         //actionBar.setDisplayShowHomeEnabled(true);
         btnQuiz = findViewById(R.id.btnQuiz);
 
+        Plany.czyMamyZapisaneDane = false;
+
         btnQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="20dp"
-        android:text="POP-UP"
+        android:text="Wpisz swoje dane:"
         android:textAlignment="center"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -28,26 +28,26 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:ems="10"
-        android:hint="Enter your name"
+        android:hint="Twoje imie"
         android:inputType="textPersonName"
         android:scrollbarThumbHorizontal="@android:color/white"
         android:scrollbarThumbVertical="@android:color/white"
         android:textAlignment="center" />
 
+
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wybierz stopien studiów:"
+        android:layout_marginTop="20dp"
+        android:text="Wybierz stopień studiów:"
         android:textAlignment="center" />
 
-
-
     <RadioGroup
+        android:id="@+id/rgStopien"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
 
@@ -78,17 +78,42 @@
     </RadioGroup>
 
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Wybierz kierunek studiów:"
+        android:textAlignment="center" />
+
+    <RadioGroup
+        android:id="@+id/rgKierunek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Informatyka"
+            android:textAlignment="center" />
+    </RadioGroup>
+
+    <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Wybierz rodzaj studiów:"
         android:textAlignment="center" />
 
     <RadioGroup
+        android:id="@+id/rbRodzaj"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
 
@@ -97,14 +122,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Stacjonarne" />
+            android:text="Stacjonarne"
+            android:textAlignment="center" />
 
         <RadioButton
             android:id="@+id/rbNiestacjonarne"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Niestacjonarne" />
+            android:text="Niestacjonarne"
+            android:textAlignment="center" />
 
     </RadioGroup>
 

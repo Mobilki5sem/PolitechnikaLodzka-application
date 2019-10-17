@@ -2,16 +2,22 @@ package com.team.szkielet;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PopUpInPlany extends AppCompatActivity {
 
     private Button btnOK;
     private TextView ptName;
+    private RadioGroup rgStopien, rgKierunek, rgRodzaj;
     private boolean czyZapisano = false;
 
     @Override
@@ -20,13 +26,46 @@ public class PopUpInPlany extends AppCompatActivity {
         setContentView(R.layout.activity_pop_up_in_plany);
 
         ptName = findViewById(R.id.ptName);
+        rgStopien = findViewById(R.id.rgStopien);
+        rgKierunek = findViewById(R.id.rgKierunek);
+        rgStopien = findViewById(R.id.rgStopien);
 
         btnOK = findViewById(R.id.btnOK);
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                czyZapisano = true;
-                onBackPressed();
+                boolean tab[] = new boolean[4];
+                for (int i = 0; i < 4; i++) {
+                    tab[i] = false;
+                }
+                tab[0] = checkIfPressed(rgStopien, "Wybierz stopień studiów");
+                tab[1] = checkIfPressed(rgKierunek, "Wybierz kierunek studiów");
+                tab[2] = checkIfPressed(rgStopien, "Wybierz rodzaj studiów");
+                tab[3] = checkIfNameWasPassed();
+
+                if(tab[0] && tab[1] && tab[2] && tab[3]) {
+                    czyZapisano = true;
+                    Plany.czyMamyZapisaneDane = true;
+                    // teraz tak musze sprawdzic w glownym layoucie sprawdzenie
+                    // czy mamy jakies dane zapisane i wtedy true. w innym wypadku false
+
+                    /*RadioButton rbStopien = findViewById(rgStopien.getCheckedRadioButtonId());
+                    RadioButton rbKierunek = findViewById(rgKierunek.getCheckedRadioButtonId());
+                    RadioButton rbRodzaj = findViewById(rgRodzaj.getCheckedRadioButtonId());*/
+
+                    saveUserPreferences("name", ptName.getText().toString());
+                    /*saveUserPreferences("stopien", rbStopien.getText().toString());
+                    saveUserPreferences("kierunek", rbKierunek.getText().toString());
+                    saveUserPreferences("rodzaj", rbRodzaj.getText().toString());*/
+
+                    /*Toast.makeText(PopUpInPlany.this, rbStopien.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PopUpInPlany.this, rbKierunek.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PopUpInPlany.this, rbRodzaj.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PopUpInPlany.this, ptName.getText(), Toast.LENGTH_SHORT).show();*/
+
+                    onBackPressed();
+                }
+                else {}
             }
         });
 
@@ -37,6 +76,34 @@ public class PopUpInPlany extends AppCompatActivity {
         int height = dm.heightPixels;
 
         getWindow().setLayout((int)(width * 0.8), (int)(height * 0.75));
+    }
+
+    boolean checkIfPressed(RadioGroup rb, String txt) {
+        if (rb.getCheckedRadioButtonId() == -1)
+        {
+            Toast.makeText(PopUpInPlany.this, txt, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    boolean checkIfNameWasPassed() {
+        if(ptName.length() > 0){
+            return true;
+        }else {
+            Toast.makeText(PopUpInPlany.this, "Wpisz swoje imie/nick", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    void saveUserPreferences(String key, String value) {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.commit();
     }
 
     @Override
