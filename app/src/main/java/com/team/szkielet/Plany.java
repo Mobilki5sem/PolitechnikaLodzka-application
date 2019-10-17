@@ -49,6 +49,7 @@ public class Plany extends AppCompatActivity {
                 WebView webView = (WebView) findViewById(R.id.wvPDF);
                 webView.getSettings().setJavaScriptEnabled(true);
                 webView.loadUrl("https://drive.google.com/file/d/17rS8PT2h1yhER5ZdunkjJJaaWazPX2fo/view?usp=sharing");
+                //webView.loadUrl("https://ftims.edu.p.lodz.pl/mod/resource/view.php?id=44697");
             }
         });
     }
