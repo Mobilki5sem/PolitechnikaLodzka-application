@@ -15,10 +15,10 @@ import android.widget.Toast;
 
 public class PopUpInPlany extends AppCompatActivity {
 
-    private Button btnOK;
+    private Button btnOK, btnCancel;
     private TextView ptName;
     private RadioGroup rgStopien, rgKierunek, rgRodzaj;
-    private boolean czyZapisano = false;
+    RadioButton rbStopien, rbKierunek, rbRodzaj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +28,16 @@ public class PopUpInPlany extends AppCompatActivity {
         ptName = findViewById(R.id.ptName);
         rgStopien = findViewById(R.id.rgStopien);
         rgKierunek = findViewById(R.id.rgKierunek);
-        rgStopien = findViewById(R.id.rgStopien);
+        rgRodzaj = findViewById(R.id.rgRodzaj);
 
         btnOK = findViewById(R.id.btnOK);
+        btnCancel = findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,29 +47,26 @@ public class PopUpInPlany extends AppCompatActivity {
                 }
                 tab[0] = checkIfPressed(rgStopien, "Wybierz stopień studiów");
                 tab[1] = checkIfPressed(rgKierunek, "Wybierz kierunek studiów");
-                tab[2] = checkIfPressed(rgStopien, "Wybierz rodzaj studiów");
+                tab[2] = checkIfPressed(rgRodzaj, "Wybierz rodzaj studiów");
                 tab[3] = checkIfNameWasPassed();
 
                 if(tab[0] && tab[1] && tab[2] && tab[3]) {
-                    czyZapisano = true;
                     Plany.czyMamyZapisaneDane = true;
                     // teraz tak musze sprawdzic w glownym layoucie sprawdzenie
                     // czy mamy jakies dane zapisane i wtedy true. w innym wypadku false
 
-                    /*RadioButton rbStopien = findViewById(rgStopien.getCheckedRadioButtonId());
-                    RadioButton rbKierunek = findViewById(rgKierunek.getCheckedRadioButtonId());
-                    RadioButton rbRodzaj = findViewById(rgRodzaj.getCheckedRadioButtonId());*/
+                    try {
+                        rbStopien = findViewById(rgStopien.getCheckedRadioButtonId());
+                        rbKierunek = findViewById(rgKierunek.getCheckedRadioButtonId());
+                        rbRodzaj = findViewById(rgRodzaj.getCheckedRadioButtonId());
 
-                    saveUserPreferences("name", ptName.getText().toString());
-                    /*saveUserPreferences("stopien", rbStopien.getText().toString());
-                    saveUserPreferences("kierunek", rbKierunek.getText().toString());
-                    saveUserPreferences("rodzaj", rbRodzaj.getText().toString());*/
-
-                    /*Toast.makeText(PopUpInPlany.this, rbStopien.getText(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(PopUpInPlany.this, rbKierunek.getText(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(PopUpInPlany.this, rbRodzaj.getText(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(PopUpInPlany.this, ptName.getText(), Toast.LENGTH_SHORT).show();*/
-
+                        saveUserPreferences("name", ptName.getText().toString());
+                        saveUserPreferences("stopien", rbStopien.getText().toString());
+                        saveUserPreferences("kierunek", rbKierunek.getText().toString());
+                        saveUserPreferences("rodzaj", rbRodzaj.getText().toString());
+                    } catch (Exception e) {
+                        Toast.makeText(PopUpInPlany.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                     onBackPressed();
                 }
                 else {}
@@ -100,16 +104,9 @@ public class PopUpInPlany extends AppCompatActivity {
     }
 
     void saveUserPreferences(String key, String value) {
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("UserInfo", 0);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, value);
         editor.commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(czyZapisano) {
-            super.onBackPressed();
-        }
     }
 }

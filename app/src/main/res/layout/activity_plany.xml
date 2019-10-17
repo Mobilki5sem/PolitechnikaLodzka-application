@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="50dp"
         android:background="@drawable/my_button"
-        android:text="Pokaż plan"
+        android:text="Pokaż mój plan zajęć"
         android:textColor="@android:color/white" />
 
     <WebView
