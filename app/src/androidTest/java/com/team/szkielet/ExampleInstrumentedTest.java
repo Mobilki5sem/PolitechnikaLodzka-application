@@ -23,5 +23,6 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         assertEquals("com.team.szkielet", appContext.getPackageName());
+		//test xdd
     }
 }
