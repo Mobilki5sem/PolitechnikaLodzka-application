@@ -52,9 +52,6 @@ public class PopUpInPlany extends AppCompatActivity {
 
                 if(tab[0] && tab[1] && tab[2] && tab[3]) {
                     Plany.czyMamyZapisaneDane = true;
-                    // teraz tak musze sprawdzic w glownym layoucie sprawdzenie
-                    // czy mamy jakies dane zapisane i wtedy true. w innym wypadku false
-
                     try {
                         rbStopien = findViewById(rgStopien.getCheckedRadioButtonId());
                         rbKierunek = findViewById(rgKierunek.getCheckedRadioButtonId());
@@ -89,9 +86,7 @@ public class PopUpInPlany extends AppCompatActivity {
             return false;
         }
         else
-        {
             return true;
-        }
     }
 
     boolean checkIfNameWasPassed() {
