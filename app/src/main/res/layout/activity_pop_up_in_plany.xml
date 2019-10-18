@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E6C41B1B"
@@ -38,56 +43,6 @@
         android:textColor="#FFFFFF"
         android:textColorHint="@android:color/darker_gray" />
 
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Wybierz stopień studiów:"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textColorHint="@android:color/white" />
-
-    <RadioGroup
-        android:id="@+id/rgStopien"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rbIstopien"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="I"
-            android:textAlignment="center"
-            android:textColor="@android:color/darker_gray"
-            android:textColorHint="@android:color/white" />
-
-        <RadioButton
-            android:id="@+id/rbIIstopien"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="II"
-            android:textAlignment="center"
-            android:textColor="@android:color/darker_gray"
-            android:textColorHint="@android:color/white" />
-
-        <RadioButton
-            android:id="@+id/rbIIIstopien"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="III"
-            android:textAlignment="center"
-            android:textColor="@android:color/darker_gray"
-            android:textColorHint="@android:color/white" />
-
-    </RadioGroup>
 
     <TextView
         android:id="@+id/textView2"
@@ -157,6 +112,116 @@
 
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/tvStopien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Wybierz stopień studiów:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@android:color/white" />
+
+    <RadioGroup
+        android:id="@+id/rgStopien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbIstopien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="I"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/rbIIstopien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="II"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/rbIIIstopien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="III"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvRok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Wybierz rok studiów:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@android:color/white" />
+
+    <RadioGroup
+        android:id="@+id/rgRok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbIrok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/rbIIrok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/rbIIIrok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="3"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/rbIVrok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="4"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+    </RadioGroup>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -166,7 +231,10 @@
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:background="@drawable/my_button"
             android:text="anuluj"
@@ -176,7 +244,10 @@
             android:id="@+id/btnOK"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:background="@drawable/my_button"
             android:text="zatwierdź"
@@ -185,3 +256,4 @@
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

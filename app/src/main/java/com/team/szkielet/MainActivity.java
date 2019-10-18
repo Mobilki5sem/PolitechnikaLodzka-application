@@ -97,7 +97,12 @@ public class MainActivity extends AppCompatActivity {
         String stopien = sharedPref.getString("stopien", "");
         String kierunek = sharedPref.getString("kierunek", "");
         String rodzaj = sharedPref.getString("rodzaj", "");
-        if(name.length()>0) {
+        String rok = sharedPref.getString("rok", "");
+        if(name.length()>0 && !rok.equals("0")) {
+            tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + "\nKierunek: " + kierunek + "\nRodzaj: " + rodzaj + "\nRok: " + rok);
+            return true;
+        }
+        else if(name.length()>0 && rok.equals("0")) {
             tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + "\nKierunek: " + kierunek + "\nRodzaj: " + rodzaj);
             return true;
         }
