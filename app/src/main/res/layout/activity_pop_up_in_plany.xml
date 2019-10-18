@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E6C41B1B"
@@ -13,10 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="20dp"
-        android:text="POP-UP"
+        android:text="Wpisz swoje dane:"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@android:color/white"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -28,26 +35,98 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:ems="10"
-        android:hint="Enter your name"
+        android:hint="Twoje imie"
         android:inputType="textPersonName"
         android:scrollbarThumbHorizontal="@android:color/white"
         android:scrollbarThumbVertical="@android:color/white"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@android:color/darker_gray" />
+
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wybierz stopien studiów:"
-        android:textAlignment="center" />
-
-
+        android:layout_marginTop="20dp"
+        android:text="Wybierz kierunek studiów:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@android:color/white" />
 
     <RadioGroup
+        android:id="@+id/rgKierunek"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Informatyka"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:text="Wybierz rodzaj studiów:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@android:color/white" />
+
+    <RadioGroup
+        android:id="@+id/rgRodzaj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbStacjonarne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Stacjonarne"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/rbNiestacjonarne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Niestacjonarne"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvStopien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Wybierz stopień studiów:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@android:color/white" />
+
+    <RadioGroup
+        android:id="@+id/rgStopien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
 
@@ -57,7 +136,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="I"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
 
         <RadioButton
             android:id="@+id/rbIIstopien"
@@ -65,7 +146,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="II"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
 
         <RadioButton
             android:id="@+id/rbIIIstopien"
@@ -73,48 +156,104 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="III"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
 
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvRok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wybierz rodzaj studiów:"
-        android:textAlignment="center" />
+        android:layout_marginTop="20dp"
+        android:text="Wybierz rok studiów:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@android:color/white" />
 
     <RadioGroup
+        android:id="@+id/rgRok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/rbStacjonarne"
-            android:layout_width="wrap_content"
+            android:id="@+id/rbIrok"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Stacjonarne" />
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
 
         <RadioButton
-            android:id="@+id/rbNiestacjonarne"
-            android:layout_width="wrap_content"
+            android:id="@+id/rbIIrok"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Niestacjonarne" />
+            android:text="2"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/rbIIIrok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="3"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
+
+        <RadioButton
+            android:id="@+id/rbIVrok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="4"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/white" />
 
     </RadioGroup>
 
-    <Button
-        android:id="@+id/btnOK"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:text="confirm" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/my_button"
+            android:text="anuluj"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnOK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/my_button"
+            android:text="zatwierdź"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
 
 </LinearLayout>
+</ScrollView>
