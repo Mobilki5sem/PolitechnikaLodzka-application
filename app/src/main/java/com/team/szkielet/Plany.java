@@ -6,17 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 public class Plany extends AppCompatActivity {
 
     private Button btnDownload;
     static boolean czyMamyZapisaneDane = false;
     String name, stopien, kierunek, rodzaj, rok;
+    ImageView ivPlan;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,14 @@ public class Plany extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         readFromSharedPreferences();
 
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
+        ivPlan = findViewById(R.id.ivPlan);
+        ivPlan.setVisibility(View.VISIBLE);
+        final WebView webView = findViewById(R.id.wvPDF);
+        webView.setVisibility(View.GONE);
+
         if(!czyMamyZapisaneDane) {
             Intent intent = new Intent(Plany.this, PopUpInPlany.class);
             startActivity(intent);
@@ -37,10 +50,21 @@ public class Plany extends AppCompatActivity {
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ivPlan.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
 
-                WebView webView = findViewById(R.id.wvPDF);
                 webView.getSettings().setJavaScriptEnabled(true);
                 webView.loadUrl(getLinkToPlan());
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        webView.setVisibility(View.VISIBLE);
+                        btnDownload.setVisibility(View.GONE);
+                    }
+                }, 1500);
+
                 //webView.loadUrl("https://ftims.edu.p.lodz.pl/mod/resource/view.php?id=44697");
             }
         });
