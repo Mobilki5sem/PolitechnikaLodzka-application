@@ -4,12 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -32,6 +36,7 @@ public class Prowadzacy extends AppCompatActivity {
     Button btnSearch;
     WebView wwProw;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,7 @@ public class Prowadzacy extends AppCompatActivity {
         etSurname = findViewById(R.id.etSurname);
         btnSearch = findViewById(R.id.btnSearch);
         wwProw = findViewById(R.id.wwProw);
+
         /// nie wiem po co to ale bez tego nie dziala
         wwProw.setWebViewClient(new WebViewClient() {
             @Override
@@ -52,15 +58,40 @@ public class Prowadzacy extends AppCompatActivity {
                 return false;
             }
         });
+        //ustawienia do javascripta
+        WebSettings webSettings = wwProw.getSettings();
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setJavaScriptEnabled(true);
+
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String name = etName.getText().toString().trim();
                 String surname = etSurname.getText().toString().trim();
+                name = name.replace(" ", "");
+                surname = surname.replace(" ", "");
                 String googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
                 wwProw.loadUrl(googleSearch);
-                System.out.println("URL: " + googleSearch);
-                System.out.println("loaded");
+
+                wwProw.setWebViewClient(new WebViewClient() {
+                    boolean oneCheck = true;
+
+                    public void onPageFinished(WebView view, String url) {
+                        if (oneCheck) {
+                            oneCheck = false;
+                            wwProw.evaluateJavascript("javascript:window.document.getElementsByTagName(\"a\")[12].click();", null);
+
+                            System.out.println("DONE -----------------------------------------");
+                        }
+                        //to zawsze ma chowac - pasek u gory i wikamp coś tam
+                        wwProw.evaluateJavascript("javascript:window.document.getElementById(\"page-header\").style.display = \"none\";", null);
+                        wwProw.evaluateJavascript("javascript:window.document.getElementById(\"above-header\").style.display = \"none\";", null);
+                    }
+                });
+
+
             }
         });
 
