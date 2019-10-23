@@ -27,7 +27,6 @@ public class Prowadzacy extends AppCompatActivity {
     Button btnSearch;
     WebView wwProw;
     ProgressBar pbProwadzacy;
-    TextView tvProwadzacy;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -46,7 +45,6 @@ public class Prowadzacy extends AppCompatActivity {
         btnSearch = findViewById(R.id.btnSearch);
         wwProw = findViewById(R.id.wwProw);
         pbProwadzacy = findViewById(R.id.pbProwadzacy);
-        tvProwadzacy = findViewById(R.id.tvWarning);
         wwProw.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -94,13 +92,11 @@ public class Prowadzacy extends AppCompatActivity {
                      */
                     pbProwadzacy.setVisibility(View.GONE);
                     wwProw.setVisibility(View.VISIBLE);
-                    tvProwadzacy.setVisibility(View.GONE);
                 }
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/profile.php?id")) {
                     Toast.makeText(Prowadzacy.this, "Znaleziono profil", Toast.LENGTH_SHORT).show();
                     pbProwadzacy.setVisibility(View.GONE);
                     wwProw.setVisibility(View.VISIBLE);
-                    tvProwadzacy.setVisibility(View.GONE);
                 }
 
             }
@@ -111,7 +107,6 @@ public class Prowadzacy extends AppCompatActivity {
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
                     pbProwadzacy.setVisibility(View.VISIBLE);
                     wwProw.setVisibility(View.GONE);
-                    tvProwadzacy.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -131,12 +126,10 @@ public class Prowadzacy extends AppCompatActivity {
                 String googleSearch;
                 pbProwadzacy.setVisibility(View.VISIBLE);
                 wwProw.setVisibility(View.GONE);
-                tvProwadzacy.setVisibility(View.VISIBLE);
                 if (name.equalsIgnoreCase("Jakub") && surname.equalsIgnoreCase("Wąchała")) {
                     googleSearch = "https://m.lm.pl/media/foto/40321_8280.jpg";
                     pbProwadzacy.setVisibility(View.GONE);
                     wwProw.setVisibility(View.VISIBLE);
-                    tvProwadzacy.setVisibility(View.GONE);
                 } else {
                     googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
                 }
