@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.team.szkielet">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PopUpInPlany" android:theme="@style/AppTheme.PopUp"></activity>
+        <activity android:name=".MainActivityBetter"
+            android:theme="@style/Main"></activity>
+        <activity
+            android:name=".PopUpInPlany"
+            android:theme="@style/AppTheme.PopUp" />
         <activity android:name=".Aktualnosci" />
         <activity android:name=".Prowadzacy" />
         <activity android:name=".Plany" />

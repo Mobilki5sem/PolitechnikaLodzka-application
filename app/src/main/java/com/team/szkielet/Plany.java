@@ -3,25 +3,30 @@ package com.team.szkielet;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Button;
+import android.webkit.WebViewClient;
+
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class Plany extends AppCompatActivity {
 
-    private Button btnDownload;
     static boolean czyMamyZapisaneDane = false;
     String name, stopien, kierunek, rodzaj, rok;
-    ImageView ivPlan;
     ProgressBar progressBar;
+    TextView tvWaiting;
+    ImageView ivRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +40,19 @@ public class Plany extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+        tvWaiting = findViewById(R.id.tvWaiting);
+        tvWaiting.setVisibility(View.VISIBLE);
+        ivRefresh = findViewById(R.id.ivRefresh);
+        ivRefresh.setVisibility(View.GONE);
+        ivRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
 
-        ivPlan = findViewById(R.id.ivPlan);
-        ivPlan.setVisibility(View.VISIBLE);
         final WebView webView = findViewById(R.id.wvPDF);
         webView.setVisibility(View.GONE);
 
@@ -46,28 +61,36 @@ public class Plany extends AppCompatActivity {
             startActivity(intent);
         }
 
-        btnDownload = findViewById(R.id.btnDownload);
-        btnDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivPlan.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
 
-                webView.getSettings().setJavaScriptEnabled(true);
-                webView.loadUrl(getLinkToPlan());
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.GONE);
-                        webView.setVisibility(View.VISIBLE);
-                        btnDownload.setVisibility(View.GONE);
-                    }
-                }, 1500);
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else
+            connected = false;
 
-                //webView.loadUrl("https://ftims.edu.p.lodz.pl/mod/resource/view.php?id=44697");
-            }
-        });
+        if(connected) {
+            ivRefresh.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.loadUrl(getLinkToPlan());
+            webView.setWebViewClient(new WebViewClient() {
+                public void onPageFinished(WebView view, String url) {
+                    progressBar.setVisibility(View.GONE);
+                    tvWaiting.setVisibility(View.GONE);
+                    webView.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+        else {
+            ivRefresh.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+            tvWaiting.setText("Oooops!!! \nSprawdź swoje połączenie z internetem.");
+        }
+
     }
 
     String getLinkToPlan() {
