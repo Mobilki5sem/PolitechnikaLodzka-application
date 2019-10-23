@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         btnQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Creating in progress", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Witamy w Quizie", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, QuizMainActivity.class));
             }
         });
     }
