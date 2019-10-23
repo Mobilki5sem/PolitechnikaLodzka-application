@@ -3,10 +3,12 @@ package com.team.szkielet;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -115,6 +117,8 @@ public class Prowadzacy extends AppCompatActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                etName.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                etSurname.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 String name = etName.getText().toString().trim();
                 String surname = etSurname.getText().toString().trim();
                 name = name.replace(" ", "");
@@ -150,19 +154,13 @@ public class Prowadzacy extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.plany) {
-            //Toast.makeText(Prowadzacy.this, "Plany zajęć", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Prowadzacy.this, Plany.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.prowadzacy) {
-            /*Toast.makeText(Prowadzacy.this, "Prowadzący", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Prowadzacy.this, Prowadzacy.class);
-            startActivity(intent);*/
         } else if (item.getItemId() == R.id.aktualnosci) {
-            //Toast.makeText(Prowadzacy.this, "Aktualności", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Prowadzacy.this, Aktualnosci.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.start) {
-            //Toast.makeText(Prowadzacy.this, "Menu główne", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Prowadzacy.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
