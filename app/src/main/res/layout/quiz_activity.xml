@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,8 +15,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="40dp"
+        android:fontFamily="@font/creepster"
         android:text="Score: 0"
-        android:textSize="30sp" />
+        android:textColor="@color/colorWHITE"
+        android:textSize="36sp" />
 
     <TextView
         android:id="@+id/question_count_txt"
@@ -23,8 +26,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:fontFamily="@font/creepster"
         android:text="Question: 1/x"
-        android:textSize="18sp" />
+        android:textColor="@color/colorWHITE"
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/time_txt"
@@ -32,41 +37,52 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="00:30"
+        android:fontFamily="@font/creepster"
+        android:textColor="@color/colorWHITE"
         android:textSize="40sp" />
 
     <RadioGroup
         android:id="@+id/radio_group"
-        android:layout_width="365dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="false"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
+        android:background="@color/colorTest"
         android:layout_marginBottom="120dp">
 
         <RadioButton
             android:id="@+id/radioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:fontFamily="@font/creepster"
+            android:text="RadioButton"
+            android:textColor="#FFEB3B" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:fontFamily="@font/creepster"
+            android:text="RadioButton"
+            android:textColor="#FFEB3B" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:fontFamily="@font/creepster"
+            android:text="RadioButton"
+            android:textColor="#FFEB3B" />
 
         <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:fontFamily="@font/creepster"
+            android:text="RadioButton"
+            android:textColor="#FFEB3B" />
     </RadioGroup>
 
     <Button
@@ -76,6 +92,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
+        android:background="#FFC107"
+        android:fontFamily="@font/alfa_slab_one"
         android:text="Confirm" />
 
     <TextView
@@ -87,9 +105,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="153dp"
         android:layout_marginBottom="16dp"
+        android:fontFamily="@font/creepster"
         android:text="Z ktorego roku jest Pł?\nZ ktorego roku jest Pł?"
-        android:textSize="24sp"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="#FFC107"
+        android:textSize="35sp" />
 
 
 </RelativeLayout>

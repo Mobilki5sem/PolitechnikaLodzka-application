@@ -35,6 +35,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
                 QuizContract.QuestionsTable.COLUMN_OPTION1 + " TEXT, " +
                 QuizContract.QuestionsTable.COLUMN_OPTION2 + " TEXT, " +
                 QuizContract.QuestionsTable.COLUMN_OPTION3 + " TEXT, " +
+                QuizContract.QuestionsTable.COLUMN_OPTION4 + " TEXT, " +
                 QuizContract.QuestionsTable.COLUMN_ANSWER_NR + " INTEGER" +
                 ")";
 //stworzy tablice w sqlu
@@ -49,15 +50,15 @@ public class QuizDbHelper extends SQLiteOpenHelper {
     }
 
     private void fillQuestionsTable() {
-        Question q1 = new Question("A is correct", "A", "B", "C", 1);
+        Question q1 = new Question("Zaznacz A", "A)Ty ", "B)No nie", "C)Wiem", "D)Jak", 1);
         addQuestion(q1);
-        Question q2 = new Question("B is correct", "A", "B", "C", 2);
+        Question q2 = new Question("Zaznacz B", "A)Mnie", "B)Nie", "C)Przegadasz","D)Bo", 2);
         addQuestion(q2);
-        Question q3 = new Question("C is correct", "A", "B", "C", 3);
+        Question q3 = new Question("Zaznacz C", "A)Mydło", "B)Wszystko", "C)Umyje","D)Nawet", 3);
         addQuestion(q3);
-        Question q4 = new Question("A is correct again", "A", "B", "C", 1);
+        Question q4 = new Question("Zaznacz A", "A)Dziewczyny", "B)Lubia", "C)Braz","D)XD", 1);
         addQuestion(q4);
-        Question q5 = new Question("B is correct again", "A", "B", "C", 2);
+        Question q5 = new Question("Po informatyce mozesz miec:", "A)Szybkie Dziewczyny", "B)Piekne samochody", "C)A i B sa poprawne","D)Koks", 3);
         addQuestion(q5);
     }
 
@@ -67,6 +68,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         cv.put(QuizContract.QuestionsTable.COLUMN_OPTION1, question.getOption1());
         cv.put(QuizContract.QuestionsTable.COLUMN_OPTION2, question.getOption2());
         cv.put(QuizContract.QuestionsTable.COLUMN_OPTION3, question.getOption3());
+        cv.put(QuizContract.QuestionsTable.COLUMN_OPTION4, question.getOption4());
         cv.put(QuizContract.QuestionsTable.COLUMN_ANSWER_NR, question.getAnswerNr());
         db.insert(QuizContract.QuestionsTable.TABLE_NAME, null, cv);
     }
@@ -75,6 +77,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         List<Question> questionList = new ArrayList<>();
         //uruchamia tez opcje on create
         db = getReadableDatabase();
+        //kursor po kazdym wierszu tabeli
         Cursor c = db.rawQuery("SELECT * FROM " + QuizContract.QuestionsTable.TABLE_NAME, null);
 
         if (c.moveToFirst()) {
@@ -84,6 +87,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
                 question.setOption1(c.getString(c.getColumnIndex(QuizContract.QuestionsTable.COLUMN_OPTION1)));
                 question.setOption2(c.getString(c.getColumnIndex(QuizContract.QuestionsTable.COLUMN_OPTION2)));
                 question.setOption3(c.getString(c.getColumnIndex(QuizContract.QuestionsTable.COLUMN_OPTION3)));
+                question.setOption4(c.getString(c.getColumnIndex(QuizContract.QuestionsTable.COLUMN_OPTION4)));
                 question.setAnswerNr(c.getInt(c.getColumnIndex(QuizContract.QuestionsTable.COLUMN_ANSWER_NR)));
                 questionList.add(question);
             } while (c.moveToNext());
