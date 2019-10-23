@@ -35,10 +35,31 @@
         android:text="@string/szukaj"
         android:textColor="@android:color/black" />
 
+    <TextView
+        android:id="@+id/tvWarning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/warning_prowadzacy"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/pbProwadzacy"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|center_horizontal"
+        android:visibility="invisible" />
+
     <WebView
         android:id="@+id/wwProw"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:visibility="visible">
+
+    </WebView>
 
 
 </LinearLayout>

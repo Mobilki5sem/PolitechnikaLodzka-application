@@ -1,9 +1,5 @@
 package com.team.szkielet;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,23 +7,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Document;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Prowadzacy extends AppCompatActivity {
 
@@ -35,6 +26,8 @@ public class Prowadzacy extends AppCompatActivity {
     EditText etSurname;
     Button btnSearch;
     WebView wwProw;
+    ProgressBar pbProwadzacy;
+    TextView tvProwadzacy;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -44,53 +37,111 @@ public class Prowadzacy extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Prowadzący");
         //actionBar.setIcon();
+
+        // ustawienia
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         etName = findViewById(R.id.etName);
         etSurname = findViewById(R.id.etSurname);
         btnSearch = findViewById(R.id.btnSearch);
         wwProw = findViewById(R.id.wwProw);
-
-        /// nie wiem po co to ale bez tego nie dziala
+        pbProwadzacy = findViewById(R.id.pbProwadzacy);
+        tvProwadzacy = findViewById(R.id.tvWarning);
         wwProw.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return false;
             }
         });
-        //ustawienia do javascripta
         WebSettings webSettings = wwProw.getSettings();
         webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptEnabled(true);
 
+// set web view client ---------------------------------------------------------------
+        wwProw.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                System.out.println(wwProw.getUrl());
+                wwProw.evaluateJavascript("javascript:window.document.getElementById(\"page-header\").style.display = \"none\";", null);
+                wwProw.evaluateJavascript("javascript:window.document.getElementById(\"above-header\").style.display = \"none\";", null);
+                //-----------------
+                if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
+                    wwProw.evaluateJavascript("javascript: function a() {\n" +
+                            "                       if (document.getElementsByTagName(\"a\").length < 12)  {\n" +
+                            "                          window.document.getElementsByClassName(\"search-user-container\")[0].style.display = \"none\"\n" +
+                            "                          window.document.getElementById(\"page-header\").style.display = \"none\";\n" +
+                            "                          window.document.getElementById(\"above-header\").style.display = \"none\";\n" +
+                            "                          window.document.getElementsByClassName(\"userlist-header\")[0].getElementsByTagName(\"h3\")[0].textContent = \"\"\n" +
+                            "                        }\n" +
+                            "                       else {\n" +
+                            "                         window.document.getElementsByTagName(\"a\")[12].click();\n" +
+                            "                         }\n" +
+                            "                    }\n" +
+                            "                    a();", null);
+                    /*
+                    function a() {
+                       if (document.getElementsByTagName("a").length < 12)  {
+                          window.document.getElementsByClassName("search-user-container")[0].style.display = "none"
+                          window.document.getElementById("page-header").style.display = "none";
+                          window.document.getElementById("above-header").style.display = "none";
+                          window.document.getElementsByClassName("userlist-header")[0].getElementsByTagName("h3")[0].textContent = ""
+                        }
+                       else {
+                         window.document.getElementsByTagName("a")[12].click();
+                         }
+                    }
+                    a();
+                     */
+                    pbProwadzacy.setVisibility(View.GONE);
+                    wwProw.setVisibility(View.VISIBLE);
+                    tvProwadzacy.setVisibility(View.GONE);
+                }
+                if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/profile.php?id")) {
+                    Toast.makeText(Prowadzacy.this, "Znaleziono profil", Toast.LENGTH_SHORT).show();
+                    pbProwadzacy.setVisibility(View.GONE);
+                    wwProw.setVisibility(View.VISIBLE);
+                    tvProwadzacy.setVisibility(View.GONE);
+                }
+
+            }
+
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
+                    pbProwadzacy.setVisibility(View.VISIBLE);
+                    wwProw.setVisibility(View.GONE);
+                    tvProwadzacy.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+//on click listener ----------------------------------------------------------------
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 String name = etName.getText().toString().trim();
                 String surname = etSurname.getText().toString().trim();
                 name = name.replace(" ", "");
                 surname = surname.replace(" ", "");
-                String googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
+                if (name.equals("") || surname.equals("")) {
+                    Toast.makeText(Prowadzacy.this, "Wypełnij wszystkie pola", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String googleSearch;
+                pbProwadzacy.setVisibility(View.VISIBLE);
+                wwProw.setVisibility(View.GONE);
+                tvProwadzacy.setVisibility(View.VISIBLE);
+                if (name.equalsIgnoreCase("Jakub") && surname.equalsIgnoreCase("Wąchała")) {
+                    googleSearch = "https://m.lm.pl/media/foto/40321_8280.jpg";
+                    pbProwadzacy.setVisibility(View.GONE);
+                    wwProw.setVisibility(View.VISIBLE);
+                    tvProwadzacy.setVisibility(View.GONE);
+                } else {
+                    googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
+                }
+
                 wwProw.loadUrl(googleSearch);
-
-                wwProw.setWebViewClient(new WebViewClient() {
-                    boolean oneCheck = true;
-
-                    public void onPageFinished(WebView view, String url) {
-                        if (oneCheck) {
-                            oneCheck = false;
-                            wwProw.evaluateJavascript("javascript:window.document.getElementsByTagName(\"a\")[12].click();", null);
-
-                            System.out.println("DONE -----------------------------------------");
-                        }
-                        //to zawsze ma chowac - pasek u gory i wikamp coś tam
-                        wwProw.evaluateJavascript("javascript:window.document.getElementById(\"page-header\").style.display = \"none\";", null);
-                        wwProw.evaluateJavascript("javascript:window.document.getElementById(\"above-header\").style.display = \"none\";", null);
-                    }
-                });
-
 
             }
         });
