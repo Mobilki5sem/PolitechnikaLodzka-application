@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackgroundQuiz"
+    android:padding="16dp"
+    tools:context=".QuizMainActivity">
+
+
+    <TextView
+        android:id="@+id/start_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/creepster"
+        android:gravity="center_horizontal"
+        android:text="Politechnika Łódzka Quiz"
+        android:textColor="#FFEB3B"
+        android:textSize="36sp" />
+
+
+    <Button
+        android:id="@+id/btn_start_quiz"
+        android:layout_width="374dp"
+        android:layout_height="179dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/creepster"
+        android:textSize="40dp"
+        android:text="Start Quiz" />
+
+    <TextView
+        android:id="@+id/highscore_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/creepster"
+        android:text="HighScore: 0"
+        android:textColor="#55544A"
+        android:textSize="50sp" />
+</RelativeLayout>
