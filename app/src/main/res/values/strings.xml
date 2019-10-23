@@ -6,5 +6,6 @@
     <string name="aktualnosci">Aktualności</string>
     <string name="imie_hint">Imię prowadzącego</string>
     <string name="nazwisko_hint">Nazwisko prowadzącego</string>
-    <string name="szukaj">Szukaj chłopa</string>
+    <string name="szukaj">Szukaj</string>
+    <string name="warning_prowadzacy">Jeżeli dane są niepoprawne kółko będzie się kręcić w nieskończoność!</string>
 </resources>

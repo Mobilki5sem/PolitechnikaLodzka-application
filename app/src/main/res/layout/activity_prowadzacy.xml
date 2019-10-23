@@ -35,10 +35,22 @@
         android:text="@string/szukaj"
         android:textColor="@android:color/black" />
 
+    <ProgressBar
+        android:id="@+id/pbProwadzacy"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|center_horizontal"
+        android:layout_margin="100sp"
+        android:visibility="invisible" />
+
     <WebView
         android:id="@+id/wwProw"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:visibility="visible">
+
+    </WebView>
 
 
 </LinearLayout>
