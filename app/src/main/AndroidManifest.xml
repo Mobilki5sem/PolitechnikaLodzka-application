@@ -14,15 +14,15 @@
         android:theme="@style/AppTheme">
         <activity android:name=".quiz.QuizMainActivity"></activity>
         <activity android:name=".quiz.QuizActivity" />
-        <activity android:name=".MainActivityBetter"
-            android:theme="@style/Main"></activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".PopUpInPlany"
             android:theme="@style/AppTheme.PopUp" />
         <activity android:name=".Aktualnosci" />
         <activity android:name=".Prowadzacy" />
         <activity android:name=".Plany" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivityBetter"
+            android:theme="@style/Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
