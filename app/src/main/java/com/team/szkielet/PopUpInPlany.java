@@ -22,6 +22,7 @@ public class PopUpInPlany extends AppCompatActivity {
     RadioButton rbStopien, rbKierunek, rbRodzaj, rbRok, rbIrok, rbIIrok, rbIIIrok, rbIVrok, rbIstopien, rbIIstopien, rbIIIstopien;
     private static int stopien = 0;
     boolean tab[] = new boolean[5];
+    static boolean wasSaved = false;
 
 
     @Override
@@ -143,6 +144,7 @@ public class PopUpInPlany extends AppCompatActivity {
                     } catch (Exception e) {
                         Toast.makeText(PopUpInPlany.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
+                    wasSaved = true;
                     onBackPressed();
                 }
                 else {
@@ -250,6 +252,8 @@ public class PopUpInPlany extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if(wasSaved){
+            super.onBackPressed();
+        }
     }
 }

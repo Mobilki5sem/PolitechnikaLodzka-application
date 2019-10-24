@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.team.szkielet.quiz.QuizMainActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,8 +67,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.plany) {
-            Intent intent = new Intent(MainActivity.this, Plany.class);
-            startActivity(intent);
+            Intent intent;
+            if(Plany.czyMamyZapisaneDane){
+                intent = new Intent(MainActivity.this, Plany.class);
+                startActivity(intent);
+            }
+            else {
+                intent = new Intent(MainActivity.this, PopUpInPlany.class);
+                startActivity(intent);
+            }
+
+
         }
         else if(item.getItemId() == R.id.prowadzacy) {
             Intent intent = new Intent(MainActivity.this, Prowadzacy.class);
@@ -101,12 +111,15 @@ public class MainActivity extends AppCompatActivity {
         String rok = sharedPref.getString("rok", "");
         if(name.length()>0 && !rok.equals("0")) {
             tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + "\nKierunek: " + kierunek + "\nRodzaj: " + rodzaj + "\nRok: " + rok);
+            PopUpInPlany.wasSaved = true;
             return true;
         }
         else if(name.length()>0 && rok.equals("0")) {
             tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + "\nKierunek: " + kierunek + "\nRodzaj: " + rodzaj);
+            PopUpInPlany.wasSaved = true;
             return true;
         }
+        PopUpInPlany.wasSaved = false;
         return false;
     }
 }

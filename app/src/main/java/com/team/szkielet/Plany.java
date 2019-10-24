@@ -56,10 +56,10 @@ public class Plany extends AppCompatActivity {
         final WebView webView = findViewById(R.id.wvPDF);
         webView.setVisibility(View.GONE);
 
-        if(!czyMamyZapisaneDane) {
-            Intent intent = new Intent(Plany.this, PopUpInPlany.class);
-            startActivity(intent);
-        }
+//        if(!czyMamyZapisaneDane) {
+//            Intent intent = new Intent(Plany.this, PopUpInPlany.class);
+//            startActivity(intent);
+//        }
 
 
         boolean connected = false;

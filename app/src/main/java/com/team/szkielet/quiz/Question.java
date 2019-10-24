@@ -1,4 +1,4 @@
-package com.team.szkielet;
+package com.team.szkielet.quiz;
 
 public class Question {
     private String question;

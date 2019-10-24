@@ -1,4 +1,4 @@
-package com.team.szkielet;
+package com.team.szkielet.quiz;
 
 import android.provider.BaseColumns;
 
