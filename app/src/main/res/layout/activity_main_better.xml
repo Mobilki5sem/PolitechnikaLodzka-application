@@ -80,7 +80,10 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp">
+                    app:cardElevation="6dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:stateListAnimator="@animator/lift_on_touch"
+                    android:clickable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -115,7 +118,10 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp">
+                    app:cardElevation="6dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:stateListAnimator="@animator/lift_on_touch"
+                    android:clickable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -157,7 +163,10 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp">
+                    app:cardElevation="6dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:stateListAnimator="@animator/lift_on_touch"
+                    android:clickable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -191,7 +200,10 @@
                     android:layout_margin="12dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp">
+                    app:cardElevation="6dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:stateListAnimator="@animator/lift_on_touch"
+                    android:clickable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -232,7 +244,10 @@
                     android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp">
+                    app:cardElevation="6dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:stateListAnimator="@animator/lift_on_touch"
+                    android:clickable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -266,7 +281,10 @@
                     android:layout_margin="12dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="6dp">
+                    app:cardElevation="6dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:stateListAnimator="@animator/lift_on_touch"
+                    android:clickable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -33,7 +33,9 @@
         android:background="@color/cardview_light_background"
         android:padding="12dp"
         app:cardCornerRadius="20dp"
-        app:cardElevation="20dp">
+        app:cardElevation="20dp"
+        android:stateListAnimator="@anim/animation"
+        android:foreground="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/ivRefresh"

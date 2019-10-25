@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,13 +46,18 @@ public class Plany extends AppCompatActivity {
         tvWaiting.setVisibility(View.VISIBLE);
         ivRefresh = findViewById(R.id.cvRefresh);
         ivRefresh.setVisibility(View.GONE);
-        MainActivityBetter.buttonEffect(ivRefresh);
         ivRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+                final Intent intent = getIntent();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        finish();
+                        startActivity(intent);
+                    }
+                }, 300);
+
             }
         });
 
