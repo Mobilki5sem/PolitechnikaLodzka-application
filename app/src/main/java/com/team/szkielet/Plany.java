@@ -3,6 +3,7 @@ package com.team.szkielet;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +28,7 @@ public class Plany extends AppCompatActivity {
     String name, stopien, kierunek, rodzaj, rok;
     ProgressBar progressBar;
     TextView tvWaiting;
-    ImageView ivRefresh;
+    CardView ivRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +44,20 @@ public class Plany extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         tvWaiting = findViewById(R.id.tvWaiting);
         tvWaiting.setVisibility(View.VISIBLE);
-        ivRefresh = findViewById(R.id.ivRefresh);
+        ivRefresh = findViewById(R.id.cvRefresh);
         ivRefresh.setVisibility(View.GONE);
         ivRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+                final Intent intent = getIntent();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        finish();
+                        startActivity(intent);
+                    }
+                }, 300);
+
             }
         });
 
@@ -167,7 +175,7 @@ public class Plany extends AppCompatActivity {
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.start) {
-            Intent intent = new Intent(Plany.this, MainActivity.class);
+            Intent intent = new Intent(Plany.this, MainActivityBetter.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
@@ -176,7 +184,7 @@ public class Plany extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(Plany.this, MainActivity.class);
+        Intent intent = new Intent(Plany.this, MainActivityBetter.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         return true;

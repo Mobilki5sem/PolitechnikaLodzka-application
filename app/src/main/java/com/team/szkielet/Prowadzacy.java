@@ -161,7 +161,7 @@ public class Prowadzacy extends AppCompatActivity {
             Intent intent = new Intent(Prowadzacy.this, Aktualnosci.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.start) {
-            Intent intent = new Intent(Prowadzacy.this, MainActivity.class);
+            Intent intent = new Intent(Prowadzacy.this, MainActivityBetter.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
@@ -170,7 +170,7 @@ public class Prowadzacy extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(Prowadzacy.this, MainActivity.class);
+        Intent intent = new Intent(Prowadzacy.this, MainActivityBetter.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         return true;
