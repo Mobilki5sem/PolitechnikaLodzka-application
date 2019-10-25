@@ -1,11 +1,13 @@
 package com.team.szkielet;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ public class MainActivityBetter extends AppCompatActivity {
         Plany.czyMamyZapisaneDane = readingFromSharedPreferences();
 
         cvPlanZajec = findViewById(R.id.cvPlanZajec);
+        buttonEffect(cvPlanZajec);
         cvPlanZajec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,6 +46,7 @@ public class MainActivityBetter extends AppCompatActivity {
         });
 
         cvProwadzacy = findViewById(R.id.cvProwadzacy);
+        buttonEffect(cvProwadzacy);
         cvProwadzacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,6 +56,7 @@ public class MainActivityBetter extends AppCompatActivity {
         });
 
         cvWydarzenia = findViewById(R.id.cvWydarzenia);
+        buttonEffect(cvWydarzenia);
         cvWydarzenia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +66,7 @@ public class MainActivityBetter extends AppCompatActivity {
         });
 
         cvQuiz = findViewById(R.id.cvQuiz);
+        buttonEffect(cvQuiz);
         cvQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +76,7 @@ public class MainActivityBetter extends AppCompatActivity {
         });
 
         cvSale = findViewById(R.id.cvSale);
+        buttonEffect(cvSale);
         cvSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +85,7 @@ public class MainActivityBetter extends AppCompatActivity {
         });
 
         cvUstawienia = findViewById(R.id.cvUstawienia);
+        buttonEffect(cvUstawienia);
         cvUstawienia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,5 +130,38 @@ public class MainActivityBetter extends AppCompatActivity {
         }
         PopUpInPlany.wasSaved = false;
         return false;
+    }
+
+    public static void buttonEffect(View button){
+        button.setOnTouchListener(new View.OnTouchListener() {
+        boolean wasClicked = false;
+            public boolean onTouch(final View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0FCE1D9, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        wasClicked = true;
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        if(wasClicked){
+                            v.getBackground().setColorFilter(0xe0FCE1D9, PorterDuff.Mode.SRC_ATOP);
+                            v.invalidate();
+                        }
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                v.getBackground().clearColorFilter();
+                                v.invalidate();
+                                wasClicked = false;
+                            }
+                        }, 350);
+
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 }
