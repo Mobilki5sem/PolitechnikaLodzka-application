@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.team.szkielet.quiz.QuizMainActivity;
@@ -17,7 +20,7 @@ public class MainActivityBetter extends AppCompatActivity {
 
     CardView cvPlanZajec, cvProwadzacy, cvWydarzenia, cvQuiz, cvSale, cvUstawienia;
     private long backPressedTime;
-    TextView tvHello;
+    TextView tvHello, tvAgain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,9 @@ public class MainActivityBetter extends AppCompatActivity {
         setContentView(R.layout.activity_main_better);
 
         tvHello = findViewById(R.id.tvHello);
+        tvAgain = findViewById(R.id.tvAgain);
+
+        final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
 
         Plany.czyMamyZapisaneDane = readingFromSharedPreferences();
 
@@ -119,12 +125,16 @@ public class MainActivityBetter extends AppCompatActivity {
         String rodzaj = sharedPref.getString("rodzaj", "");
         String rok = sharedPref.getString("rok", "");
         if(name.length()>0 && !rok.equals("0")) {
-            tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj + " Rok: " + rok);
+            //tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj + " Rok: " + rok);
+            tvHello.setText("Cześć " + name + "!!!");
+            tvAgain.setText("Here we go again...");
             PopUpInPlany.wasSaved = true;
             return true;
         }
         else if(name.length()>0 && rok.equals("0")) {
-            tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj);
+            //tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj);
+            tvHello.setText("Cześć " + name + "!!!");
+            tvAgain.setText("Here we go again...");
             PopUpInPlany.wasSaved = true;
             return true;
         }
@@ -139,19 +149,31 @@ public class MainActivityBetter extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         v.getBackground().setColorFilter(0xe0FCE1D9, PorterDuff.Mode.SRC_ATOP);
-                        v.invalidate();
+                        v.setElevation(10);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                v.setAlpha(0.7f);
+                                v.invalidate();
+                            }
+                        }, 200);
+
                         wasClicked = true;
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
                         if(wasClicked){
                             v.getBackground().setColorFilter(0xe0FCE1D9, PorterDuff.Mode.SRC_ATOP);
+                            v.setAlpha(0.7f);
+                            v.setElevation(10);
                             v.invalidate();
                         }
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             public void run() {
                                 v.getBackground().clearColorFilter();
+                                v.setAlpha(1f);
+                                v.setElevation(6);
                                 v.invalidate();
                                 wasClicked = false;
                             }

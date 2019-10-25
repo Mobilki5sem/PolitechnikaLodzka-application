@@ -48,7 +48,7 @@ public class Aktualnosci extends AppCompatActivity {
         }
         else if(item.getItemId() == R.id.start) {
             //Toast.makeText(Aktualnosci.this, "Menu główne", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Aktualnosci.this, MainActivity.class);
+            Intent intent = new Intent(Aktualnosci.this, MainActivityBetter.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
@@ -57,7 +57,7 @@ public class Aktualnosci extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(Aktualnosci.this, MainActivity.class);
+        Intent intent = new Intent(Aktualnosci.this, MainActivityBetter.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         return true;
