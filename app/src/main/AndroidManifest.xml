@@ -14,7 +14,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".quiz.QuizMainActivity"></activity>
         <activity android:name=".quiz.QuizActivity" />
-        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".PopUpInPlany"
             android:theme="@style/AppTheme.PopUp" />
