@@ -74,11 +74,10 @@ public class MainActivityBetter extends AppCompatActivity {
         cvWydarzenia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent intent = new Intent(MainActivityBetter.this, Aktualnosci.class);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        startActivity(intent);
+                        startActivity(new Intent(MainActivityBetter.this, Json.class));
                     }
                 }, 300);
             }
