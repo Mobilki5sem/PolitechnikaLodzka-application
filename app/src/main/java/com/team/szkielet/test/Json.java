@@ -1,4 +1,4 @@
-package com.team.szkielet;
+package com.team.szkielet.test;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.team.szkielet.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,23 +45,22 @@ public class Json extends AppCompatActivity {
     }
 
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/kp9wz";
+        String url = "https://api.myjson.com/bins/vbv10";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("employees");
+                            JSONArray jsonArray = response.getJSONArray("events");
 
                             for(int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject employee = jsonArray.getJSONObject(i);
 
-                                String firstName = employee.getString("firstname");
-                                int age = employee.getInt("age");
-                                String mail = employee.getString("mail");
+                                String firstName = employee.getString("eventName");
+                                String mail = employee.getString("description");
 
-                                tvShow.append(firstName + ", " + String.valueOf(age) + ", " + mail + "\n\n");
+                                tvShow.append(firstName + ", " + mail + "\n\n");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

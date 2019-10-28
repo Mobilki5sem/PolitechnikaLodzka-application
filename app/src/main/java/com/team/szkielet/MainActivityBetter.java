@@ -11,7 +11,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.team.szkielet.event.Event;
+import com.team.szkielet.event.Events;
 import com.team.szkielet.quiz.QuizMainActivity;
+import com.team.szkielet.test.Json;
 
 public class MainActivityBetter extends AppCompatActivity {
 
@@ -77,7 +81,7 @@ public class MainActivityBetter extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        startActivity(new Intent(MainActivityBetter.this, Json.class));
+                        startActivity(new Intent(MainActivityBetter.this, Events.class));
                     }
                 }, 300);
             }
