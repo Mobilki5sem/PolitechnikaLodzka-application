@@ -1,21 +1,18 @@
 package com.team.szkielet.event;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Toast;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import android.view.Menu;
+import android.view.MenuItem;
+import com.team.szkielet.MainActivityBetter;
+import com.team.szkielet.Plany;
+import com.team.szkielet.Prowadzacy;
 import com.team.szkielet.R;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -24,81 +21,61 @@ public class Events extends AppCompatActivity {
     private RecyclerView rvEvents;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private RequestQueue mQueue;
-    public ArrayList<Event> eventsList = new ArrayList<>();
+
+    static public ArrayList<Event> eventsList = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
-
-        mQueue = Volley.newRequestQueue(this);
-        jsonParseEventList();
-
-
-        /*eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_meeting));
-        eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_calendar));
-        eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_events));
-        eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_meeting));
-        eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_calendar));
-        eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_events));
-        eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_meeting));
-        eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_calendar));*/
-        eventsList.add(new Event("Rozpocząecie roku", "No witam serdecznie będzie się działo. \nFTIMS 10.09.2019", "nolink", R.drawable.ic_events));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Wydarzenia");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                rvEvents = findViewById(R.id.rvEvents);
-                rvEvents.setHasFixedSize(true);
-                layoutManager = new LinearLayoutManager(Events.this);
-                adapter = new EventAdapter(eventsList);
+        rvEvents = findViewById(R.id.rvEvents);
+        rvEvents.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(Events.this);
+        adapter = new EventAdapter(eventsList);
 
-                rvEvents.setLayoutManager(layoutManager);
-                rvEvents.setAdapter(adapter);
-            }
-        }, 3000);
+        rvEvents.setLayoutManager(layoutManager);
+        rvEvents.setAdapter(adapter);
 
     }
 
-    private void jsonParseEventList() {
-        String url = "https://api.myjson.com/bins/11n9r8";
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("events");
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(Events.this, MainActivityBetter.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        return true;
+    }
 
-                            for(int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject employee = jsonArray.getJSONObject(i);
-                                if(employee.getString("image").equals("meeting")) {
-                                    eventsList.add(new Event(employee.getString("eventName"),
-                                            employee.getString("description"),
-                                            employee.getString("linkToEvent"),
-                                            R.drawable.ic_meeting));
-                                    Toast.makeText(Events.this, "Event " + employee.getString("eventName"), Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    eventsList.add(new Event(employee.getString("eventName"),
-                                            employee.getString("description"),
-                                            employee.getString("linkToEvent"),
-                                            R.drawable.ic_calendar));
-                                }
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        mQueue.add(request);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.plany) {
+            Intent intent = new Intent(Events.this, Plany.class);
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.prowadzacy) {
+            Intent intent = new Intent(Events.this, Prowadzacy.class);
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.aktualnosci) {
+        }
+        else if(item.getItemId() == R.id.start) {
+            Intent intent = new Intent(Events.this, MainActivityBetter.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

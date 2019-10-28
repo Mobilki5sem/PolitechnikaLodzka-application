@@ -12,21 +12,36 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.team.szkielet.event.Event;
 import com.team.szkielet.event.Events;
 import com.team.szkielet.quiz.QuizMainActivity;
 import com.team.szkielet.test.Json;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivityBetter extends AppCompatActivity {
 
     CardView cvPlanZajec, cvProwadzacy, cvWydarzenia, cvQuiz, cvSale, cvUstawienia;
     private long backPressedTime;
     TextView tvHello, tvAgain;
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_better);
+
+
+        //Tutaj wczytuje dane z json odnośnie eventów
+        readJSONFromURL();
 
         tvHello = findViewById(R.id.tvHello);
         tvAgain = findViewById(R.id.tvAgain);
@@ -129,7 +144,14 @@ public class MainActivityBetter extends AppCompatActivity {
     @Override
     protected void onRestart() {
         readingFromSharedPreferences();
+        readJSONFromURL();
         super.onRestart();
+    }
+
+    private void readJSONFromURL() {
+        Events.eventsList.clear();
+        mQueue = Volley.newRequestQueue(this);
+        jsonParseEventList();
     }
 
     @Override
@@ -146,9 +168,9 @@ public class MainActivityBetter extends AppCompatActivity {
     boolean readingFromSharedPreferences() {
         SharedPreferences sharedPref = getSharedPreferences("UserInfo", 0);
         String name = sharedPref.getString("name", "");
-        String stopien = sharedPref.getString("stopien", "");
+        /*String stopien = sharedPref.getString("stopien", "");
         String kierunek = sharedPref.getString("kierunek", "");
-        String rodzaj = sharedPref.getString("rodzaj", "");
+        String rodzaj = sharedPref.getString("rodzaj", "");*/
         String rok = sharedPref.getString("rok", "");
         if(name.length()>0 && !rok.equals("0")) {
             //tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj + " Rok: " + rok);
@@ -208,5 +230,44 @@ public class MainActivityBetter extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void jsonParseEventList() {
+        String url = "https://api.jsonbin.io/b/5db729fbc24f785e64f6226c/latest";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("events");
+
+                            for(int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject employee = jsonArray.getJSONObject(i);
+                                if(employee.getString("image").equals("meeting")) {
+                                    Events.eventsList.add(new Event(employee.getString("eventName"),
+                                            employee.getString("description"),
+                                            employee.getString("linkToEvent"),
+                                            R.drawable.ic_meeting));
+                                    //Toast.makeText(Events.this, "Event " + employee.getString("eventName"), Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    Events.eventsList.add(new Event(employee.getString("eventName"),
+                                            employee.getString("description"),
+                                            employee.getString("linkToEvent"),
+                                            R.drawable.ic_calendar));
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(request);
     }
 }
