@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -16,10 +17,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.team.szkielet.MainActivityBetter;
 import com.team.szkielet.R;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -35,13 +38,18 @@ public class QuizActivity extends AppCompatActivity {
     RelativeLayout relativeLayout;
     RadioButton radioButton4;
 
+    private static final long COUNTDOWN_TIME_START = 30000;
     //Podstawowy kolor dla rb
+
     private ColorStateList textColorDefaultRb;
+    private ColorStateList textColorDefaultCd; //kolor dla czasomierza
+
+    private CountDownTimer countDownTimer;
+    private long timeLeft; //ile zostalo
+
     private List<Question> questionList;
-    //ile pytan pokazalismy
-    private int questionCounter;
-    //ile wszystkich pytan
-    private int questionTotal;
+    private int questionCounter; //ile pytan pokazalismy
+    private int questionTotal; //ile wszystkich pytan
     private Question currentQuestion;
     private int score;
     private boolean answered;
@@ -64,7 +72,9 @@ public class QuizActivity extends AppCompatActivity {
         radioButton3 = findViewById(R.id.radioButton3);
         radioButton4 = findViewById(R.id.radioButton4);
         relativeLayout= findViewById(R.id.relative_layout);
+
         textColorDefaultRb = radioButton.getTextColors();
+        textColorDefaultCd = time_txt.getTextColors();
 
         QuizDbHelper dbHelper = new QuizDbHelper(this);
         //jak wywolujemy pierwszy raz to stworzy to tez baze
@@ -72,18 +82,18 @@ public class QuizActivity extends AppCompatActivity {
         questionTotal = questionList.size();
         Collections.shuffle(questionList);
 
-        showNextQuestion();
+        showNextQuestion(); //pokaz pierwsze pytanie, metoda wykona sie tylko raz, pozniej juz tylko onClickListener
         btn_confirm_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //jesli nie bylo jeszcze robione
-                if (!answered) {
+
+                if (!answered) {  //jesli nie bylo jeszcze robione
                     if (radioButton.isChecked() || radioButton2.isChecked() || radioButton3.isChecked() || radioButton4.isChecked()) {
-                        checkAnswer();
+                        checkAnswer(); //jesli cos zaznaczyl to sprawdz odpowiedz
                     } else
                         Toast.makeText(QuizActivity.this, "Choose your Answer", Toast.LENGTH_SHORT).show();
                 } else
-                    showNextQuestion();
+                    showNextQuestion(); //jesli wezme NEXT lub Confirm to wywola sie ta metoda i pokaze nowe pytanie
             }
         });
 
@@ -92,6 +102,9 @@ public class QuizActivity extends AppCompatActivity {
 
     private void checkAnswer() {
         answered = true;
+
+        countDownTimer.cancel(); //zatrzymujemy timer
+
         RadioButton rbSelected = findViewById(radio_group.getCheckedRadioButtonId());
         int answerNr = radio_group.indexOfChild(rbSelected) + 1;
 
@@ -189,6 +202,37 @@ public class QuizActivity extends AppCompatActivity {
             });
         }
 
+        timeLeft=COUNTDOWN_TIME_START; //zaczynamy odmierzac od 30
+        startCountDown();
+
+    }
+
+    private void startCountDown(){
+        countDownTimer = new CountDownTimer(timeLeft,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeft=millisUntilFinished; //bedzie przypisywana wartosc ile zostalo
+                updateTimeTxt(); //ta metoda wywola sie co sekunde i zaaktualizuje time_txt
+            }
+
+            @Override
+            public void onFinish() {
+                timeLeft=0;
+                updateTimeTxt();
+                checkAnswer();
+            }
+        }.start();
+    }
+
+    private void updateTimeTxt(){
+        int minutes=(int) (timeLeft/1000)/60;
+        int seconds= (int) (timeLeft/1000)%60;
+        String timeTxtFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        time_txt.setText(timeTxtFormatted);
+
+        if(timeLeft < 10000){
+            time_txt.setTextColor(Color.RED);
+        }else time_txt.setTextColor(textColorDefaultCd);
     }
 
     private void finishQuiz() {
@@ -197,5 +241,20 @@ public class QuizActivity extends AppCompatActivity {
         Toast.makeText(QuizActivity.this, "Quiz Zakonczony", Toast.LENGTH_SHORT).show();
 
 
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(countDownTimer!=null){
+            countDownTimer.cancel();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(QuizActivity.this, MainActivityBetter.class);
+        startActivity(intent);
+        Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie QUIZu!!! ", Toast.LENGTH_SHORT).show();
     }
 }
