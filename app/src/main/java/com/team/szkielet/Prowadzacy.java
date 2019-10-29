@@ -3,24 +3,28 @@ package com.team.szkielet;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.concurrent.TimeUnit;
+
 
 public class Prowadzacy extends AppCompatActivity {
 
@@ -29,6 +33,8 @@ public class Prowadzacy extends AppCompatActivity {
     Button btnSearch;
     WebView wwProw;
     ProgressBar pbProwadzacy;
+    String textContent;
+    String imageURL;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -62,15 +68,13 @@ public class Prowadzacy extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 System.out.println(wwProw.getUrl());
-                wwProw.evaluateJavascript("javascript:window.document.getElementById(\"page-header\").style.display = \"none\";", null);
-                wwProw.evaluateJavascript("javascript:window.document.getElementById(\"above-header\").style.display = \"none\";", null);
+                wwProw.evaluateJavascript("javascript:window.document.getElementById(\"page-header-wrapper\").style.display = \"none\";", null);
+                wwProw.evaluateJavascript("javascript:window.document.getElementById(\"page-footer\").style.display = \"none\";", null);
                 //-----------------
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
                     wwProw.evaluateJavascript("javascript: function a() {\n" +
                             "                       if (document.getElementsByTagName(\"a\").length < 12)  {\n" +
                             "                          window.document.getElementsByClassName(\"search-user-container\")[0].style.display = \"none\"\n" +
-                            "                          window.document.getElementById(\"page-header\").style.display = \"none\";\n" +
-                            "                          window.document.getElementById(\"above-header\").style.display = \"none\";\n" +
                             "                          window.document.getElementsByClassName(\"userlist-header\")[0].getElementsByTagName(\"h3\")[0].textContent = \"\"\n" +
                             "                        }\n" +
                             "                       else {\n" +
@@ -82,8 +86,6 @@ public class Prowadzacy extends AppCompatActivity {
                     function a() {
                        if (document.getElementsByTagName("a").length < 12)  {
                           window.document.getElementsByClassName("search-user-container")[0].style.display = "none"
-                          window.document.getElementById("page-header").style.display = "none";
-                          window.document.getElementById("above-header").style.display = "none";
                           window.document.getElementsByClassName("userlist-header")[0].getElementsByTagName("h3")[0].textContent = ""
                         }
                        else {
@@ -96,9 +98,41 @@ public class Prowadzacy extends AppCompatActivity {
                     wwProw.setVisibility(View.VISIBLE);
                 }
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/profile.php?id")) {
+                    System.out.println("wwProw.getUrl().startsWith(\"https://adm.edu.p.lodz.pl/user/profile.php?id\"");
+                    wwProw.evaluateJavascript("javascript: //chowa i return\n" +
+                            "function getTextFromProfile() {\n" +
+                            "document.getElementsByClassName(\"profile-container\")[0].style.display = \"none\";\n" +
+                            "document.getElementsByClassName(\"profile-additional-data\")[0].style.display = \"none\";\n" +
+                            "if (document.getElementsByClassName(\"consultations\").length != 0) {\n" +
+                            "\tdocument.getElementsByClassName(\"about-me\")[0].style.display = \"none\";\n" +
+                            "\treturn document.getElementsByClassName(\"consultations\")[0].textContent;\n" +
+                            "}\n" +
+                            "return document.getElementsByClassName(\"about-me\")[0].textContent;\n" +
+                            "}\n" +
+                            "getTextFromProfile();", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+                            System.out.println("value1a " + value);
+                            textContent = value;
+                            System.out.println("value1b " + textContent);
+
+
+                        }
+                    });
+                    wwProw.evaluateJavascript("javascript: //zdjecie chlopa\n" +
+                            "document.getElementsByClassName(\"profile-image\")[0].getElementsByTagName(\"img\")[0].getAttribute(\"src\")\n", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+                            System.out.println("value2a " + value);
+                            imageURL = value;
+                            System.out.println("value2b " + imageURL);
+                        }
+                    });
                     Toast.makeText(Prowadzacy.this, "Znaleziono profil", Toast.LENGTH_SHORT).show();
                     pbProwadzacy.setVisibility(View.GONE);
                     wwProw.setVisibility(View.VISIBLE);
+                    parseContent();
+                    wwProw.loadUrl(imageURL);
                 }
 
             }
@@ -115,6 +149,7 @@ public class Prowadzacy extends AppCompatActivity {
 
 //on click listener ----------------------------------------------------------------
         btnSearch.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("JavascriptInterface")
             @Override
             public void onClick(View v) {
                 etName.onEditorAction(EditorInfo.IME_ACTION_DONE);
@@ -137,12 +172,21 @@ public class Prowadzacy extends AppCompatActivity {
                 } else {
                     googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
                 }
-
                 wwProw.loadUrl(googleSearch);
 
             }
         });
 
+    }
+
+    public void parseContent() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                wwProw.evaluateJavascript("javascript: x = document.getElementsByClassName(\"profile-image\")[0].getElementsByTagName(\"img\")[0].getAttribute(\"src\")\n" +
+                        "window.open(x,\"_self\")",null);
+            }
+        }, 200);
     }
 
     @Override
@@ -167,6 +211,7 @@ public class Prowadzacy extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {
