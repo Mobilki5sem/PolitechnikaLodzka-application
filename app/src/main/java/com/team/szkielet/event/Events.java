@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team.szkielet.MainActivityBetter;
 import com.team.szkielet.Plany;
 import com.team.szkielet.Prowadzacy;
@@ -21,6 +24,7 @@ public class Events extends AppCompatActivity {
     private RecyclerView rvEvents;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private FloatingActionButton fabtnAdd;
 
     static public ArrayList<Event> eventsList = new ArrayList<>();
 
@@ -34,6 +38,13 @@ public class Events extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
+        fabtnAdd = findViewById(R.id.fabtnAdd);
+        fabtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Events.this, AddEvent.class));
+            }
+        });
 
         rvEvents = findViewById(R.id.rvEvents);
         rvEvents.setHasFixedSize(true);

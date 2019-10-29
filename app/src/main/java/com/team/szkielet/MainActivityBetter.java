@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,8 +20,6 @@ import com.android.volley.toolbox.Volley;
 import com.team.szkielet.event.Event;
 import com.team.szkielet.event.Events;
 import com.team.szkielet.quiz.QuizMainActivity;
-import com.team.szkielet.test.Json;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
