@@ -164,6 +164,14 @@ public class Plany extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent = new Intent(Plany.this, MainActivityBetter.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.plany) {}
         else if(item.getItemId() == R.id.prowadzacy) {
@@ -180,14 +188,6 @@ public class Plany extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(Plany.this, MainActivityBetter.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        return true;
     }
 
     void readFromSharedPreferences() {
