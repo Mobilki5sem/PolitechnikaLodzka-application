@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team.szkielet.MainActivityBetter;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 public class Events extends AppCompatActivity {
 
     private RecyclerView rvEvents;
-    private RecyclerView.Adapter adapter;
+    private EventAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton fabtnAdd;
 
@@ -53,6 +55,24 @@ public class Events extends AppCompatActivity {
 
         rvEvents.setLayoutManager(layoutManager);
         rvEvents.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new EventAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String urlReally = eventsList.get(position).getLinkToEvent();
+                if(!urlReally.equals("noLink")){
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    try {
+                        i.setData(Uri.parse(urlReally));
+                        startActivity(i);
+                    } catch (Exception ex) {
+                        Toast.makeText(Events.this, "Link jest nieprawidłowy.", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(Events.this, "Nie ma linku do wydarzenia.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
