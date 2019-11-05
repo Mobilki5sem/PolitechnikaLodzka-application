@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class AddEvent extends AppCompatActivity {
     private EditText etNazwaWydarzenia, etOpis;
     private RadioGroup rgRodzaj;
     private Button btnAddEvent;
+    private RadioButton rbChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +44,22 @@ public class AddEvent extends AppCompatActivity {
         etOpis = findViewById(R.id.etOpis);
         rgRodzaj = findViewById(R.id.rgRodzaj);
         btnAddEvent = findViewById(R.id.btnAddEvent);
+
         btnAddEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean[] tab = checkIfAllWasFilled();
 
+               /* if(rgRodzaj.getCheckedRadioButtonId() != -1)
+                    Toast.makeText(AddEvent.this, whichImageUseToDescribeEvent(), Toast.LENGTH_LONG).show();*/
                 if (tab[0] && tab[1] && tab[2]) {
+                    int idObrazka = whichImageUseToDescribeEvent();
                         Events.eventsList.add(new Event(
                                 etNazwaWydarzenia.getText().toString(),
                                 etOpis.getText().toString(),
                                 "noLink",
-                                R.drawable.ic_meeting));
-                        Toast.makeText(AddEvent.this, "SUCCESS", Toast.LENGTH_LONG).show();
+                                idObrazka));
+                        Toast.makeText(AddEvent.this, "SUCCESS" + idObrazka, Toast.LENGTH_LONG).show();
                         onBackPressed();
 
                         new Thread(new Runnable() {
@@ -73,10 +79,30 @@ public class AddEvent extends AppCompatActivity {
         });
     }
 
+    private int whichImageUseToDescribeEvent() {
+        if(rbChecked.getText().toString().equals("Spotkanie"))
+            return R.drawable.ic_meeting_lol;
+        else if(rbChecked.getText().toString().equals("Impreza"))
+            return R.drawable.ic_confetti;
+        else if(rbChecked.getText().toString().equals("Prezentacja"))
+            return R.drawable.ic_classroom;
+        else if(rbChecked.getText().toString().equals("Wydarzenie PŁ"))
+            return R.drawable.ic_school;
+        else {
+            //default
+            return R.drawable.ic_meeting;
+        }
+    }
+
     private boolean[] checkIfAllWasFilled() {
         boolean tab[] = {false, false, false};
-        if (rgRodzaj.getCheckedRadioButtonId() != -1)
+        if (rgRodzaj.getCheckedRadioButtonId() != -1) {
             tab[2] = true;
+            int rbID = rgRodzaj.getCheckedRadioButtonId();
+            rbChecked = findViewById(rbID);
+        }
+
+
         if(!etNazwaWydarzenia.getText().toString().equals(""))
             tab[0] = true;
         if(!etOpis.getText().toString().equals(""))

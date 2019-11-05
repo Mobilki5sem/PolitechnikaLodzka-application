@@ -241,19 +241,10 @@ public class MainActivityBetter extends AppCompatActivity {
 
                             for(int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject employee = jsonArray.getJSONObject(i);
-                                if(employee.getString("image").equals("meeting")) {
-                                    Events.eventsList.add(new Event(employee.getString("eventName"),
-                                            employee.getString("description"),
-                                            employee.getString("linkToEvent"),
-                                            R.drawable.ic_meeting));
-                                    //Toast.makeText(Events.this, "Event " + employee.getString("eventName"), Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    Events.eventsList.add(new Event(employee.getString("eventName"),
-                                            employee.getString("description"),
-                                            employee.getString("linkToEvent"),
-                                            R.drawable.ic_calendar));
-                                }
+                                Events.eventsList.add(new Event(employee.getString("eventName"),
+                                        employee.getString("description"),
+                                        employee.getString("linkToEvent"),
+                                        employee.getInt("image")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
