@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,7 +32,8 @@ import java.util.ArrayList;
 
 public class AddEvent extends AppCompatActivity {
 
-    private EditText etNazwaWydarzenia, etOpis;
+    private EditText etNazwaWydarzenia, etOpis, etLink;
+    private CheckBox cbMamWydarzenie;
     private RadioGroup rgRodzaj;
     private Button btnAddEvent;
     private RadioButton rbChecked;
@@ -42,6 +45,19 @@ public class AddEvent extends AppCompatActivity {
 
         etNazwaWydarzenia = findViewById(R.id.etNazwaWydarzenia);
         etOpis = findViewById(R.id.etOpis);
+        etLink = findViewById(R.id.etLink);
+        etLink.setVisibility(View.GONE);
+        cbMamWydarzenie = findViewById(R.id.cbMamWydarzenie);
+        cbMamWydarzenie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(cbMamWydarzenie.isChecked()) {
+                    etLink.setVisibility(View.VISIBLE);
+                } else {
+                    etLink.setVisibility(View.GONE);
+                }
+            }
+        });
         rgRodzaj = findViewById(R.id.rgRodzaj);
         btnAddEvent = findViewById(R.id.btnAddEvent);
 
@@ -52,14 +68,24 @@ public class AddEvent extends AppCompatActivity {
 
                /* if(rgRodzaj.getCheckedRadioButtonId() != -1)
                     Toast.makeText(AddEvent.this, whichImageUseToDescribeEvent(), Toast.LENGTH_LONG).show();*/
-                if (tab[0] && tab[1] && tab[2]) {
+                if (tab[0] && tab[1] && tab[2] && tab[3]) {
                     int idObrazka = whichImageUseToDescribeEvent();
+                    if(!cbMamWydarzenie.isChecked()){
                         Events.eventsList.add(new Event(
                                 etNazwaWydarzenia.getText().toString(),
                                 etOpis.getText().toString(),
                                 "noLink",
                                 idObrazka));
-                        Toast.makeText(AddEvent.this, "SUCCESS" + idObrazka, Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Events.eventsList.add(new Event(
+                                etNazwaWydarzenia.getText().toString(),
+                                etOpis.getText().toString(),
+                                etLink.getText().toString(),
+                                idObrazka));
+                    }
+
+                        Toast.makeText(AddEvent.this, "Udało ci się dodać nowe wydarzenie!", Toast.LENGTH_LONG).show();
                         onBackPressed();
 
                         new Thread(new Runnable() {
@@ -74,6 +100,9 @@ public class AddEvent extends AppCompatActivity {
                             }
                         }
                     }).start();
+                }
+                else {
+                    Toast.makeText(AddEvent.this, "Wypełnij wszystkie potrzebne pola", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -95,7 +124,7 @@ public class AddEvent extends AppCompatActivity {
     }
 
     private boolean[] checkIfAllWasFilled() {
-        boolean tab[] = {false, false, false};
+        boolean tab[] = {false, false, false, false};
         if (rgRodzaj.getCheckedRadioButtonId() != -1) {
             tab[2] = true;
             int rbID = rgRodzaj.getCheckedRadioButtonId();
@@ -107,6 +136,14 @@ public class AddEvent extends AppCompatActivity {
             tab[0] = true;
         if(!etOpis.getText().toString().equals(""))
             tab[1] = true;
+        if(cbMamWydarzenie.isChecked()) {
+            if(!etLink.getText().toString().equals("")){
+                tab[3] = true;
+            }
+        } else {
+            tab[3] = true;
+        }
+
         return tab;
     }
 

@@ -42,17 +42,42 @@
         android:ems="10"
         android:gravity="center"
         android:hint="Opisz wydarznie. Co? Gdzie? Kiedy?"
+        android:inputType="textMultiLine" />
+
+    <CheckBox
+        android:id="@+id/cbMamWydarzenie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="70dp"
+        android:gravity="center"
+        android:text="Mam link do wydarzenia!" />
+
+    <EditText
+        android:id="@+id/etLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Wstaw link"
         android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
         android:layout_marginBottom="3dp"
         android:gravity="center"
         android:text="Wybierz rodzaj wydarazenia:"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="16dp" />
 
     <RadioGroup
         android:id="@+id/rgRodzaj"
@@ -64,9 +89,9 @@
             android:id="@+id/radioButton7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="3dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginRight="70dp"
             android:layout_marginBottom="3dp"
             android:layout_weight="1"
             android:gravity="center"
@@ -77,9 +102,9 @@
             android:id="@+id/radioButton8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="3dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginRight="70dp"
             android:layout_marginBottom="3dp"
             android:layout_weight="1"
             android:gravity="center"
@@ -90,9 +115,9 @@
             android:id="@+id/radioButton5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="3dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginRight="70dp"
             android:layout_marginBottom="3dp"
             android:layout_weight="1"
             android:gravity="center"
@@ -103,9 +128,9 @@
             android:id="@+id/radioButton6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="3dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginRight="70dp"
             android:layout_marginBottom="3dp"
             android:layout_weight="1"
             android:gravity="center"
