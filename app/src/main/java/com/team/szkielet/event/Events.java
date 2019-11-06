@@ -12,13 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team.szkielet.MainActivityBetter;
 import com.team.szkielet.Plany;
 import com.team.szkielet.Prowadzacy;
 import com.team.szkielet.R;
-
 import java.util.ArrayList;
 
 public class Events extends AppCompatActivity {
@@ -47,7 +45,12 @@ public class Events extends AppCompatActivity {
                 startActivity(new Intent(Events.this, AddEvent.class));
             }
         });
+        addRecyclerView();
 
+
+    }
+
+    private void addRecyclerView() {
         rvEvents = findViewById(R.id.rvEvents);
         rvEvents.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(Events.this);
@@ -73,7 +76,20 @@ public class Events extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        //Toast.makeText(Events.this, "onResume", Toast.LENGTH_SHORT).show();
+        addRecyclerView();
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        //Toast.makeText(Events.this, "onRestart", Toast.LENGTH_SHORT).show();
+        addRecyclerView();
+        super.onRestart();
     }
 
     @Override
