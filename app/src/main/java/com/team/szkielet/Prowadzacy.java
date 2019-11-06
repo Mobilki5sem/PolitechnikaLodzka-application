@@ -17,6 +17,8 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +37,8 @@ public class Prowadzacy extends AppCompatActivity {
     ProgressBar pbProwadzacy;
     String textContent;
     String imageURL;
+    TextView textView;
+    ScrollView scrollViewProw;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -53,6 +57,8 @@ public class Prowadzacy extends AppCompatActivity {
         btnSearch = findViewById(R.id.btnSearch);
         wwProw = findViewById(R.id.wwProw);
         pbProwadzacy = findViewById(R.id.pbProwadzacy);
+        textView = findViewById(R.id.textView5);
+        scrollViewProw = findViewById(R.id.scrollViewProw);
         wwProw.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -96,6 +102,7 @@ public class Prowadzacy extends AppCompatActivity {
                      */
                     pbProwadzacy.setVisibility(View.GONE);
                     wwProw.setVisibility(View.VISIBLE);
+                    wwProw.setVisibility(View.VISIBLE);
                 }
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/profile.php?id")) {
                     System.out.println("wwProw.getUrl().startsWith(\"https://adm.edu.p.lodz.pl/user/profile.php?id\"");
@@ -123,16 +130,15 @@ public class Prowadzacy extends AppCompatActivity {
                             "document.getElementsByClassName(\"profile-image\")[0].getElementsByTagName(\"img\")[0].getAttribute(\"src\")\n", new ValueCallback<String>() {
                         @Override
                         public void onReceiveValue(String value) {
-                            System.out.println("value2a " + value);
                             imageURL = value;
-                            System.out.println("value2b " + imageURL);
                         }
                     });
                     Toast.makeText(Prowadzacy.this, "Znaleziono profil", Toast.LENGTH_SHORT).show();
                     pbProwadzacy.setVisibility(View.GONE);
                     wwProw.setVisibility(View.VISIBLE);
                     parseContent();
-                    wwProw.loadUrl(imageURL);
+                    //wwProw.loadUrl(imageURL);
+                    //wwProw.loadDataWithBaseURL(imageURL, "<style>img{display: inline;height: auto;max-width: 100%;}</style>", "text/html", "UTF-8", null);
                 }
 
             }
@@ -182,11 +188,77 @@ public class Prowadzacy extends AppCompatActivity {
     public void parseContent() {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
+            @SuppressLint("SetTextI18n")
             public void run() {
+                wwProw.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                 wwProw.evaluateJavascript("javascript: x = document.getElementsByClassName(\"profile-image\")[0].getElementsByTagName(\"img\")[0].getAttribute(\"src\")\n" +
-                        "window.open(x,\"_self\")",null);
+                        "window.open(x,\"_self\");", null);
+                loadPicture();
+                if (textContent.contains("Konsultacje cykliczne")) {
+                    textContent = parseTextFromURL(textContent);
+                }
+                textView.setText(textContent);
             }
-        }, 200);
+        }, 500);
+    }
+
+    public void loadPicture() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @SuppressLint("SetTextI18n")
+            public void run() {
+                wwProw.evaluateJavascript("javascript: x = document.getElementsByTagName(\"img\")[0].style.width = 200;", null);
+            }
+        }, 1000);
+    }
+
+
+    private String parseTextFromURL(String text) {
+        text = text.replace("\\n\\n\\n\\n\\n", "\\n");
+        text = text.replace("\"", "");
+        while (text.endsWith("\\n")) {
+            text = text.substring(0, text.lastIndexOf("\\n"));
+        }
+        String tmp = text.substring(0, text.indexOf("Konsultacje cykliczne")).replace("\\n", "\n");
+        int counter = countendl(text);
+        System.out.println(counter + "TEXT:     ============================================" + text);
+        for (int i = 0; i < counter; i++) {
+            int startIndex = text.indexOf("\\n\\n\\n\\n") + 8;
+            System.out.println("i = " + i + " " + startIndex);
+            String[] id = text.substring(startIndex).replace("\\n", ";").split(";");
+            String dzienTygodnia = id[0];
+            String poczatek = id[1];
+            String koniec = id[2];
+            String semestr = id[3];
+            String opis;
+            if (text.substring(text.indexOf(id[3]) + id[3].length()).contains("\\n\\n\\n\\n"))
+                opis = text.substring(text.indexOf(id[3]) + id[3].length(), text.lastIndexOf("\\n\\n\\n\\n")).replace("\\n", "\n");
+            else
+                opis = text.substring(text.indexOf(id[3]) + id[3].length()).replace("\\n", "\n");
+            tmp += "\n";
+            tmp += "Termin " + (i + 1) + ":\n\n";
+            tmp += "Dzień tygodnia: " + dzienTygodnia + "\n";
+            tmp += "Początek: " + poczatek + "\n";
+            tmp += "Koniec: " + koniec + "\n";
+            tmp += "Semestr: " + semestr + "\n";
+            tmp += "Opis: " + opis + "\n";
+            text = text.substring(text.indexOf("\\n\\n\\n\\n") + 8);
+            System.out.println("i = " + i + " -----------------------------" + text);
+        }
+        tmp += "\n\n\n\n\n\n";
+
+        return tmp;
+    }
+
+    private int countendl(String input) {
+        int index = input.indexOf("\\n\\n\\n\\n");
+        int count = 0;
+        while (index != -1) {
+            count++;
+            input = input.substring(index + 1);
+            index = input.indexOf("\\n\\n\\n\\n");
+        }
+        return count;
     }
 
     @Override
