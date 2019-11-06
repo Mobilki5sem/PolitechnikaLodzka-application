@@ -195,14 +195,14 @@ public class AddEvent extends AppCompatActivity {
                 if(ifLinkWasChecked)
                     tab[3] = true;
                 else {
-                    toast = Toast.makeText(AddEvent.this, "Wprowadź prawidłowy link lub zrezygnuj z niego.", Toast.LENGTH_SHORT);
+                    toast = Toast.makeText(AddEvent.this, "Sprawdź poprawność linku powyższym przyciskiem lub zrezygnuj z niego.", Toast.LENGTH_LONG);
                     ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
                             .setGravity(Gravity.CENTER_HORIZONTAL);
                     toast.show();
                 }
 
             } else {
-                toast = Toast.makeText(AddEvent.this, "Wprowadź prawidłowy link lub zrezygnuj z niego.", Toast.LENGTH_SHORT);
+                toast = Toast.makeText(AddEvent.this, "Sprawdź poprawność linku powyższym przyciskiem lub zrezygnuj z niego.", Toast.LENGTH_LONG);
                 ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
                         .setGravity(Gravity.CENTER_HORIZONTAL);
                 toast.show();
@@ -211,10 +211,9 @@ public class AddEvent extends AppCompatActivity {
             tab[3] = true;
         }
         Date date = Calendar.getInstance().getTime();
-        String daya          = (String) DateFormat.format("dd",   date); // 20
-        String monthNumber  = (String) DateFormat.format("MM",   date); // 06
-        String yeara         = (String) DateFormat.format("yyyy", date); // 2013
-        //Toast.makeText(AddEvent.this, "" + Integer.parseInt(daya) + "." + Integer.parseInt(monthNumber) + "." + Integer.parseInt(yeara), Toast.LENGTH_LONG).show();
+        String daya          = (String) DateFormat.format("dd",   date);
+        String monthNumber  = (String) DateFormat.format("MM",   date);
+        String yeara         = (String) DateFormat.format("yyyy", date);
         if(Integer.parseInt(yeara) == Myear) {
             if(Integer.parseInt(monthNumber) == Mmonth) {
                 if(Integer.parseInt(daya) < Mday) {
@@ -236,7 +235,7 @@ public class AddEvent extends AppCompatActivity {
         return tab;
     }
 
-    private void jsonPUT() throws JSONException, IOException {
+    public static void jsonPUT() throws JSONException, IOException {
         JSONArray array = new JSONArray();
         ArrayList<Event> list = Events.eventsList;
         for(int i = 0; i < list.size(); i ++) {

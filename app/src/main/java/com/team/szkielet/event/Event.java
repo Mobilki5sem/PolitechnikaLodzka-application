@@ -1,6 +1,6 @@
 package com.team.szkielet.event;
 
-public class Event {
+public class Event implements Comparable<Event> {
 
     private String eventName;
     private String description;
@@ -74,5 +74,15 @@ public class Event {
 
     public void setLinkToEvent(String linkToEvent) {
         this.linkToEvent = linkToEvent;
+    }
+
+
+    @Override
+    public int compareTo(Event event) {
+
+        int checkEvent = (event.getYear() * 365) + (event.getMonth() * 30) + event.getDay();
+        int checkThis = (this.year * 365) + (this.month * 30) + this.day;
+
+        return checkThis - checkEvent;
     }
 }
