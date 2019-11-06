@@ -1,13 +1,15 @@
 package com.team.szkielet.event;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -16,25 +18,20 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.team.szkielet.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Calendar;
+import java.util.Date;
 
 public class AddEvent extends AppCompatActivity {
 
@@ -43,13 +40,27 @@ public class AddEvent extends AppCompatActivity {
     private RadioGroup rgRodzaj;
     private Button btnAddEvent, btnCheckLink;
     private RadioButton rbChecked;
+    private CalendarView calendar;
 
     private boolean ifLinkWasChecked = false;
+    private int Mday, Mmonth, Myear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+
+
+        calendar = findViewById(R.id.calendarView);
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+                //Toast.makeText(AddEvent.this, "" + day + "." + month + 1 + "." + year, Toast.LENGTH_LONG).show();
+                Mday = day;
+                Mmonth = month + 1;
+                Myear = year;
+            }
+        });
 
         etNazwaWydarzenia = findViewById(R.id.etNazwaWydarzenia);
         etOpis = findViewById(R.id.etOpis);
@@ -99,21 +110,27 @@ public class AddEvent extends AppCompatActivity {
 
                /* if(rgRodzaj.getCheckedRadioButtonId() != -1)
                     Toast.makeText(AddEvent.this, whichImageUseToDescribeEvent(), Toast.LENGTH_LONG).show();*/
-                if (tab[0] && tab[1] && tab[2] && tab[3]) {
+                if (tab[0] && tab[1] && tab[2] && tab[3] && tab[4]) {
                     int idObrazka = whichImageUseToDescribeEvent();
                     if(!cbMamWydarzenie.isChecked()){
                         Events.eventsList.add(new Event(
                                 etNazwaWydarzenia.getText().toString(),
                                 etOpis.getText().toString(),
                                 "noLink",
-                                idObrazka));
+                                idObrazka,
+                                Mday,
+                                Mmonth,
+                                Myear));
                     }
                     else {
                         Events.eventsList.add(new Event(
                                 etNazwaWydarzenia.getText().toString(),
                                 etOpis.getText().toString(),
                                 etLink.getText().toString(),
-                                idObrazka));
+                                idObrazka,
+                                Mday,
+                                Mmonth,
+                                Myear));
                     }
 
                         Toast.makeText(AddEvent.this, "Udało ci się dodać nowe wydarzenie!", Toast.LENGTH_LONG).show();
@@ -153,7 +170,8 @@ public class AddEvent extends AppCompatActivity {
 
     private boolean[] checkIfAllWasFilled() {
         Toast toast;
-        boolean tab[] = {false, false, false, false};
+        //0 - nazwaWydarzeni, 1 - Opis, 2 - rodzajWydarzenia, 3 - link, 4 - data
+        boolean tab[] = {false, false, false, false, false};
 
         if(!etNazwaWydarzenia.getText().toString().equals(""))
             tab[0] = true;
@@ -192,6 +210,28 @@ public class AddEvent extends AppCompatActivity {
         } else {
             tab[3] = true;
         }
+        Date date = Calendar.getInstance().getTime();
+        String daya          = (String) DateFormat.format("dd",   date); // 20
+        String monthNumber  = (String) DateFormat.format("MM",   date); // 06
+        String yeara         = (String) DateFormat.format("yyyy", date); // 2013
+        //Toast.makeText(AddEvent.this, "" + Integer.parseInt(daya) + "." + Integer.parseInt(monthNumber) + "." + Integer.parseInt(yeara), Toast.LENGTH_LONG).show();
+        if(Integer.parseInt(yeara) == Myear) {
+            if(Integer.parseInt(monthNumber) == Mmonth) {
+                if(Integer.parseInt(daya) < Mday) {
+                    tab[4] = true;
+                } else {
+                    Toast.makeText(AddEvent.this, "Dodaj prawidłową datę.", Toast.LENGTH_SHORT).show();
+                }
+            } else if(Integer.parseInt(monthNumber) < Mmonth) {
+                tab[4] = true;
+            } else {
+                Toast.makeText(AddEvent.this, "Dodaj prawidłową datę.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (Integer.parseInt(yeara) < Myear) {
+            tab[4] = true;
+        } else {
+            Toast.makeText(AddEvent.this, "Dodaj prawidłową datę.", Toast.LENGTH_SHORT).show();
+        }
 
         return tab;
     }
@@ -205,6 +245,10 @@ public class AddEvent extends AppCompatActivity {
             postData.put("description", list.get(i).getDescription());
             postData.put("linkToEvent", list.get(i).getLinkToEvent());
             postData.put("image", list.get(i).getImage());
+            postData.put("day", list.get(i).getDay());
+            postData.put("month", list.get(i).getMonth());
+            postData.put("year", list.get(i).getYear());
+
             array.put(postData);
         }
         JSONObject start = new JSONObject();

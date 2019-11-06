@@ -3,11 +3,8 @@ package com.team.szkielet.event;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.team.szkielet.R;
@@ -71,6 +68,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvNameEvent.setText(currentEvent.getEventName());
         holder.tvDescription.setText(currentEvent.getDescription());
         holder.tvMore.setText(currentEvent.getLinkToEvent());
+        //DO DODANIA DATA po prostu
     }
 
     @Override

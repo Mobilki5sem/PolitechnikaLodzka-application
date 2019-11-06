@@ -244,7 +244,10 @@ public class MainActivityBetter extends AppCompatActivity {
                                 Events.eventsList.add(new Event(employee.getString("eventName"),
                                         employee.getString("description"),
                                         employee.getString("linkToEvent"),
-                                        employee.getInt("image")));
+                                        employee.getInt("image"),
+                                        employee.getInt("day"),
+                                        employee.getInt("month"),
+                                        employee.getInt("year")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
