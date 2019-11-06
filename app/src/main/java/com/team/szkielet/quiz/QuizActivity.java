@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
+    public static final String EXTRA_SCORE = "extraScore";
 
     TextView score_txt;
     TextView question_count_txt;
@@ -81,7 +82,6 @@ public class QuizActivity extends AppCompatActivity {
         questionList = dbHelper.getAllQuestions();
         questionTotal = questionList.size();
         Collections.shuffle(questionList);
-
         showNextQuestion(); //pokaz pierwsze pytanie, metoda wykona sie tylko raz, pozniej juz tylko onClickListener
         btn_confirm_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,16 +138,11 @@ public class QuizActivity extends AppCompatActivity {
         }
         if(questionCounter<questionTotal){
         btn_confirm_next.setText("Next");
-           // btn_confirm_next.setOnClickListener(new View.OnClickListener() {
-           //     @Override
-           //     public void onClick(View v) {
-            //        showNextQuestion();
-           //     }
-           // });
         }
         else{
             btn_confirm_next.setText("Finish Quiz");
             question_txt.setTextColor(Color.WHITE);
+            btn_confirm_next.setTextSize(35);
             question_txt.setText("BRAWO, DOTRWAŁES DO KONCA!");
             relativeLayout.setBackgroundColor(Color.BLACK);
             score_txt.setTextColor(Color.WHITE);
@@ -181,7 +176,7 @@ public class QuizActivity extends AppCompatActivity {
             questionCounter++;
 
             question_count_txt.setText("Question: " + questionCounter + "/" + questionTotal);
-            //??????
+
             answered = false;
             btn_confirm_next.setText("Confirm");
 
@@ -189,6 +184,7 @@ public class QuizActivity extends AppCompatActivity {
             //Jak odpowiiem na wszystkie pytania
             btn_confirm_next.setText("Finish Quiz");
             question_txt.setTextColor(Color.WHITE);
+            btn_confirm_next.setTextSize(35);
             question_txt.setText("BRAWO, DOTRWAŁES DO KONCA!");
             relativeLayout.setBackgroundColor(Color.BLACK);
             score_txt.setTextColor(Color.WHITE);
@@ -236,9 +232,14 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void finishQuiz() {
-        Intent intent = new Intent(QuizActivity.this, QuizMainActivity.class);
-        startActivity(intent);
-        Toast.makeText(QuizActivity.this, "Quiz Zakonczony", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_SCORE, score);
+        setResult(RESULT_OK, intent);
+        finish();
+       // startActivity(intent);
+       // Toast.makeText(QuizActivity.this, "Quiz Zakonczony", Toast.LENGTH_SHORT).show();
+
+
 
 
     }
