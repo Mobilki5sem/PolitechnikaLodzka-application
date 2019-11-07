@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.DateFormat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -17,12 +18,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.team.szkielet.event.AddEvent;
 import com.team.szkielet.event.Event;
 import com.team.szkielet.event.Events;
 import com.team.szkielet.quiz.QuizMainActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivityBetter extends AppCompatActivity {
 
@@ -241,10 +247,16 @@ public class MainActivityBetter extends AppCompatActivity {
 
                             for(int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject employee = jsonArray.getJSONObject(i);
-                                Events.eventsList.add(new Event(employee.getString("eventName"),
-                                        employee.getString("description"),
-                                        employee.getString("linkToEvent"),
-                                        employee.getInt("image")));
+                                if(dateIsOK(employee)) {
+                                    Events.eventsList.add(new Event(employee.getString("eventName"),
+                                            employee.getString("description"),
+                                            employee.getString("linkToEvent"),
+                                            employee.getInt("image"),
+                                            employee.getInt("day"),
+                                            employee.getInt("month"),
+                                            employee.getInt("year")));
+                                }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -257,5 +269,29 @@ public class MainActivityBetter extends AppCompatActivity {
             }
         });
         mQueue.add(request);
+    }
+
+    private boolean dateIsOK(JSONObject employee) throws JSONException {
+        Date date = Calendar.getInstance().getTime();
+        String daya          = (String) DateFormat.format("dd",   date);
+        String monthNumber  = (String) DateFormat.format("MM",   date);
+        String yeara         = (String) DateFormat.format("yyyy", date);
+        if(Integer.parseInt(yeara) == employee.getInt("year")) {
+            if(Integer.parseInt(monthNumber) == employee.getInt("month")) {
+                if(Integer.parseInt(daya) < employee.getInt("day") + 2) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if(Integer.parseInt(monthNumber) < employee.getInt("month")) {
+                return true;
+            } else {
+               return false;
+            }
+        } else if (Integer.parseInt(yeara) < employee.getInt("year")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
