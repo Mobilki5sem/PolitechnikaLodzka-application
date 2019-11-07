@@ -2,6 +2,7 @@ package com.team.szkielet;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +43,7 @@ public class Prowadzacy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prowadzacy);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Prowadzący");
         //actionBar.setIcon();
@@ -56,6 +58,7 @@ public class Prowadzacy extends AppCompatActivity {
         pbProwadzacy = findViewById(R.id.pbProwadzacy);
         textView = findViewById(R.id.textView5);
         scrollViewProw = findViewById(R.id.scrollViewProw);
+
         wwProw.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -65,6 +68,9 @@ public class Prowadzacy extends AppCompatActivity {
         WebSettings webSettings = wwProw.getSettings();
         webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
 
 // set web view client ---------------------------------------------------------------
         wwProw.setWebViewClient(new WebViewClient() {
@@ -120,10 +126,10 @@ public class Prowadzacy extends AppCompatActivity {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
+                //if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
                     pbProwadzacy.setVisibility(View.VISIBLE);
                     wwProw.setVisibility(View.GONE);
-                }
+               // }
             }
         });
 
@@ -164,6 +170,7 @@ public class Prowadzacy extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @SuppressLint("SetTextI18n")
             public void run() {
+
                 wwProw.evaluateJavascript("javascript: x = document.getElementsByClassName(\"profile-image\")[0].getElementsByTagName(\"img\")[0].getAttribute(\"src\")\n" +
                         "window.open(x,\"_self\");", null);
                 loadPicture();
@@ -183,7 +190,7 @@ public class Prowadzacy extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @SuppressLint("SetTextI18n")
             public void run() {
-                wwProw.evaluateJavascript("javascript: x = document.getElementsByTagName(\"img\")[0].style.width = 200;", null);
+               // wwProw.evaluateJavascript("javascript: x = document.getElementsByTagName(\"img\")[0].style.width = 200;", null);
                 pbProwadzacy.setVisibility(View.GONE);
                 wwProw.setVisibility(View.VISIBLE);
             }
@@ -222,7 +229,7 @@ public class Prowadzacy extends AppCompatActivity {
             text = text.substring(text.indexOf("\\n\\n\\n\\n") + 8);
             System.out.println("i = " + i + " -----------------------------" + text);
         }
-        tmp += "\n\n\n\n\n\n";
+       // tmp += "\n\n\n\n\n\n";
 
         return tmp;
     }
@@ -243,6 +250,7 @@ public class Prowadzacy extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
