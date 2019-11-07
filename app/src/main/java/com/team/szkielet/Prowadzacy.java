@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -24,8 +23,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.concurrent.TimeUnit;
 
 
 public class Prowadzacy extends AppCompatActivity {
@@ -88,30 +85,15 @@ public class Prowadzacy extends AppCompatActivity {
                             "                         }\n" +
                             "                    }\n" +
                             "                    a();", null);
-                    /*
-                    function a() {
-                       if (document.getElementsByTagName("a").length < 12)  {
-                          window.document.getElementsByClassName("search-user-container")[0].style.display = "none"
-                          window.document.getElementsByClassName("userlist-header")[0].getElementsByTagName("h3")[0].textContent = ""
-                        }
-                       else {
-                         window.document.getElementsByTagName("a")[12].click();
-                         }
-                    }
-                    a();
-                     */
+
                     pbProwadzacy.setVisibility(View.GONE);
-                    wwProw.setVisibility(View.VISIBLE);
                     wwProw.setVisibility(View.VISIBLE);
                 }
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/profile.php?id")) {
                     System.out.println("wwProw.getUrl().startsWith(\"https://adm.edu.p.lodz.pl/user/profile.php?id\"");
                     wwProw.evaluateJavascript("javascript: //chowa i return\n" +
                             "function getTextFromProfile() {\n" +
-                            "document.getElementsByClassName(\"profile-container\")[0].style.display = \"none\";\n" +
-                            "document.getElementsByClassName(\"profile-additional-data\")[0].style.display = \"none\";\n" +
                             "if (document.getElementsByClassName(\"consultations\").length != 0) {\n" +
-                            "\tdocument.getElementsByClassName(\"about-me\")[0].style.display = \"none\";\n" +
                             "\treturn document.getElementsByClassName(\"consultations\")[0].textContent;\n" +
                             "}\n" +
                             "return document.getElementsByClassName(\"about-me\")[0].textContent;\n" +
@@ -119,11 +101,7 @@ public class Prowadzacy extends AppCompatActivity {
                             "getTextFromProfile();", new ValueCallback<String>() {
                         @Override
                         public void onReceiveValue(String value) {
-                            System.out.println("value1a " + value);
                             textContent = value;
-                            System.out.println("value1b " + textContent);
-
-
                         }
                     });
                     wwProw.evaluateJavascript("javascript: //zdjecie chlopa\n" +
@@ -134,11 +112,7 @@ public class Prowadzacy extends AppCompatActivity {
                         }
                     });
                     Toast.makeText(Prowadzacy.this, "Znaleziono profil", Toast.LENGTH_SHORT).show();
-                    pbProwadzacy.setVisibility(View.GONE);
-                    wwProw.setVisibility(View.VISIBLE);
                     parseContent();
-                    //wwProw.loadUrl(imageURL);
-                    //wwProw.loadDataWithBaseURL(imageURL, "<style>img{display: inline;height: auto;max-width: 100%;}</style>", "text/html", "UTF-8", null);
                 }
 
             }
@@ -190,12 +164,14 @@ public class Prowadzacy extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @SuppressLint("SetTextI18n")
             public void run() {
-                wwProw.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                 wwProw.evaluateJavascript("javascript: x = document.getElementsByClassName(\"profile-image\")[0].getElementsByTagName(\"img\")[0].getAttribute(\"src\")\n" +
                         "window.open(x,\"_self\");", null);
                 loadPicture();
+                textContent = textContent.replace("\"", "");
                 if (textContent.contains("Konsultacje cykliczne")) {
                     textContent = parseTextFromURL(textContent);
+                } else {
+                    textContent = textContent.replace("\\n", "\n");
                 }
                 textView.setText(textContent);
             }
@@ -208,6 +184,8 @@ public class Prowadzacy extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             public void run() {
                 wwProw.evaluateJavascript("javascript: x = document.getElementsByTagName(\"img\")[0].style.width = 200;", null);
+                pbProwadzacy.setVisibility(View.GONE);
+                wwProw.setVisibility(View.VISIBLE);
             }
         }, 1000);
     }
@@ -215,7 +193,6 @@ public class Prowadzacy extends AppCompatActivity {
 
     private String parseTextFromURL(String text) {
         text = text.replace("\\n\\n\\n\\n\\n", "\\n");
-        text = text.replace("\"", "");
         while (text.endsWith("\\n")) {
             text = text.substring(0, text.lastIndexOf("\\n"));
         }
