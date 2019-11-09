@@ -97,9 +97,14 @@ public class CorrectLogin extends AppCompatActivity {
                         Intent intent = new Intent(CorrectLogin.this, SignIn.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-
                         finish();
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //nothing happened
+        Toast.makeText(CorrectLogin.this, "Wyloguj się bądź idź do menu głównego", Toast.LENGTH_LONG).show();
     }
 }

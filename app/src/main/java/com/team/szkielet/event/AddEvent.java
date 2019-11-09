@@ -111,7 +111,7 @@ public class AddEvent extends AppCompatActivity {
                /* if(rgRodzaj.getCheckedRadioButtonId() != -1)
                     Toast.makeText(AddEvent.this, whichImageUseToDescribeEvent(), Toast.LENGTH_LONG).show();*/
                 if (tab[0] && tab[1] && tab[2] && tab[3] && tab[4]) {
-                    int idObrazka = whichImageUseToDescribeEvent();
+                    String idObrazka = whichImageUseToDescribeEvent();
                     if(!cbMamWydarzenie.isChecked()){
                         Events.eventsList.add(new Event(
                                 etNazwaWydarzenia.getText().toString(),
@@ -153,19 +153,8 @@ public class AddEvent extends AppCompatActivity {
         });
     }
 
-    private int whichImageUseToDescribeEvent() {
-        if(rbChecked.getText().toString().equals("Spotkanie"))
-            return R.drawable.ic_meeting_lol;
-        else if(rbChecked.getText().toString().equals("Impreza"))
-            return R.drawable.ic_confetti;
-        else if(rbChecked.getText().toString().equals("Prezentacja"))
-            return R.drawable.ic_classroom;
-        else if(rbChecked.getText().toString().equals("Wydarzenie PŁ"))
-            return R.drawable.ic_school;
-        else {
-            //default
-            return R.drawable.ic_meeting;
-        }
+    private String whichImageUseToDescribeEvent() {
+        return rbChecked.getText().toString();
     }
 
     private boolean[] checkIfAllWasFilled() {

@@ -24,17 +24,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.team.szkielet.event.AddEvent;
 import com.team.szkielet.event.Event;
 import com.team.szkielet.event.Events;
-import com.team.szkielet.login.CorrectLogin;
 import com.team.szkielet.login.SignIn;
 import com.team.szkielet.quiz.QuizMainActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -137,7 +133,7 @@ public class MainActivityBetter extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        startActivity(new Intent(MainActivityBetter.this, SignIn.class));
+                        //startActivity(new Intent(MainActivityBetter.this, SignIn.class));
                     }
                 }, 300);
             }
@@ -147,7 +143,7 @@ public class MainActivityBetter extends AppCompatActivity {
         cvUstawienia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent intent = new Intent(MainActivityBetter.this, PopUpInPlany.class);
+                final Intent intent = new Intent(MainActivityBetter.this, Settings.class);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
@@ -287,7 +283,7 @@ public class MainActivityBetter extends AppCompatActivity {
                                     Events.eventsList.add(new Event(employee.getString("eventName"),
                                             employee.getString("description"),
                                             employee.getString("linkToEvent"),
-                                            employee.getInt("image"),
+                                            employee.getString("image"),
                                             employee.getInt("day"),
                                             employee.getInt("month"),
                                             employee.getInt("year")));
