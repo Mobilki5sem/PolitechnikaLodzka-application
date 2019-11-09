@@ -29,12 +29,13 @@
         android:id="@+id/btn_start_quiz"
         android:layout_width="374dp"
         android:layout_height="179dp"
-        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:layout_marginBottom="20dp"
-        android:fontFamily="@font/creepster"
         android:background="@drawable/quiz_confirm_button"
-        android:textSize="40dp"
-        android:text="Start Quiz" />
+        android:fontFamily="@font/creepster"
+        android:text="Start Quiz"
+        android:textSize="40dp" />
 
     <TextView
         android:id="@+id/highscore_txt"
@@ -46,4 +47,14 @@
         android:text="HighScore: 0"
         android:textColor="#FFFFFF"
         android:textSize="50sp" />
+
+    <Button
+        android:id="@+id/btn_add_quest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/quiz_confirm_button"
+        android:text="ADD QUESTION" />
 </RelativeLayout>

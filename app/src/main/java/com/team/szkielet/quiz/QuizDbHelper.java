@@ -14,7 +14,7 @@ import java.util.List;
 public class QuizDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "PolitechnikaQuiz.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private SQLiteDatabase db;
     public QuizDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,9 +47,9 @@ public class QuizDbHelper extends SQLiteOpenHelper {
     }
 
     private void fillQuestionsTable() {
-        Question q1 = new Question("Zaznacz A", "A)Ty ", "B)No nie", "C)Wiem", "D)Jak", 1);
+        Question q1 = new Question("Zaznacz AXD", "A)Ty ", "B)No nie", "C)Wiem", "D)Jak", 1);
         addQuestion(q1);
-        Question q2 = new Question("Zaznacz B", "A)Mnie", "B)Nie", "C)Przegadasz","D)Bo", 2);
+        Question q2 = new Question("Zaznacz B", "A)MnieXD", "B)Nie", "C)Przegadasz","D)Bo", 2);
         addQuestion(q2);
         Question q3 = new Question("Zaznacz C", "A)Mydło", "B)Wszystko", "C)Umyje","D)Nawet", 3);
         addQuestion(q3);
