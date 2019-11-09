@@ -5,12 +5,12 @@ public class Event implements Comparable<Event> {
     private String eventName;
     private String description;
     private String linkToEvent;
-    private int image;
+    private String image;
     private int day;
     private int month;
     private int year;
 
-    public Event(String eventName, String description, String linkToEvent, int image, int day, int month, int year) {
+    public Event(String eventName, String description, String linkToEvent, String image, int day, int month, int year) {
         this.eventName = eventName;
         this.description = description;
         this.linkToEvent = linkToEvent;
@@ -44,11 +44,11 @@ public class Event implements Comparable<Event> {
         this.year = year;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

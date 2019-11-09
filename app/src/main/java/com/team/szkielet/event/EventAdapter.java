@@ -72,7 +72,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         Event currentEvent = listOfEvents.get(position);
 
         String date = currentEvent.getDay() + "." + currentEvent.getMonth() + "." +  currentEvent.getYear();
-        holder.imgV.setImageResource(currentEvent.getImage());
+        //holder.imgV.setImageResource(currentEvent.getImage());
+        if(currentEvent.getImage().equals("Spotkanie")) {
+            holder.imgV.setImageResource(R.drawable.ic_meeting_lol);
+        } else if(currentEvent.getImage().equals("Impreza")) {
+            holder.imgV.setImageResource(R.drawable.ic_confetti);
+        } else if(currentEvent.getImage().equals("Prezentacja")) {
+            holder.imgV.setImageResource(R.drawable.ic_classroom);
+        } else if(currentEvent.getImage().equals("Wydarzenie PŁ")) {
+            holder.imgV.setImageResource(R.drawable.ic_school);
+        }
         holder.tvNameEvent.setText(currentEvent.getEventName());
         holder.tvDescription.setText(currentEvent.getDescription());
         holder.tvMore.setText(date);

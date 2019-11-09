@@ -8,8 +8,10 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -18,15 +20,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.team.szkielet.event.AddEvent;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.team.szkielet.event.Event;
 import com.team.szkielet.event.Events;
+import com.team.szkielet.login.SignIn;
 import com.team.szkielet.quiz.QuizMainActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,6 +40,7 @@ public class MainActivityBetter extends AppCompatActivity {
     private long backPressedTime;
     TextView tvHello, tvAgain;
     private RequestQueue mQueue;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +130,12 @@ public class MainActivityBetter extends AppCompatActivity {
         cvSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        //startActivity(new Intent(MainActivityBetter.this, SignIn.class));
+                    }
+                }, 300);
             }
         });
 
@@ -133,7 +143,7 @@ public class MainActivityBetter extends AppCompatActivity {
         cvUstawienia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent intent = new Intent(MainActivityBetter.this, PopUpInPlany.class);
+                final Intent intent = new Intent(MainActivityBetter.this, Settings.class);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
@@ -142,6 +152,28 @@ public class MainActivityBetter extends AppCompatActivity {
                 }, 300);
             }
         });
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivityBetter.this);
+        if(acct != null) {
+            String name = acct.getDisplayName();
+            String email = acct.getEmail();
+            tvHello.setText("Cześć " + name + "!!!");
+            Toast toast = Toast.makeText(MainActivityBetter.this, "Jesteś zalogowany na " + email, Toast.LENGTH_SHORT);
+            ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
+                    .setGravity(Gravity.CENTER_HORIZONTAL);
+            toast.show();
+        } else {
+            Toast.makeText(MainActivityBetter.this, "Musisz się zalogować!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivityBetter.this, SignIn.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -251,7 +283,7 @@ public class MainActivityBetter extends AppCompatActivity {
                                     Events.eventsList.add(new Event(employee.getString("eventName"),
                                             employee.getString("description"),
                                             employee.getString("linkToEvent"),
-                                            employee.getInt("image"),
+                                            employee.getString("image"),
                                             employee.getInt("day"),
                                             employee.getInt("month"),
                                             employee.getInt("year")));
