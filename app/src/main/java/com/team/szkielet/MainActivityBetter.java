@@ -8,8 +8,10 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -164,7 +166,17 @@ public class MainActivityBetter extends AppCompatActivity {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivityBetter.this);
         if(acct != null) {
             String name = acct.getDisplayName();
-            tvHello.setText("Hello " + name + "!!!");
+            String email = acct.getEmail();
+            tvHello.setText("Cześć " + name + "!!!");
+            Toast toast = Toast.makeText(MainActivityBetter.this, "Jesteś zalogowany na " + email, Toast.LENGTH_SHORT);
+            ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
+                    .setGravity(Gravity.CENTER_HORIZONTAL);
+            toast.show();
+        } else {
+            Toast.makeText(MainActivityBetter.this, "Musisz się zalogować!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivityBetter.this, SignIn.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 
