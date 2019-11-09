@@ -18,9 +18,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.team.szkielet.event.AddEvent;
 import com.team.szkielet.event.Event;
 import com.team.szkielet.event.Events;
+import com.team.szkielet.login.CorrectLogin;
+import com.team.szkielet.login.SignIn;
 import com.team.szkielet.quiz.QuizMainActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +42,7 @@ public class MainActivityBetter extends AppCompatActivity {
     private long backPressedTime;
     TextView tvHello, tvAgain;
     private RequestQueue mQueue;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +132,12 @@ public class MainActivityBetter extends AppCompatActivity {
         cvSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        startActivity(new Intent(MainActivityBetter.this, SignIn.class));
+                    }
+                }, 300);
             }
         });
 
@@ -142,6 +154,18 @@ public class MainActivityBetter extends AppCompatActivity {
                 }, 300);
             }
         });
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivityBetter.this);
+        if(acct != null) {
+            String name = acct.getDisplayName();
+            tvHello.setText("Hello " + name + "!!!");
+        }
     }
 
     @Override
