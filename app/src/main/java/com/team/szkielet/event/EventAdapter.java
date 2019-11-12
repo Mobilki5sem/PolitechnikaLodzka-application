@@ -87,9 +87,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvMore.setText(date);
         //DO DODANIA DATA po prostu
         if (currentEvent.getLinkToEvent().equals("noLink")) {
-            holder.llWitam.setBackgroundColor(Color.parseColor("#ffd6cc"));
+            //holder.llWitam.setBackgroundColor(Color.parseColor("#ffd6cc"));
         } else {
-            holder.llWitam.setBackgroundColor(Color.parseColor("#ccffdc"));
+            //holder.llWitam.setBackgroundColor(Color.parseColor("#ccffdc"));
         }
     }
 

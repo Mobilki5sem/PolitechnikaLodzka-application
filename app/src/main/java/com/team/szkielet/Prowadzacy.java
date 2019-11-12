@@ -25,6 +25,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.team.szkielet.event.Events;
+import com.team.szkielet.quiz.QuizActivity;
+import com.team.szkielet.quiz.QuizMainActivity;
+import com.team.szkielet.rooms.FindRoom;
+
 
 public class Prowadzacy extends AppCompatActivity {
 
@@ -258,12 +263,20 @@ public class Prowadzacy extends AppCompatActivity {
             Intent intent = new Intent(Prowadzacy.this, Plany.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.prowadzacy) {
-        } else if (item.getItemId() == R.id.aktualnosci) {
-            Intent intent = new Intent(Prowadzacy.this, Aktualnosci.class);
+        } else if (item.getItemId() == R.id.wydarzenia) {
+            Intent intent = new Intent(Prowadzacy.this, Events.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.start) {
             Intent intent = new Intent(Prowadzacy.this, MainActivityBetter.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.quiz) {
+            Intent intent = new Intent(Prowadzacy.this, QuizMainActivity.class);
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.sale) {
+            Intent intent = new Intent(Prowadzacy.this, FindRoom.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

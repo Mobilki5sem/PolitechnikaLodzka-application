@@ -70,7 +70,7 @@ public class SignIn extends AppCompatActivity {
     protected void onStart() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null) {
-            Toast.makeText(SignIn.this, "Logowanie przebiegło pomyślnie", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SignIn.this, "Logowanie przebiegło pomyślnie", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(SignIn.this, CorrectLogin.class));
         }
         super.onStart();

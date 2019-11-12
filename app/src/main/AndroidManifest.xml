@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".rooms.FindRoom" />
+        <activity android:name=".Settings" />
         <activity android:name=".login.CorrectLogin" />
         <activity android:name=".login.SignIn" />
         <activity android:name=".event.AddEvent" />
@@ -22,7 +23,6 @@
         <activity
             android:name=".PopUpInPlany"
             android:theme="@style/AppTheme.PopUp" />
-        <activity android:name=".Aktualnosci" />
         <activity android:name=".Prowadzacy" />
         <activity android:name=".Plany" />
         <activity

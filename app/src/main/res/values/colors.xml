@@ -7,5 +7,6 @@
     <color name="colorProwBack">#ffe3e4</color>
     <color name="colorWHITE">#FFFFFF</color>
     <color name="colorBackgroundQuiz">#000000</color>
+    <color name="colorBackground">#E2F1DCDC</color>
 
 </resources>

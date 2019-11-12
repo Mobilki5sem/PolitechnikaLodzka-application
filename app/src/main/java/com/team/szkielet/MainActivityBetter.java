@@ -8,10 +8,8 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -28,6 +26,8 @@ import com.team.szkielet.event.Event;
 import com.team.szkielet.event.Events;
 import com.team.szkielet.login.SignIn;
 import com.team.szkielet.quiz.QuizMainActivity;
+import com.team.szkielet.rooms.FindRoom;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,7 +133,7 @@ public class MainActivityBetter extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        //startActivity(new Intent(MainActivityBetter.this, SignIn.class));
+                        startActivity(new Intent(MainActivityBetter.this, FindRoom.class));
                     }
                 }, 300);
             }
@@ -162,12 +162,12 @@ public class MainActivityBetter extends AppCompatActivity {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivityBetter.this);
         if(acct != null) {
             String name = acct.getDisplayName();
-            String email = acct.getEmail();
+            //String email = acct.getEmail();
             tvHello.setText("Cześć " + name + "!!!");
-            Toast toast = Toast.makeText(MainActivityBetter.this, "Jesteś zalogowany na " + email, Toast.LENGTH_SHORT);
+            /*Toast toast = Toast.makeText(MainActivityBetter.this, "Jesteś zalogowany na " + email, Toast.LENGTH_SHORT);
             ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
                     .setGravity(Gravity.CENTER_HORIZONTAL);
-            toast.show();
+            toast.show();*/
         } else {
             Toast.makeText(MainActivityBetter.this, "Musisz się zalogować!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivityBetter.this, SignIn.class);
@@ -209,14 +209,14 @@ public class MainActivityBetter extends AppCompatActivity {
         String rok = sharedPref.getString("rok", "");
         if(name.length()>0 && !rok.equals("0")) {
             //tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj + " Rok: " + rok);
-            tvHello.setText("Cześć " + name + "!!!");
+            //tvHello.setText("Cześć " + name + "!!!");
             tvAgain.setText("Here we go again...");
             PopUpInPlany.wasSaved = true;
             return true;
         }
         else if(name.length()>0 && rok.equals("0")) {
             //tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj);
-            tvHello.setText("Cześć " + name + "!!!");
+            //tvHello.setText("Cześć " + name + "!!!");
             tvAgain.setText("Here we go again...");
             PopUpInPlany.wasSaved = true;
             return true;
