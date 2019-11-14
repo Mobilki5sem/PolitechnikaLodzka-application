@@ -20,12 +20,13 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
+        android:background="@drawable/quizaddquestion"
         android:ems="10"
         android:hint="Write your question..."
         android:inputType="textPersonName"
+        android:textAlignment="center"
         android:textColor="@color/colorWHITE"
-        android:fontFamily="@font/creepster"
-        android:textColorHint="@color/colorWHITE" />
+        android:textColorHint="#070707" />
 
     <Button
         android:id="@+id/btn_send_question"
@@ -45,12 +46,13 @@
         android:layout_alignParentTop="false"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
-        android:background="@drawable/quizaddquestion"
         android:ems="10"
         android:hint="Write answer A..."
+        android:background="@drawable/quizaddquestion"
         android:inputType="textPersonName"
         android:textColor="@color/colorBackgroundQuiz"
-        android:textColorHint="@color/colorWHITE" />
+        android:textAlignment="center"
+        android:textColorHint="#000000" />
 
     <EditText
         android:id="@+id/type_answ_b"
@@ -65,8 +67,9 @@
         android:ems="10"
         android:hint="Write answer B..."
         android:inputType="textPersonName"
+        android:textAlignment="center"
         android:textColor="@color/colorBackgroundQuiz"
-        android:textColorHint="@color/colorWHITE" />
+        android:textColorHint="#0E0D0D" />
 
     <EditText
         android:id="@+id/type_answ_c"
@@ -79,10 +82,11 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/quizaddquestion"
         android:ems="10"
+        android:textAlignment="center"
         android:hint="Write answer C..."
         android:inputType="textPersonName"
         android:textColor="@color/colorBackgroundQuiz"
-        android:textColorHint="@color/colorWHITE" />
+        android:textColorHint="#0A0808" />
 
     <EditText
         android:id="@+id/type_answ_d"
@@ -94,10 +98,11 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/quizaddquestion"
         android:ems="10"
+        android:textAlignment="center"
         android:hint="Write answer D..."
         android:inputType="textPersonName"
         android:textColor="@color/colorBackgroundQuiz"
-        android:textColorHint="@color/colorWHITE" />
+        android:textColorHint="#181414" />
 
 </RelativeLayout>
 </ScrollView>
