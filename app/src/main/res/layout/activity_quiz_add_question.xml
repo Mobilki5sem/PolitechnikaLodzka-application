@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundQuiz">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackgroundQuiz"
+    android:padding="16dp"
+    tools:context=".quiz.QuizMainActivity">
+
+    <EditText
+        android:id="@+id/type_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/quizaddquestion"
+        android:ems="10"
+        android:hint="Write your question..."
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@color/colorWHITE"
+        android:textColorHint="#070707" />
+
+    <Button
+        android:id="@+id/btn_send_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type_answ_d"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="SEND QUESTION TO ANALYSE" />
+
+    <EditText
+        android:id="@+id/type_answ_a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:ems="10"
+        android:hint="Write answer A..."
+        android:background="@drawable/quizaddquestion"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorBackgroundQuiz"
+        android:textAlignment="center"
+        android:textColorHint="#000000" />
+
+    <EditText
+        android:id="@+id/type_answ_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type_answ_a"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/quizaddquestion"
+        android:ems="10"
+        android:hint="Write answer B..."
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="@color/colorBackgroundQuiz"
+        android:textColorHint="#0E0D0D" />
+
+    <EditText
+        android:id="@+id/type_answ_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type_answ_b"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/quizaddquestion"
+        android:ems="10"
+        android:textAlignment="center"
+        android:hint="Write answer C..."
+        android:inputType="textPersonName"
+        android:textColor="@color/colorBackgroundQuiz"
+        android:textColorHint="#0A0808" />
+
+    <EditText
+        android:id="@+id/type_answ_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/type_answ_c"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/quizaddquestion"
+        android:ems="10"
+        android:textAlignment="center"
+        android:hint="Write answer D..."
+        android:inputType="textPersonName"
+        android:textColor="@color/colorBackgroundQuiz"
+        android:textColorHint="#181414" />
+
+</RelativeLayout>
+</ScrollView>

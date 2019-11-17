@@ -17,6 +17,7 @@ public class QuizMainActivity extends AppCompatActivity {
     TextView start_txt;
     Button btn_start_quiz;
     TextView highscore_txt;
+    Button btn_add_quest;
     private static final int REQUEST_CODE_QUIZ=1;
 
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -37,6 +38,15 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startQuiz();
+            }
+        });
+        btn_add_quest = findViewById(R.id.btn_add_quest);
+
+        btn_add_quest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QuizMainActivity.this,QuizAddQuestion.class);
+                startActivity(intent);
             }
         });
 
