@@ -22,6 +22,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.team.szkielet.event.Events;
+import com.team.szkielet.quiz.QuizActivity;
+import com.team.szkielet.quiz.QuizMainActivity;
+import com.team.szkielet.rooms.FindRoom;
+
 public class Plany extends AppCompatActivity {
 
     static boolean czyMamyZapisaneDane = false;
@@ -178,13 +183,21 @@ public class Plany extends AppCompatActivity {
             Intent intent = new Intent(Plany.this, Prowadzacy.class);
             startActivity(intent);
         }
-        else if(item.getItemId() == R.id.aktualnosci) {
-            Intent intent = new Intent(Plany.this, Aktualnosci.class);
+        else if(item.getItemId() == R.id.wydarzenia) {
+            Intent intent = new Intent(Plany.this, Events.class);
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.start) {
             Intent intent = new Intent(Plany.this, MainActivityBetter.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.quiz) {
+            Intent intent = new Intent(Plany.this, QuizMainActivity.class);
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.sale) {
+            Intent intent = new Intent(Plany.this, FindRoom.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

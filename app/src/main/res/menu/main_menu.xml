@@ -14,9 +14,17 @@
         android:title="@string/prowadzacy"
         app:showAsAction="never" />
 
-    <item android:id="@+id/aktualnosci"
+    <item android:id="@+id/wydarzenia"
     android:title="@string/aktualnosci"
     app:showAsAction="never" />
+
+    <item android:id="@+id/quiz"
+        android:title="@string/quiz"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/sale"
+        android:title="@string/sale"
+        app:showAsAction="never" />
 
 
 </menu>

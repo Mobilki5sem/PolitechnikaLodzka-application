@@ -102,6 +102,11 @@ public class PopUpInPlany extends AppCompatActivity {
         });
 
         btnCancel = findViewById(R.id.btnCancel);
+        if(wasSaved) {
+            btnCancel.setVisibility(View.VISIBLE);
+        } else {
+            btnCancel.setVisibility(View.GONE);
+        }
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

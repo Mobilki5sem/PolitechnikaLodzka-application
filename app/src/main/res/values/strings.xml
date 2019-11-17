@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Szkielet</string>
+    <string name="app_name">Team FTIMS</string>
     <string name="start">Menu główne</string>
     <string name="plany">Plany zajęć</string>
     <string name="prowadzacy">Prowadzący</string>
@@ -7,5 +7,7 @@
     <string name="imie_hint">Imię prowadzącego</string>
     <string name="nazwisko_hint">Nazwisko prowadzącego</string>
     <string name="szukaj">Szukaj</string>
+    <string name="sale">Znajdź sale</string>
+    <string name="quiz">Quiz</string>
     <string name="warning_prowadzacy">Jeżeli dane są niepoprawne kółko będzie się kręcić w nieskończoność!</string>
 </resources>
