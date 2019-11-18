@@ -8,10 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team.szkielet.MainActivityBetter;
 import com.team.szkielet.Plany;
@@ -20,8 +29,14 @@ import com.team.szkielet.R;
 import com.team.szkielet.quiz.QuizMainActivity;
 import com.team.szkielet.rooms.FindRoom;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 public class Events extends AppCompatActivity {
 
@@ -29,6 +44,8 @@ public class Events extends AppCompatActivity {
     private EventAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton fabtnAdd;
+    //private SwipeRefreshLayout idSwipe;
+    private RequestQueue mQueue;
 
     static public ArrayList<Event> eventsList = new ArrayList<>();
 
@@ -51,7 +68,23 @@ public class Events extends AppCompatActivity {
         });
         addRecyclerView();
 
+//        final Handler ha = new Handler();
+//            ha.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    //call function
+//                    //jsonParseEventList();
+//                    readJSONFromURL();
+//                    ha.postDelayed(this, 5000);
+//                }
+//            }, 10000);
 
+    }
+
+    private void readJSONFromURL() {
+        Events.eventsList.clear();
+        mQueue = Volley.newRequestQueue(this);
+        jsonParseEventList();
     }
 
     private void addRecyclerView() {
@@ -137,5 +170,65 @@ public class Events extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void jsonParseEventList() {
+        String url = "https://api.jsonbin.io/b/5db729fbc24f785e64f6226c/latest";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("events");
+
+                            for(int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject employee = jsonArray.getJSONObject(i);
+                                if(dateIsOK(employee)) {
+                                    Events.eventsList.add(new Event(employee.getString("eventName"),
+                                            employee.getString("description"),
+                                            employee.getString("linkToEvent"),
+                                            employee.getString("image"),
+                                            employee.getInt("day"),
+                                            employee.getInt("month"),
+                                            employee.getInt("year"),
+                                            employee.getString("userEmail")));
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(request);
+    }
+
+    private boolean dateIsOK(JSONObject employee) throws JSONException {
+        Date date = Calendar.getInstance().getTime();
+        String daya          = (String) DateFormat.format("dd",   date);
+        String monthNumber  = (String) DateFormat.format("MM",   date);
+        String yeara         = (String) DateFormat.format("yyyy", date);
+        if(Integer.parseInt(yeara) == employee.getInt("year")) {
+            if(Integer.parseInt(monthNumber) == employee.getInt("month")) {
+                if(Integer.parseInt(daya) < employee.getInt("day") + 2) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if(Integer.parseInt(monthNumber) < employee.getInt("month")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (Integer.parseInt(yeara) < employee.getInt("year")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -86,7 +86,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvNameEvent.setText(currentEvent.getEventName());
         holder.tvDescription.setText(currentEvent.getDescription());
         holder.tvMore.setText(date);
-        //DO DODANIA DATA po prostu
         if (currentEvent.getLinkToEvent().equals("noLink")) {
             holder.cvID.setCardBackgroundColor(Color.parseColor("#ffd6cc"));
         } else {
