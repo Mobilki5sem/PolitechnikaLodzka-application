@@ -72,6 +72,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         Event currentEvent = listOfEvents.get(position);
 
         String date = currentEvent.getDay() + "." + currentEvent.getMonth() + "." +  currentEvent.getYear();
+        //String userEmail = "Dodane przez: " + currentEvent.getUserEmail();
         //holder.imgV.setImageResource(currentEvent.getImage());
         if(currentEvent.getImage().equals("Spotkanie")) {
             holder.imgV.setImageResource(R.drawable.ic_meeting_lol);
@@ -87,9 +88,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvMore.setText(date);
         //DO DODANIA DATA po prostu
         if (currentEvent.getLinkToEvent().equals("noLink")) {
-            //holder.llWitam.setBackgroundColor(Color.parseColor("#ffd6cc"));
+            holder.cvID.setCardBackgroundColor(Color.parseColor("#ffd6cc"));
         } else {
-            //holder.llWitam.setBackgroundColor(Color.parseColor("#ccffdc"));
+            holder.cvID.setCardBackgroundColor(Color.parseColor("#ccffdc"));
         }
     }
 

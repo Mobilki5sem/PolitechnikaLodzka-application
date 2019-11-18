@@ -30,6 +30,7 @@
                 app:srcCompat="@drawable/ic_events" />
 
             <LinearLayout
+                android:id="@+id/idLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -59,7 +60,8 @@
                     android:layout_marginRight="3dp"
                     android:gravity="center"
                     android:inputType="textMultiLine"
-                    android:text="Description" />
+                    android:text="Description"
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/tvMore"
@@ -69,6 +71,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginRight="3dp"
+                    android:inputType="textMultiLine"
                     android:text="More information" />
 
             </LinearLayout>

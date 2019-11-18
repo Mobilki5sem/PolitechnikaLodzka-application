@@ -9,8 +9,9 @@ public class Event implements Comparable<Event> {
     private int day;
     private int month;
     private int year;
+    private String userEmail;
 
-    public Event(String eventName, String description, String linkToEvent, String image, int day, int month, int year) {
+    public Event(String eventName, String description, String linkToEvent, String image, int day, int month, int year, String userEmail) {
         this.eventName = eventName;
         this.description = description;
         this.linkToEvent = linkToEvent;
@@ -18,6 +19,15 @@ public class Event implements Comparable<Event> {
         this.day = day;
         this.month = month;
         this.year = year;
+        this.userEmail = userEmail;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public int getDay() {

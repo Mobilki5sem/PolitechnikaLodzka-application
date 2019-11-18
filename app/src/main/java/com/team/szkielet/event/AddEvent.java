@@ -18,7 +18,15 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.team.szkielet.MainActivityBetter;
 import com.team.szkielet.R;
+import com.team.szkielet.login.SignIn;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +49,8 @@ public class AddEvent extends AppCompatActivity {
     private Button btnAddEvent, btnCheckLink;
     private RadioButton rbChecked;
     private CalendarView calendar;
+    GoogleSignInClient mGoogleSignInClient;
+    private String userEmail;
 
     private boolean ifLinkWasChecked = false;
     private int Mday, Mmonth, Myear;
@@ -49,6 +59,23 @@ public class AddEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(AddEvent.this);
+        if(acct != null) {
+            String name = acct.getDisplayName();
+            userEmail = acct.getEmail();
+        } else {
+            Toast.makeText(AddEvent.this, "Musisz się zalogować na konto google aby dodać event!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AddEvent.this, SignIn.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
 
 
         calendar = findViewById(R.id.calendarView);
@@ -120,7 +147,8 @@ public class AddEvent extends AppCompatActivity {
                                 idObrazka,
                                 Mday,
                                 Mmonth,
-                                Myear));
+                                Myear,
+                                userEmail));
                     }
                     else {
                         Events.eventsList.add(new Event(
@@ -130,7 +158,8 @@ public class AddEvent extends AppCompatActivity {
                                 idObrazka,
                                 Mday,
                                 Mmonth,
-                                Myear));
+                                Myear,
+                                userEmail));
                     }
 
                         Toast.makeText(AddEvent.this, "Udało ci się dodać nowe wydarzenie!", Toast.LENGTH_LONG).show();
@@ -236,6 +265,7 @@ public class AddEvent extends AppCompatActivity {
             postData.put("day", list.get(i).getDay());
             postData.put("month", list.get(i).getMonth());
             postData.put("year", list.get(i).getYear());
+            postData.put("userEmail", list.get(i).getUserEmail());
 
             array.put(postData);
         }
