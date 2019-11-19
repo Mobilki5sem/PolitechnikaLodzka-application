@@ -1,6 +1,7 @@
 package com.team.szkielet.event;
 
 import android.graphics.Color;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         public TextView tvNameEvent, tvMore, tvDescription;
         public CardView cvID;
         public LinearLayout llWitam;
+        public ImageView ivBackground;
 
         public EventViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -43,6 +45,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             tvDescription = itemView.findViewById(R.id.tvDescription);
             cvID = itemView.findViewById(R.id.cvID);
             llWitam = itemView.findViewById(R.id.llWitam);
+            ivBackground = itemView.findViewById(R.id.ivBackground);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -72,8 +75,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event currentEvent = listOfEvents.get(position);
-
-        String date = currentEvent.getDay() + "." + currentEvent.getMonth() + "." + currentEvent.getYear();
+      
+        String date = currentEvent.getDay() + "." + currentEvent.getMonth() + "." +  currentEvent.getYear();
+        //String userEmail = "Dodane przez: " + currentEvent.getUserEmail();
         //holder.imgV.setImageResource(currentEvent.getImage());
         if (currentEvent.getImage().equals("Spotkanie")) {
             holder.imgV.setImageResource(R.drawable.ic_meeting_lol);
@@ -87,11 +91,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvNameEvent.setText(currentEvent.getEventName());
         holder.tvDescription.setText(currentEvent.getDescription());
         holder.tvMore.setText(date);
-        //DO DODANIA DATA po prostu
         if (currentEvent.getLinkToEvent().equals("noLink")) {
-            //holder.llWitam.setBackgroundColor(Color.parseColor("#ffd6cc"));
+            holder.ivBackground.setBackgroundResource(R.drawable.background_no_link);
         } else {
-            //holder.llWitam.setBackgroundColor(Color.parseColor("#ccffdc"));
+            holder.ivBackground.setBackgroundResource(R.drawable.background_link);
         }
     }
 

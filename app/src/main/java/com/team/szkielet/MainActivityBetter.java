@@ -287,9 +287,9 @@ public class MainActivityBetter extends AppCompatActivity {
                                             employee.getString("image"),
                                             employee.getInt("day"),
                                             employee.getInt("month"),
-                                            employee.getInt("year")));
+                                            employee.getInt("year"),
+                                            employee.getString("userEmail")));
                                 }
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
