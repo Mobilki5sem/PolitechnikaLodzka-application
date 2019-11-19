@@ -1,6 +1,7 @@
 package com.team.szkielet.event;
 
 import android.graphics.Color;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         public TextView tvNameEvent, tvMore, tvDescription;
         public CardView cvID;
         public LinearLayout llWitam;
+        public ImageView ivBackground;
 
         public EventViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -41,6 +43,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             tvDescription = itemView.findViewById(R.id.tvDescription);
             cvID = itemView.findViewById(R.id.cvID);
             llWitam = itemView.findViewById(R.id.llWitam);
+            ivBackground = itemView.findViewById(R.id.ivBackground);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -87,9 +90,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvDescription.setText(currentEvent.getDescription());
         holder.tvMore.setText(date);
         if (currentEvent.getLinkToEvent().equals("noLink")) {
-            holder.cvID.setCardBackgroundColor(Color.parseColor("#ffd6cc"));
+            holder.ivBackground.setBackgroundResource(R.drawable.background_no_link);
         } else {
-            holder.cvID.setCardBackgroundColor(Color.parseColor("#ccffdc"));
+            holder.ivBackground.setBackgroundResource(R.drawable.background_link);
         }
     }
 
