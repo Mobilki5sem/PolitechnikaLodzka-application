@@ -2,6 +2,7 @@ package com.team.szkielet;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,6 +33,7 @@ import com.team.szkielet.rooms.FindRoom;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -61,7 +64,7 @@ public class MainActivityBetter extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final Intent intent;
-                if(Plany.czyMamyZapisaneDane){
+                if (Plany.czyMamyZapisaneDane) {
                     intent = new Intent(MainActivityBetter.this, Plany.class);
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -69,8 +72,7 @@ public class MainActivityBetter extends AppCompatActivity {
                             startActivity(intent);
                         }
                     }, 300);
-                }
-                else {
+                } else {
                     intent = new Intent(MainActivityBetter.this, PopUpInPlany.class);
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -160,7 +162,7 @@ public class MainActivityBetter extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivityBetter.this);
-        if(acct != null) {
+        if (acct != null) {
             String name = acct.getDisplayName();
             //String email = acct.getEmail();
             tvHello.setText("Cześć " + name + "!!!");
@@ -191,10 +193,9 @@ public class MainActivityBetter extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(backPressedTime + 2000 > System.currentTimeMillis()) {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
             finish();
-        }
-        else {
+        } else {
             Toast.makeText(MainActivityBetter.this, "Press back again to quit app", Toast.LENGTH_SHORT).show();
         }
         backPressedTime = System.currentTimeMillis();
@@ -207,14 +208,13 @@ public class MainActivityBetter extends AppCompatActivity {
         String kierunek = sharedPref.getString("kierunek", "");
         String rodzaj = sharedPref.getString("rodzaj", "");*/
         String rok = sharedPref.getString("rok", "");
-        if(name.length()>0 && !rok.equals("0")) {
+        if (name.length() > 0 && !rok.equals("0")) {
             //tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj + " Rok: " + rok);
             //tvHello.setText("Cześć " + name + "!!!");
             tvAgain.setText("Here we go again...");
             PopUpInPlany.wasSaved = true;
             return true;
-        }
-        else if(name.length()>0 && rok.equals("0")) {
+        } else if (name.length() > 0 && rok.equals("0")) {
             //tvHello.setText("Cześć " + name + "!!!\nStopień: " + stopien + " Kierunek: " + kierunek + "\nRodzaj: " + rodzaj);
             //tvHello.setText("Cześć " + name + "!!!");
             tvAgain.setText("Here we go again...");
@@ -225,9 +225,10 @@ public class MainActivityBetter extends AppCompatActivity {
         return false;
     }
 
-    public static void buttonEffect(View button){
+    public static void buttonEffect(View button) {
         button.setOnTouchListener(new View.OnTouchListener() {
-        boolean wasClicked = false;
+            boolean wasClicked = false;
+
             public boolean onTouch(final View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
@@ -244,7 +245,7 @@ public class MainActivityBetter extends AppCompatActivity {
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
-                        if(wasClicked){
+                        if (wasClicked) {
                             v.getBackground().setColorFilter(0xe0FCE1D9, PorterDuff.Mode.SRC_ATOP);
                             v.setAlpha(0.7f);
                             v.invalidate();
@@ -277,9 +278,9 @@ public class MainActivityBetter extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = response.getJSONArray("events");
 
-                            for(int i = 0; i < jsonArray.length(); i++) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject employee = jsonArray.getJSONObject(i);
-                                if(dateIsOK(employee)) {
+                                if (dateIsOK(employee)) {
                                     Events.eventsList.add(new Event(employee.getString("eventName"),
                                             employee.getString("description"),
                                             employee.getString("linkToEvent"),
@@ -305,20 +306,20 @@ public class MainActivityBetter extends AppCompatActivity {
 
     private boolean dateIsOK(JSONObject employee) throws JSONException {
         Date date = Calendar.getInstance().getTime();
-        String daya          = (String) DateFormat.format("dd",   date);
-        String monthNumber  = (String) DateFormat.format("MM",   date);
-        String yeara         = (String) DateFormat.format("yyyy", date);
-        if(Integer.parseInt(yeara) == employee.getInt("year")) {
-            if(Integer.parseInt(monthNumber) == employee.getInt("month")) {
-                if(Integer.parseInt(daya) < employee.getInt("day") + 2) {
+        String daya = (String) DateFormat.format("dd", date);
+        String monthNumber = (String) DateFormat.format("MM", date);
+        String yeara = (String) DateFormat.format("yyyy", date);
+        if (Integer.parseInt(yeara) == employee.getInt("year")) {
+            if (Integer.parseInt(monthNumber) == employee.getInt("month")) {
+                if (Integer.parseInt(daya) < employee.getInt("day") + 2) {
                     return true;
                 } else {
                     return false;
                 }
-            } else if(Integer.parseInt(monthNumber) < employee.getInt("month")) {
+            } else if (Integer.parseInt(monthNumber) < employee.getInt("month")) {
                 return true;
             } else {
-               return false;
+                return false;
             }
         } else if (Integer.parseInt(yeara) < employee.getInt("year")) {
             return true;

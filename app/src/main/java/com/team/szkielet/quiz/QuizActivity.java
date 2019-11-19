@@ -72,7 +72,7 @@ public class QuizActivity extends AppCompatActivity {
         radioButton2 = findViewById(R.id.radioButton2);
         radioButton3 = findViewById(R.id.radioButton3);
         radioButton4 = findViewById(R.id.radioButton4);
-        relativeLayout= findViewById(R.id.relative_layout);
+        relativeLayout = findViewById(R.id.relative_layout);
 
         textColorDefaultRb = radioButton.getTextColors();
         textColorDefaultCd = time_txt.getTextColors();
@@ -136,10 +136,9 @@ public class QuizActivity extends AppCompatActivity {
                 radioButton4.setTextColor(Color.GREEN);
                 break;
         }
-        if(questionCounter<questionTotal){
-        btn_confirm_next.setText("Next");
-        }
-        else{
+        if (questionCounter < questionTotal) {
+            btn_confirm_next.setText("Next");
+        } else {
             btn_confirm_next.setText("Finish Quiz");
             question_txt.setTextColor(Color.WHITE);
             btn_confirm_next.setTextSize(35);
@@ -180,7 +179,7 @@ public class QuizActivity extends AppCompatActivity {
             answered = false;
             btn_confirm_next.setText("Confirm");
 
-        } else{
+        } else {
             //Jak odpowiiem na wszystkie pytania
             btn_confirm_next.setText("Finish Quiz");
             question_txt.setTextColor(Color.WHITE);
@@ -198,37 +197,37 @@ public class QuizActivity extends AppCompatActivity {
             });
         }
 
-        timeLeft=COUNTDOWN_TIME_START; //zaczynamy odmierzac od 30
+        timeLeft = COUNTDOWN_TIME_START; //zaczynamy odmierzac od 30
         startCountDown();
 
     }
 
-    private void startCountDown(){
-        countDownTimer = new CountDownTimer(timeLeft,1000) {
+    private void startCountDown() {
+        countDownTimer = new CountDownTimer(timeLeft, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeLeft=millisUntilFinished; //bedzie przypisywana wartosc ile zostalo
+                timeLeft = millisUntilFinished; //bedzie przypisywana wartosc ile zostalo
                 updateTimeTxt(); //ta metoda wywola sie co sekunde i zaaktualizuje time_txt
             }
 
             @Override
             public void onFinish() {
-                timeLeft=0;
+                timeLeft = 0;
                 updateTimeTxt();
                 checkAnswer();
             }
         }.start();
     }
 
-    private void updateTimeTxt(){
-        int minutes=(int) (timeLeft/1000)/60;
-        int seconds= (int) (timeLeft/1000)%60;
+    private void updateTimeTxt() {
+        int minutes = (int) (timeLeft / 1000) / 60;
+        int seconds = (int) (timeLeft / 1000) % 60;
         String timeTxtFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         time_txt.setText(timeTxtFormatted);
 
-        if(timeLeft < 10000){
+        if (timeLeft < 10000) {
             time_txt.setTextColor(Color.RED);
-        }else time_txt.setTextColor(textColorDefaultCd);
+        } else time_txt.setTextColor(textColorDefaultCd);
     }
 
     private void finishQuiz() {
@@ -236,17 +235,16 @@ public class QuizActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_SCORE, score);
         setResult(RESULT_OK, intent);
         finish();
-       // startActivity(intent);
-       // Toast.makeText(QuizActivity.this, "Quiz Zakonczony", Toast.LENGTH_SHORT).show();
-
-
+        // startActivity(intent);
+        // Toast.makeText(QuizActivity.this, "Quiz Zakonczony", Toast.LENGTH_SHORT).show();
 
 
     }
+
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        if(countDownTimer!=null){
+        if (countDownTimer != null) {
             countDownTimer.cancel();
         }
     }

@@ -55,7 +55,7 @@ public class CorrectLogin extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(CorrectLogin.this);
-        if(acct != null) {
+        if (acct != null) {
             String personName = acct.getDisplayName();
             String personGivenName = acct.getGivenName();
             String personFamilyName = acct.getFamilyName();
@@ -70,7 +70,7 @@ public class CorrectLogin extends AppCompatActivity {
             tvID.setText(personID);
             Glide.with(CorrectLogin.this).load(personPhoto).into(ivPhoto);
             Toast toast = Toast.makeText(CorrectLogin.this, "Jesteś zalogowany na " + personEmail, Toast.LENGTH_SHORT);
-            ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
+            ((TextView) ((LinearLayout) toast.getView()).getChildAt(0))
                     .setGravity(Gravity.CENTER_HORIZONTAL);
             toast.show();
         }
