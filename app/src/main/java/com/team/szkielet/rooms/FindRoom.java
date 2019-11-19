@@ -46,7 +46,7 @@ public class FindRoom extends AppCompatActivity {
         btnPokazNaMapie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkIfConnected()) {
+                if (checkIfConnected()) {
                     if (rgBudynek.getCheckedRadioButtonId() != -1) {
                         int rbID = rgBudynek.getCheckedRadioButtonId();
                         rbChecked = findViewById(rbID);
@@ -69,12 +69,11 @@ public class FindRoom extends AppCompatActivity {
     }
 
     private boolean checkIfConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             return true;
-        }
-        else
+        } else
             return false;
     }
 }

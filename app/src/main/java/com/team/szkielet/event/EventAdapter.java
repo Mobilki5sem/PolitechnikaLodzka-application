@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.team.szkielet.R;
 
 import java.util.ArrayList;
@@ -44,9 +46,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null) {
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION) {
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
@@ -71,15 +73,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event currentEvent = listOfEvents.get(position);
 
-        String date = currentEvent.getDay() + "." + currentEvent.getMonth() + "." +  currentEvent.getYear();
+        String date = currentEvent.getDay() + "." + currentEvent.getMonth() + "." + currentEvent.getYear();
         //holder.imgV.setImageResource(currentEvent.getImage());
-        if(currentEvent.getImage().equals("Spotkanie")) {
+        if (currentEvent.getImage().equals("Spotkanie")) {
             holder.imgV.setImageResource(R.drawable.ic_meeting_lol);
-        } else if(currentEvent.getImage().equals("Impreza")) {
+        } else if (currentEvent.getImage().equals("Impreza")) {
             holder.imgV.setImageResource(R.drawable.ic_confetti);
-        } else if(currentEvent.getImage().equals("Prezentacja")) {
+        } else if (currentEvent.getImage().equals("Prezentacja")) {
             holder.imgV.setImageResource(R.drawable.ic_classroom);
-        } else if(currentEvent.getImage().equals("Wydarzenie PŁ")) {
+        } else if (currentEvent.getImage().equals("Wydarzenie PŁ")) {
             holder.imgV.setImageResource(R.drawable.ic_school);
         }
         holder.tvNameEvent.setText(currentEvent.getEventName());

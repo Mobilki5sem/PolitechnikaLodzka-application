@@ -61,7 +61,6 @@ public class Question {
     }
 
 
-
     public int getAnswerNr() {
         return answerNr;
     }

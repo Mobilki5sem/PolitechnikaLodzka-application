@@ -57,10 +57,10 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try{
+        try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             startActivity(new Intent(SignIn.this, CorrectLogin.class));
-        } catch(ApiException e) {
+        } catch (ApiException e) {
             Log.w("Google Sign in Error", "signInResult:failed code=" + e.getStatusCode());
             Toast.makeText(SignIn.this, "Failed", Toast.LENGTH_LONG).show();
         }
@@ -69,7 +69,7 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onStart() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account != null) {
+        if (account != null) {
             //Toast.makeText(SignIn.this, "Logowanie przebiegło pomyślnie", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(SignIn.this, CorrectLogin.class));
         }

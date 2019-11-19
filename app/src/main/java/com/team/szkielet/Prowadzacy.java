@@ -30,6 +30,8 @@ import com.team.szkielet.quiz.QuizActivity;
 import com.team.szkielet.quiz.QuizMainActivity;
 import com.team.szkielet.rooms.FindRoom;
 
+import java.util.Arrays;
+
 
 public class Prowadzacy extends AppCompatActivity {
 
@@ -132,9 +134,9 @@ public class Prowadzacy extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 //if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
-                    pbProwadzacy.setVisibility(View.VISIBLE);
-                    wwProw.setVisibility(View.GONE);
-               // }
+                pbProwadzacy.setVisibility(View.VISIBLE);
+                wwProw.setVisibility(View.GONE);
+                // }
             }
         });
 
@@ -156,13 +158,7 @@ public class Prowadzacy extends AppCompatActivity {
                 String googleSearch;
                 pbProwadzacy.setVisibility(View.VISIBLE);
                 wwProw.setVisibility(View.GONE);
-                if (name.equalsIgnoreCase("Jakub") && surname.equalsIgnoreCase("Wąchała")) {
-                    googleSearch = "https://m.lm.pl/media/foto/40321_8280.jpg";
-                    pbProwadzacy.setVisibility(View.GONE);
-                    wwProw.setVisibility(View.VISIBLE);
-                } else {
-                    googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
-                }
+                googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
                 wwProw.loadUrl(googleSearch);
 
             }
@@ -195,7 +191,7 @@ public class Prowadzacy extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @SuppressLint("SetTextI18n")
             public void run() {
-               // wwProw.evaluateJavascript("javascript: x = document.getElementsByTagName(\"img\")[0].style.width = 200;", null);
+                // wwProw.evaluateJavascript("javascript: x = document.getElementsByTagName(\"img\")[0].style.width = 200;", null);
                 pbProwadzacy.setVisibility(View.GONE);
                 wwProw.setVisibility(View.VISIBLE);
             }
@@ -205,49 +201,58 @@ public class Prowadzacy extends AppCompatActivity {
 
     private String parseTextFromURL(String text) {
         text = text.replace("\\n\\n\\n\\n\\n", "\\n");
+        String tmp = text.substring(0, text.indexOf("Konsultacje cykliczne")).replace("\\n", "\n"); // opis przed tabelka
+        try {
+            text = text.substring(text.indexOf("Konsultacje cykliczne") + 27 + 55, text.indexOf("Konsultacje jednorazowe")); // ustawienie na dane
+        } catch (Exception e) {
+            text = text.substring(text.indexOf("Konsultacje cykliczne") + 27 + 55); // ustawienie na dane
+        }
         while (text.endsWith("\\n")) {
             text = text.substring(0, text.lastIndexOf("\\n"));
         }
-        String tmp = text.substring(0, text.indexOf("Konsultacje cykliczne")).replace("\\n", "\n");
-        int counter = countendl(text);
-        System.out.println(counter + "TEXT:     ============================================" + text);
-        for (int i = 0; i < counter; i++) {
-            int startIndex = text.indexOf("\\n\\n\\n\\n") + 8;
-            System.out.println("i = " + i + " " + startIndex);
-            String[] id = text.substring(startIndex).replace("\\n", ";").split(";");
-            String dzienTygodnia = id[0];
-            String poczatek = id[1];
-            String koniec = id[2];
-            String semestr = id[3];
-            String opis;
-            if (text.substring(text.indexOf(id[3]) + id[3].length()).contains("\\n\\n\\n\\n"))
-                opis = text.substring(text.indexOf(id[3]) + id[3].length(), text.lastIndexOf("\\n\\n\\n\\n")).replace("\\n", "\n");
-            else
-                opis = text.substring(text.indexOf(id[3]) + id[3].length()).replace("\\n", "\n");
-            tmp += "\n";
-            tmp += "Termin " + (i + 1) + ":\n\n";
-            tmp += "Dzień tygodnia: " + dzienTygodnia + "\n";
-            tmp += "Początek: " + poczatek + "\n";
-            tmp += "Koniec: " + koniec + "\n";
-            tmp += "Semestr: " + semestr + "\n";
-            tmp += "Opis: " + opis + "\n";
-            text = text.substring(text.indexOf("\\n\\n\\n\\n") + 8);
-            System.out.println("i = " + i + " -----------------------------" + text);
-        }
-       // tmp += "\n\n\n\n\n\n";
+        String[] id = text.replace("\\n", ";").split(";");
+        System.out.println(Arrays.toString(id));
+        int i = 0;
+        int termin = 1;
+        while (true) {
+            System.out.println("tablica: " + Arrays.toString(id));
+            String dzienTygodnia = id[i];
+            String poczatek = id[i + 1];
+            String koniec = id[i + 2];
+            String semestr = id[i + 3];
+            String opis = "";
+            if (id.length % 7 != 4 && id.length % 7 != 5) // przypadek gdy ktos wstawia enter w opis, np a.n.
+            {
+                StringBuilder opisTmp = new StringBuilder();
+                for (int j = i + 4; j < id.length; j++) {
+                    opisTmp.append(id[j]);
+                }
+                opis = opisTmp.toString();
+            } else //pozostali
+            {
+                try {
+                    if (!id[i + 4].equals(""))  // jest jeszcze opis
+                    {
+                        opis = id[i + 4];
+                    }
+                } catch (ArrayIndexOutOfBoundsException ignored) {
+                }
+            }
 
+            tmp += "\n\nTermin " + (termin++) + ":\n";
+            tmp += dzienTygodnia + " " + poczatek + " - " + koniec + ", semestr: " + semestr + "\n";
+            if (!opis.equals(""))
+                tmp += "Dodatkowy opis: " + opis;
+            /*System.out.println(dzienTygodnia);
+            System.out.println(poczatek);
+            System.out.println(koniec);
+            System.out.println(semestr);
+            System.out.println(opis);*/
+            if (id.length <= i + 5 || (id.length % 7 != 4 && id.length % 7 != 5)) // nie ma juz nic
+                break;
+            i += 7;
+        }
         return tmp;
-    }
-
-    private int countendl(String input) {
-        int index = input.indexOf("\\n\\n\\n\\n");
-        int count = 0;
-        while (index != -1) {
-            count++;
-            input = input.substring(index + 1);
-            index = input.indexOf("\\n\\n\\n\\n");
-        }
-        return count;
     }
 
     @Override
@@ -262,7 +267,6 @@ public class Prowadzacy extends AppCompatActivity {
         if (item.getItemId() == R.id.plany) {
             Intent intent = new Intent(Prowadzacy.this, Plany.class);
             startActivity(intent);
-        } else if (item.getItemId() == R.id.prowadzacy) {
         } else if (item.getItemId() == R.id.wydarzenia) {
             Intent intent = new Intent(Prowadzacy.this, Events.class);
             startActivity(intent);
@@ -270,12 +274,10 @@ public class Prowadzacy extends AppCompatActivity {
             Intent intent = new Intent(Prowadzacy.this, MainActivityBetter.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.quiz) {
+        } else if (item.getItemId() == R.id.quiz) {
             Intent intent = new Intent(Prowadzacy.this, QuizMainActivity.class);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.sale) {
+        } else if (item.getItemId() == R.id.sale) {
             Intent intent = new Intent(Prowadzacy.this, FindRoom.class);
             startActivity(intent);
         }
