@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -101,7 +101,7 @@ public class Events extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 String urlReally = eventsList.get(position).getLinkToEvent();
-                if(!urlReally.equals("noLink")){
+                if (!urlReally.equals("noLink")) {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     try {
                         i.setData(Uri.parse(urlReally));
@@ -146,26 +146,21 @@ public class Events extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.plany) {
+        if (item.getItemId() == R.id.plany) {
             Intent intent = new Intent(Events.this, Plany.class);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.prowadzacy) {
+        } else if (item.getItemId() == R.id.prowadzacy) {
             Intent intent = new Intent(Events.this, Prowadzacy.class);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.wydarzenia) {
-        }
-        else if(item.getItemId() == R.id.start) {
+        } else if (item.getItemId() == R.id.wydarzenia) {
+        } else if (item.getItemId() == R.id.start) {
             Intent intent = new Intent(Events.this, MainActivityBetter.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.quiz) {
+        } else if (item.getItemId() == R.id.quiz) {
             Intent intent = new Intent(Events.this, QuizMainActivity.class);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.sale) {
+        } else if (item.getItemId() == R.id.sale) {
             Intent intent = new Intent(Events.this, FindRoom.class);
             startActivity(intent);
         }

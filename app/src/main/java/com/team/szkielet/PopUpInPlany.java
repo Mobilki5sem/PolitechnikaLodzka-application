@@ -67,7 +67,7 @@ public class PopUpInPlany extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 rbRodzaj = findViewById(rgRodzaj.getCheckedRadioButtonId());
-                if(rbRodzaj.getText().toString().equals("Niestacjonarne")) {
+                if (rbRodzaj.getText().toString().equals("Niestacjonarne")) {
                     tvStopien.setVisibility(View.VISIBLE);
                     rbIstopien.setVisibility(View.VISIBLE);
                     rbIIstopien.setVisibility(View.VISIBLE);
@@ -78,8 +78,7 @@ public class PopUpInPlany extends AppCompatActivity {
                     checkrgSTOPIEN();
                     checkrgROK();
 
-                }
-                else {
+                } else {
                     tvStopien.setVisibility(View.VISIBLE);
                     rbIstopien.setVisibility(View.VISIBLE);
                     rbIIstopien.setVisibility(View.VISIBLE);
@@ -93,16 +92,15 @@ public class PopUpInPlany extends AppCompatActivity {
             }
         });
 
-        rgStopien.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        rgStopien.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 zmianaDlaStopnia();
-                }
+            }
         });
 
         btnCancel = findViewById(R.id.btnCancel);
-        if(wasSaved) {
+        if (wasSaved) {
             btnCancel.setVisibility(View.VISIBLE);
         } else {
             btnCancel.setVisibility(View.GONE);
@@ -122,24 +120,23 @@ public class PopUpInPlany extends AppCompatActivity {
                 tab[1] = checkIfPressed(rgKierunek, "Wybierz kierunek studiów");
                 tab[2] = checkIfPressed(rgRodzaj, "Wybierz rodzaj studiów");
                 tab[0] = checkIfPressed(rgStopien, "Wybierz stopień studiów");
-                if(stopien == 1 || stopien == 2)
+                if (stopien == 1 || stopien == 2)
                     tab[4] = checkIfPressed(rgRok, "Wybierz rok studiów");
                 else if (stopien == 3)
                     tab[4] = true;
 
                 //Toast.makeText(PopUpInPlany.this, "" + tab[0] + tab[1] + tab[2] + tab[3] + tab[4], Toast.LENGTH_SHORT).show();
 
-                if(tab[0] && tab[1] && tab[2] && tab[3] && tab[4]) {
+                if (tab[0] && tab[1] && tab[2] && tab[3] && tab[4]) {
                     Plany.czyMamyZapisaneDane = true;
                     try {
                         rbStopien = findViewById(rgStopien.getCheckedRadioButtonId());
                         rbKierunek = findViewById(rgKierunek.getCheckedRadioButtonId());
                         rbRodzaj = findViewById(rgRodzaj.getCheckedRadioButtonId());
-                        if(stopien == 1 || stopien == 2) {
+                        if (stopien == 1 || stopien == 2) {
                             rbRok = findViewById(rgRok.getCheckedRadioButtonId());
                             saveUserPreferences("rok", rbRok.getText().toString());
-                        }
-                        else {
+                        } else {
                             saveUserPreferences("rok", "0");
                         }
                         saveUserPreferences("name", ptName.getText().toString());
@@ -151,8 +148,7 @@ public class PopUpInPlany extends AppCompatActivity {
                     }
                     wasSaved = true;
                     onBackPressed();
-                }
-                else {
+                } else {
                     for (int i = 0; i < 5; i++) {
                         tab[i] = false;
                     }
@@ -166,11 +162,11 @@ public class PopUpInPlany extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width * 0.8), (int)(height * 0.75));
+        getWindow().setLayout((int) (width * 0.8), (int) (height * 0.75));
     }
 
     void checkrgSTOPIEN() {
-        if(!(rgStopien.getCheckedRadioButtonId() == -1)){
+        if (!(rgStopien.getCheckedRadioButtonId() == -1)) {
             rgStopien.setOnCheckedChangeListener(null);
             rgStopien.clearCheck();
             rgStopien.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -183,7 +179,7 @@ public class PopUpInPlany extends AppCompatActivity {
     }
 
     void checkrgROK() {
-        if(!(rgRok.getCheckedRadioButtonId() == -1)){
+        if (!(rgRok.getCheckedRadioButtonId() == -1)) {
             rgRok.setOnCheckedChangeListener(null);
             rgRok.clearCheck();
             rgRok.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -197,7 +193,7 @@ public class PopUpInPlany extends AppCompatActivity {
 
     void zmianaDlaStopnia() {
         rbStopien = findViewById(rgStopien.getCheckedRadioButtonId());
-        if(rbStopien.getText().toString().equals("I")) {
+        if (rbStopien.getText().toString().equals("I")) {
             tvRok.setVisibility(View.VISIBLE);
             rbIrok.setVisibility(View.VISIBLE);
             rbIIrok.setVisibility(View.VISIBLE);
@@ -206,8 +202,7 @@ public class PopUpInPlany extends AppCompatActivity {
             rgRok.setVisibility(View.VISIBLE);
             stopien = 1;
             checkrgROK();
-        }
-        else if(rbStopien.getText().toString().equals("II")) {
+        } else if (rbStopien.getText().toString().equals("II")) {
             tvRok.setVisibility(View.VISIBLE);
             rbIrok.setVisibility(View.VISIBLE);
             rbIIrok.setVisibility(View.VISIBLE);
@@ -216,8 +211,7 @@ public class PopUpInPlany extends AppCompatActivity {
             rgRok.setVisibility(View.VISIBLE);
             stopien = 2;
             checkrgROK();
-        }
-        else {
+        } else {
             tvRok.setVisibility(View.GONE);
             rbIrok.setVisibility(View.GONE);
             rbIIrok.setVisibility(View.GONE);
@@ -230,19 +224,17 @@ public class PopUpInPlany extends AppCompatActivity {
     }
 
     boolean checkIfPressed(RadioGroup rb, String txt) {
-        if (rb.getCheckedRadioButtonId() == -1)
-        {
+        if (rb.getCheckedRadioButtonId() == -1) {
             Toast.makeText(PopUpInPlany.this, txt, Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else
+        } else
             return true;
     }
 
     boolean checkIfNameWasPassed() {
-        if(ptName.length() > 0){
+        if (ptName.length() > 0) {
             return true;
-        }else {
+        } else {
             Toast.makeText(PopUpInPlany.this, "Wpisz swoje imie/nick", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -257,7 +249,7 @@ public class PopUpInPlany extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(wasSaved){
+        if (wasSaved) {
             super.onBackPressed();
         }
     }
