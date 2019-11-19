@@ -211,59 +211,47 @@ public class Prowadzacy extends AppCompatActivity {
             text = text.substring(0, text.lastIndexOf("\\n"));
         }
         String[] id = text.replace("\\n", ";").split(";");
-        System.out.println("TEXT:     ============================================" + text);
         System.out.println(Arrays.toString(id));
         int i = 0;
         int termin = 1;
         while (true) {
-           // if (id.length != 4 && id.length != 5 )
             System.out.println("tablica: " + Arrays.toString(id));
             String dzienTygodnia = id[i];
             String poczatek = id[i + 1];
             String koniec = id[i + 2];
             String semestr = id[i + 3];
             String opis = "";
-            try {
-                if (!id[i + 4].equals(""))  // jest jeszcze opis
-                {
-                    opis = id[i + 4];
+            if (id.length % 7 != 4 && id.length % 7 != 5) // przypadek gdy ktos wstawia enter w opis, np a.n.
+            {
+                StringBuilder opisTmp = new StringBuilder();
+                for (int j = i + 4; j < id.length; j++) {
+                    opisTmp.append(id[j]);
                 }
-            } catch (ArrayIndexOutOfBoundsException ignored) {
+                opis = opisTmp.toString();
+            } else //pozostali
+            {
+                try {
+                    if (!id[i + 4].equals(""))  // jest jeszcze opis
+                    {
+                        opis = id[i + 4];
+                    }
+                } catch (ArrayIndexOutOfBoundsException ignored) {
+                }
             }
 
             tmp += "\n\nTermin " + (termin++) + ":\n";
             tmp += dzienTygodnia + " " + poczatek + " - " + koniec + ", semestr: " + semestr + "\n";
             if (!opis.equals(""))
                 tmp += "Dodatkowy opis: " + opis;
-            System.out.println("i = " + i + " -----------------------------" + text);
             /*System.out.println(dzienTygodnia);
             System.out.println(poczatek);
             System.out.println(koniec);
             System.out.println(semestr);
             System.out.println(opis);*/
-            if (id.length <= i + 5) // nie ma juz nic
+            if (id.length <= i + 5 || (id.length % 7 != 4 && id.length % 7 != 5)) // nie ma juz nic
                 break;
-            i += 7; // nie ma opisu ale jeszcze cos jest
-
+            i += 7;
         }
-        return tmp;
-    }
-
-    private int countendl(String input) {
-        int index = input.indexOf("\\n\\n\\n\\n");
-        int count = 1;
-        while (index != -1) {
-            count++;
-            input = input.substring(index + 1);
-            index = input.indexOf("\\n\\n\\n\\n");
-        }
-        return count;
-    }
-
-    private String[] newTab(String[] tab, int startIndex) {
-        String[] tmp = new String[tab.length - startIndex];
-        if (startIndex >= 0)
-            System.arraycopy(tab, startIndex, tmp, 0, startIndex);
         return tmp;
     }
 
@@ -279,7 +267,6 @@ public class Prowadzacy extends AppCompatActivity {
         if (item.getItemId() == R.id.plany) {
             Intent intent = new Intent(Prowadzacy.this, Plany.class);
             startActivity(intent);
-        } else if (item.getItemId() == R.id.prowadzacy) {
         } else if (item.getItemId() == R.id.wydarzenia) {
             Intent intent = new Intent(Prowadzacy.this, Events.class);
             startActivity(intent);
