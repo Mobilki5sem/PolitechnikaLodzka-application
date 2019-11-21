@@ -34,8 +34,8 @@
         android:padding="12dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="20dp"
-        android:stateListAnimator="@anim/animation"
-        android:foreground="?attr/selectableItemBackground">
+        android:foreground="?attr/selectableItemBackground"
+        android:stateListAnimator="@animator/lift_on_touch">
 
         <ImageView
             android:id="@+id/ivRefresh"
@@ -57,9 +57,9 @@
         android:id="@+id/wvPDF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp" />
 
 </LinearLayout>

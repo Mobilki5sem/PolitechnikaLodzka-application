@@ -8,10 +8,12 @@ import androidx.cardview.widget.CardView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -190,5 +192,10 @@ public class Plany extends AppCompatActivity {
         kierunek = sharedPref.getString("kierunek", "");
         rodzaj = sharedPref.getString("rodzaj", "");
         rok = sharedPref.getString("rok", "");
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }
