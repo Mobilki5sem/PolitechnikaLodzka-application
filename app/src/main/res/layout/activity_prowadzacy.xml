@@ -32,8 +32,9 @@
         android:id="@+id/btnSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/lecturers_button"
         android:text="@string/szukaj"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/white" />
 
     <ProgressBar
         android:id="@+id/pbProwadzacy"
@@ -57,18 +58,93 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <WebView
-                android:id="@+id/wwProw"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-                tools:visibility="visible" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="199dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <WebView
+                    android:id="@+id/wwProw"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="left"
+                    android:layout_margin="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="invisible"
+                    tools:visibility="visible">
+
+                </WebView>
+
+                <RelativeLayout
+                    android:layout_width="179dp"
+                    android:layout_height="133dp"
+                    android:layout_marginTop="12dp">
+
+                    <TableLayout
+                        android:layout_width="195dp"
+                        android:layout_height="128dp">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/textViewDegree"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="dr hab. inż."
+                                android:textAlignment="center"
+                                android:textColor="#999999"
+                                android:textSize="18sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/textViewName"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Adam"
+                                android:textAlignment="center"
+                                android:textColor="#333333"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/textViewSurname"
+                                android:layout_width="161dp"
+                                android:layout_height="match_parent"
+                                android:text="Poniszewska-Marańda"
+                                android:textAlignment="center"
+                                android:textColor="#333333"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+                        </TableRow>
+                    </TableLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif" />
 
         </LinearLayout>
     </ScrollView>

@@ -44,7 +44,12 @@ public class Prowadzacy extends AppCompatActivity {
     ProgressBar pbProwadzacy;
     String textContent;
     String imageURL;
+    String nameSurname;
+    String academicDegree;
     TextView textView;
+    TextView textViewName;
+    TextView textViewSurname;
+    TextView textViewDegree;
     ScrollView scrollViewProw;
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -67,6 +72,9 @@ public class Prowadzacy extends AppCompatActivity {
         pbProwadzacy = findViewById(R.id.pbProwadzacy);
         textView = findViewById(R.id.textView5);
         scrollViewProw = findViewById(R.id.scrollViewProw);
+        textViewDegree = findViewById(R.id.textViewDegree);
+        textViewSurname = findViewById(R.id.textViewSurname);
+        textViewName = findViewById(R.id.textViewName);
 
         wwProw.setWebViewClient(new WebViewClient() {
             @Override
@@ -129,6 +137,22 @@ public class Prowadzacy extends AppCompatActivity {
                         @Override
                         public void onReceiveValue(String value) {
                             imageURL = value;
+                        }
+                    });
+                    wwProw.evaluateJavascript("javascript: //imie nazwisko tytul\n" +
+                            "function getTextFromProfile() {\n" +
+                            "  var imie = document.getElementsByClassName(\"profile-box\")[0].getElementsByTagName(\"h2\")[0].textContent; " +
+                            "var tytul = document.getElementsByClassName(\"profile-box\")[0].getElementsByTagName(\"h4\")[0].textContent; " +
+                            "return (imie + ';' + tytul);} getTextFromProfile();", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+                            String valueWithout = value.replace("\"", "");
+                            nameSurname = valueWithout.split(";")[0];
+                            academicDegree = valueWithout.split(";")[1];
+                            textViewDegree.setText(academicDegree);
+                            textViewName.setText(nameSurname.split(" ")[0]);
+                            textViewSurname.setText(nameSurname.split(" ")[1].replace("-", "\n"));
+
                         }
                     });
                     Toast.makeText(Prowadzacy.this, "Znaleziono profil", Toast.LENGTH_SHORT).show();
