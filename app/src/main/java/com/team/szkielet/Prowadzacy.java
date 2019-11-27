@@ -44,7 +44,12 @@ public class Prowadzacy extends AppCompatActivity {
     ProgressBar pbProwadzacy;
     String textContent;
     String imageURL;
+    String nameSurname;
+    String academicDegree;
     TextView textView;
+    TextView textViewName;
+    TextView textViewSurname;
+    TextView textViewDegree;
     ScrollView scrollViewProw;
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -67,6 +72,9 @@ public class Prowadzacy extends AppCompatActivity {
         pbProwadzacy = findViewById(R.id.pbProwadzacy);
         textView = findViewById(R.id.textView5);
         scrollViewProw = findViewById(R.id.scrollViewProw);
+        textViewDegree = findViewById(R.id.textViewDegree);
+        textViewSurname = findViewById(R.id.textViewSurname);
+        textViewName = findViewById(R.id.textViewName);
 
         wwProw.setWebViewClient(new WebViewClient() {
             @Override
@@ -106,8 +114,7 @@ public class Prowadzacy extends AppCompatActivity {
                             "                    }\n" +
                             "                    a();", null);
 
-                    pbProwadzacy.setVisibility(View.GONE);
-                    wwProw.setVisibility(View.VISIBLE);
+                    setVisibleState();
                 }
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/profile.php?id")) {
                     System.out.println("wwProw.getUrl().startsWith(\"https://adm.edu.p.lodz.pl/user/profile.php?id\"");
@@ -131,6 +138,22 @@ public class Prowadzacy extends AppCompatActivity {
                             imageURL = value;
                         }
                     });
+                    wwProw.evaluateJavascript("javascript: //imie nazwisko tytul\n" +
+                            "function getTextFromProfile() {\n" +
+                            "  var imie = document.getElementsByClassName(\"profile-box\")[0].getElementsByTagName(\"h2\")[0].textContent; " +
+                            "var tytul = document.getElementsByClassName(\"profile-box\")[0].getElementsByTagName(\"h4\")[0].textContent; " +
+                            "return (imie + ';' + tytul);} getTextFromProfile();", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+                            String valueWithout = value.replace("\"", "");
+                            nameSurname = valueWithout.split(";")[0];
+                            academicDegree = valueWithout.split(";")[1];
+                            textViewDegree.setText(academicDegree);
+                            textViewName.setText(nameSurname.split(" ")[0]);
+                            textViewSurname.setText(nameSurname.split(" ")[1]);//.replace("-", "\n"));
+
+                        }
+                    });
                     Toast.makeText(Prowadzacy.this, "Znaleziono profil", Toast.LENGTH_SHORT).show();
                     parseContent();
                 }
@@ -141,8 +164,7 @@ public class Prowadzacy extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 //if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
-                pbProwadzacy.setVisibility(View.VISIBLE);
-                wwProw.setVisibility(View.GONE);
+                setLoadingState();
                 // }
             }
         });
@@ -163,8 +185,7 @@ public class Prowadzacy extends AppCompatActivity {
                     return;
                 }
                 String googleSearch;
-                pbProwadzacy.setVisibility(View.VISIBLE);
-                wwProw.setVisibility(View.GONE);
+                setLoadingState();
                 googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
                 wwProw.loadUrl(googleSearch);
 
@@ -199,8 +220,7 @@ public class Prowadzacy extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             public void run() {
                 // wwProw.evaluateJavascript("javascript: x = document.getElementsByTagName(\"img\")[0].style.width = 200;", null);
-                pbProwadzacy.setVisibility(View.GONE);
-                wwProw.setVisibility(View.VISIBLE);
+                setVisibleState();
             }
         }, 1000);
     }
@@ -260,6 +280,24 @@ public class Prowadzacy extends AppCompatActivity {
             i += 7;
         }
         return tmp;
+    }
+
+    public void setVisibleState() {
+        pbProwadzacy.setVisibility(View.GONE);
+        wwProw.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.VISIBLE);
+        textViewName.setVisibility(View.VISIBLE);
+        textViewSurname.setVisibility(View.VISIBLE);
+        textViewDegree.setVisibility(View.VISIBLE);
+    }
+
+    public void setLoadingState() {
+        pbProwadzacy.setVisibility(View.VISIBLE);
+        wwProw.setVisibility(View.GONE);
+        textView.setVisibility(View.GONE);
+        textViewName.setVisibility(View.GONE);
+        textViewSurname.setVisibility(View.GONE);
+        textViewDegree.setVisibility(View.GONE);
     }
 
     @Override
