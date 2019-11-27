@@ -151,7 +151,7 @@ public class Prowadzacy extends AppCompatActivity {
                             academicDegree = valueWithout.split(";")[1];
                             textViewDegree.setText(academicDegree);
                             textViewName.setText(nameSurname.split(" ")[0]);
-                            textViewSurname.setText(nameSurname.split(" ")[1].replace("-", "\n"));
+                            textViewSurname.setText(nameSurname.split(" ")[1]);//.replace("-", "\n"));
 
                         }
                     });
