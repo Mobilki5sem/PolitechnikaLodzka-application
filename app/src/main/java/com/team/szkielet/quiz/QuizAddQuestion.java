@@ -12,6 +12,7 @@ import com.team.szkielet.R;
 import com.team.szkielet.event.AddEvent;
 import com.team.szkielet.event.Events;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -90,7 +91,6 @@ public class QuizAddQuestion extends AppCompatActivity {
                     public void run() {
                         try {
                             sendPUT(typed_question, ansA, ansB, ansC, ansD);
-                            //Toast.makeText(AddEvent.this, getInformationFromPUT, Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         } catch (IOException e) {
@@ -98,6 +98,7 @@ public class QuizAddQuestion extends AppCompatActivity {
                         }
                     }
                 }).start();
+                afterSendQuestion();
             }
 
             }
@@ -191,6 +192,13 @@ public class QuizAddQuestion extends AppCompatActivity {
     protected void onRestart() {
         readJSONFromURL();
         super.onRestart();
+    }
+
+    private void afterSendQuestion(){
+        finish();
+        Intent intent = new Intent(QuizAddQuestion.this, QuizMainActivity.class);
+        startActivity(intent);
+        Toast.makeText(QuizAddQuestion.this, "Dziękujemy, pomyślnie przesłałeś swoją propozycję pytania!", Toast.LENGTH_SHORT).show();
     }
 
 }

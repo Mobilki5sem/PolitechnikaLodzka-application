@@ -16,16 +16,17 @@
 
     <EditText
         android:id="@+id/type_question"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:inputType="textMultiLine"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:background="@drawable/quizaddquestion"
         android:ems="10"
+        android:fontFamily="@font/alfa_slab_one"
         android:hint="Write your question..."
-        android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textColor="@color/colorWHITE"
+        android:textColor="#070707"
         android:textColorHint="#070707" />
 
     <Button
@@ -36,6 +37,8 @@
         android:layout_alignParentTop="false"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
+        android:background="@drawable/quiz_confirm_button"
+        android:fontFamily="@font/alfa_slab_one"
         android:text="SEND QUESTION TO ANALYSE" />
 
     <EditText
@@ -46,12 +49,13 @@
         android:layout_alignParentTop="false"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
-        android:ems="10"
-        android:hint="Write answer A..."
         android:background="@drawable/quizaddquestion"
-        android:inputType="textPersonName"
-        android:textColor="@color/colorBackgroundQuiz"
+        android:ems="10"
+        android:fontFamily="@font/alfa_slab_one"
+        android:hint="Write answer A..."
         android:textAlignment="center"
+        android:textColor="@color/colorBackgroundQuiz"
+        android:inputType="textMultiLine"
         android:textColorHint="#000000" />
 
     <EditText
@@ -66,9 +70,10 @@
         android:background="@drawable/quizaddquestion"
         android:ems="10"
         android:hint="Write answer B..."
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         android:textAlignment="center"
         android:textColor="@color/colorBackgroundQuiz"
+        android:fontFamily="@font/alfa_slab_one"
         android:textColorHint="#0E0D0D" />
 
     <EditText
@@ -84,8 +89,9 @@
         android:ems="10"
         android:textAlignment="center"
         android:hint="Write answer C..."
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         android:textColor="@color/colorBackgroundQuiz"
+        android:fontFamily="@font/alfa_slab_one"
         android:textColorHint="#0A0808" />
 
     <EditText
@@ -100,8 +106,9 @@
         android:ems="10"
         android:textAlignment="center"
         android:hint="Write answer D..."
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         android:textColor="@color/colorBackgroundQuiz"
+        android:fontFamily="@font/alfa_slab_one"
         android:textColorHint="#181414" />
 
 </RelativeLayout>

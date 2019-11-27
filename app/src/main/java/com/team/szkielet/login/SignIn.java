@@ -62,7 +62,7 @@ public class SignIn extends AppCompatActivity {
             startActivity(new Intent(SignIn.this, CorrectLogin.class));
         } catch(ApiException e) {
             Log.w("Google Sign in Error", "signInResult:failed code=" + e.getStatusCode());
-            Toast.makeText(SignIn.this, "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(SignIn.this, "ZAAKTUALIZUJ GOOGLE PLAY SERVICE", Toast.LENGTH_LONG).show();
         }
     }
 
