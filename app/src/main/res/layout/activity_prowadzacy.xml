@@ -93,9 +93,8 @@
                             android:id="@+id/textViewDegree"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="dr hab. inż."
                             android:textAlignment="center"
-                            android:textColor="#999999"
+                            android:textColor="#750104"
                             android:textSize="18sp" />
                     </TableRow>
 
@@ -108,7 +107,6 @@
                             android:id="@+id/textViewName"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Adam"
                             android:textAlignment="center"
                             android:textColor="#333333"
                             android:textSize="24sp"
@@ -125,7 +123,6 @@
                             android:id="@+id/textViewSurname"
                             android:layout_width="161dp"
                             android:layout_height="match_parent"
-                            android:text="Poniszewska-Marańda"
                             android:textAlignment="center"
                             android:textColor="#333333"
                             android:textSize="24sp"

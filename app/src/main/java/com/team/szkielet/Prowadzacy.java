@@ -114,8 +114,7 @@ public class Prowadzacy extends AppCompatActivity {
                             "                    }\n" +
                             "                    a();", null);
 
-                    pbProwadzacy.setVisibility(View.GONE);
-                    wwProw.setVisibility(View.VISIBLE);
+                    setVisibleState();
                 }
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/profile.php?id")) {
                     System.out.println("wwProw.getUrl().startsWith(\"https://adm.edu.p.lodz.pl/user/profile.php?id\"");
@@ -165,8 +164,7 @@ public class Prowadzacy extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 //if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
-                pbProwadzacy.setVisibility(View.VISIBLE);
-                wwProw.setVisibility(View.GONE);
+                setLoadingState();
                 // }
             }
         });
@@ -187,8 +185,7 @@ public class Prowadzacy extends AppCompatActivity {
                     return;
                 }
                 String googleSearch;
-                pbProwadzacy.setVisibility(View.VISIBLE);
-                wwProw.setVisibility(View.GONE);
+                setLoadingState();
                 googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
                 wwProw.loadUrl(googleSearch);
 
@@ -223,8 +220,7 @@ public class Prowadzacy extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             public void run() {
                 // wwProw.evaluateJavascript("javascript: x = document.getElementsByTagName(\"img\")[0].style.width = 200;", null);
-                pbProwadzacy.setVisibility(View.GONE);
-                wwProw.setVisibility(View.VISIBLE);
+                setVisibleState();
             }
         }, 1000);
     }
@@ -284,6 +280,24 @@ public class Prowadzacy extends AppCompatActivity {
             i += 7;
         }
         return tmp;
+    }
+
+    public void setVisibleState() {
+        pbProwadzacy.setVisibility(View.GONE);
+        wwProw.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.VISIBLE);
+        textViewName.setVisibility(View.VISIBLE);
+        textViewSurname.setVisibility(View.VISIBLE);
+        textViewDegree.setVisibility(View.VISIBLE);
+    }
+
+    public void setLoadingState() {
+        pbProwadzacy.setVisibility(View.VISIBLE);
+        wwProw.setVisibility(View.GONE);
+        textView.setVisibility(View.GONE);
+        textViewName.setVisibility(View.GONE);
+        textViewSurname.setVisibility(View.GONE);
+        textViewDegree.setVisibility(View.GONE);
     }
 
     @Override
