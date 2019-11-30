@@ -12,6 +12,7 @@ import com.team.szkielet.R;
 import com.team.szkielet.event.AddEvent;
 import com.team.szkielet.event.Events;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,7 +71,7 @@ public class QuizAddQuestion extends AppCompatActivity {
         type_answ_d = findViewById(R.id.type_answ_d);
         btn_send_question = findViewById(R.id.btn_send_question); // wcisnij aby wyslac pytanie
 
-//
+
         btn_send_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,28 +79,28 @@ public class QuizAddQuestion extends AppCompatActivity {
                         type_answ_c.getText().toString().isEmpty() || type_answ_d.getText().toString().isEmpty()) {
                     Toast.makeText(QuizAddQuestion.this, "Wypelnij wszystkie pola!", Toast.LENGTH_SHORT).show();
                     //dataGET();
-                } else {
-                    final String typed_question = type_question.getText().toString();
-                    final String ansA = type_answ_a.getText().toString();
-                    final String ansB = type_answ_b.getText().toString();
-                    final String ansC = type_answ_c.getText().toString();
-                    final String ansD = type_answ_d.getText().toString();
-                    //Toast.makeText(QuizAddQuestion.this, Integer.toString(SPRAWDZ), Toast.LENGTH_SHORT).show();
 
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
-                                sendPUT(typed_question, ansA, ansB, ansC, ansD);
-                                //Toast.makeText(AddEvent.this, getInformationFromPUT, Toast.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
-                                Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                            } catch (IOException e) {
-                                Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }).start();
                 }
+                else{
+                final String typed_question = type_question.getText().toString();
+                final String ansA = type_answ_a.getText().toString();
+                final String ansB = type_answ_b.getText().toString();
+                final String ansC = type_answ_c.getText().toString();
+                final String ansD = type_answ_d.getText().toString();
+                //Toast.makeText(QuizAddQuestion.this, Integer.toString(SPRAWDZ), Toast.LENGTH_SHORT).show();
 
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            sendPUT(typed_question, ansA, ansB, ansC, ansD);
+                        } catch (JSONException e) {
+                            Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        } catch (IOException e) {
+                            Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }).start();
+                afterSendQuestion();  
             }
         });
 
@@ -192,6 +193,13 @@ public class QuizAddQuestion extends AppCompatActivity {
     protected void onRestart() {
         readJSONFromURL();
         super.onRestart();
+    }
+
+    private void afterSendQuestion(){
+        finish();
+        Intent intent = new Intent(QuizAddQuestion.this, QuizMainActivity.class);
+        startActivity(intent);
+        Toast.makeText(QuizAddQuestion.this, "Dziękujemy, pomyślnie przesłałeś swoją propozycję pytania!", Toast.LENGTH_SHORT).show();
     }
 
 }
