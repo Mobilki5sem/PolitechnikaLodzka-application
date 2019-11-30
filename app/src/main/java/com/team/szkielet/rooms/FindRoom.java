@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -111,30 +112,87 @@ public class FindRoom extends AppCompatActivity {
     }
 
     private String checkWhereIsRoom(String whichBuilding, String findRoom) {
+        tvInfo.setTextColor(Color.BLACK);
         String ret = "";
-        int nr = Integer.parseInt(findRoom);
-        if(whichBuilding == "B9") {
-            if(findRoom.charAt(0) == '1' && findRoom.length() == 3) ret = "Sala prawdopodobnie znajduje się na I piętrze w B9";
-            else if(findRoom.charAt(0) == '2' && findRoom.length() == 3) ret = "Sala prawdopodobnie znajduje się na II piętrze w B9";
-            else if(findRoom.charAt(0) == '3' && findRoom.length() == 3) ret = "Sala prawdopodobnie znajduje się na III piętrze w B9";
-            else if(findRoom.charAt(0) == '4' && findRoom.length() == 3){
-                if((nr >= 432 && nr <= 435) || nr == 437 || nr == 441 || nr == 445)
-                    ret = "Sala z zajęciami znajduje się na IV piętrze w B9";
-                else
-                    ret = "Sala prawdopodobnie znajduje się na IV piętrze w B9";
-            }
-            else if(findRoom.charAt(0) == 'F') {
-                ret = "No to tutaj mamy jazde bez trzymanki na sale z F";
-            }
-            else ret = "Nie ma takiej sali w B9";
-        } else if(whichBuilding == "B19") {
-            if(nr == 201 || nr == 206 || (nr >= 208 && nr <= 211) || nr == 103 || nr == 104 || nr == 107 || nr == 108 || nr == 406 || nr == 407){
-                if(findRoom.charAt(0) == '1') ret = "Sala znajduje się na I piętrze w B19";
-                else if(findRoom.charAt(0) == '2') ret = "Sala znajduje się na II piętrze w B19";
-                else if(findRoom.charAt(0) == '4') ret = "Sala znajduje się na IV piętrze w B19";
-            } else ret = "Nie ma takiej sali do zajęć w B19";
-        } else if(whichBuilding == "B14") {
+        boolean boolCheck = true;
+        int nr = 0;
 
+        for(int i=0; i<findRoom.length();i++) {
+            Boolean flag = Character.isDigit(findRoom.charAt(i));
+            if(!flag)
+                boolCheck = false;
+        }
+
+        if(boolCheck) {
+            nr = Integer.parseInt(findRoom);
+            //Toast.makeText(FindRoom.this, "Same cyferki", Toast.LENGTH_SHORT).show();
+        } else {
+            //Toast.makeText(FindRoom.this, "Jest jakaś literka", Toast.LENGTH_SHORT).show();
+        }
+
+        if(whichBuilding.equals("B9")) {
+            if(boolCheck) {
+                if(findRoom.charAt(0) == '1' && findRoom.length() == 3){
+                    if(nr == 160 || nr == 171) ret = "Sala znajduje się na I piętrze w B9 \nInstytut Matematyki";
+                    else ret = "Sala prawdopodobnie znajduje się na I piętrze w B9";
+                }
+                else if(findRoom.charAt(0) == '2' && findRoom.length() == 3) ret = "Sala prawdopodobnie znajduje się na II piętrze w B9";
+                else if(findRoom.charAt(0) == '3' && findRoom.length() == 3) ret = "Sala prawdopodobnie znajduje się na III piętrze w B9";
+                else if(findRoom.charAt(0) == '4' && findRoom.length() == 3){
+                    if((nr >= 432 && nr <= 435) || nr == 437 || nr == 441 || nr == 445)
+                        ret = "Sala z zajęciami znajduje się na IV piętrze w B9 \nInstytut Informatyki";
+                    else
+                        ret = "Sala prawdopodobnie znajduje się na IV piętrze w B9";
+                } else if(nr == 51 || nr == 52) ret = "Sala znajduje się na parterze w B9 \nInstytut Matematyki";
+                else {
+                    tvInfo.setTextColor(Color.RED);
+                    ret = "Nie ma takiej sali w B9";
+                }
+            }
+            else if(findRoom.equals("53a")) ret = "Sala znajduje się na parterze w B9 \nInstytut Matematyki";
+            else if(findRoom.charAt(0) == 'F') {
+                if(findRoom.equals("F2") || findRoom.equals("F3") || findRoom.equals("F4") || findRoom.equals("F5") || findRoom.equals("F6") ||
+                        findRoom.equals("F6a") || findRoom.equals("F7") || findRoom.equals("F8") || findRoom.equals("F9") || findRoom.equals("F10")) {
+                    ret = "No to tutaj mamy jazde bez trzymanki na sale z F";
+                } else {
+                    tvInfo.setTextColor(Color.RED);
+                    ret = "Nie ma takiego audytorium w B9";
+                }
+
+            } else {
+                tvInfo.setTextColor(Color.RED);
+                ret = "Nie ma takiej sali w B9";
+            }
+        } else if(whichBuilding.equals("B19")) {
+            if(nr == 201 || nr == 206 || (nr >= 208 && nr <= 211) || nr == 103 || nr == 104 || nr == 107 || nr == 108 || nr == 406 || nr == 407){
+                if(findRoom.charAt(0) == '1') ret = "Sala znajduje się na I piętrze w CTI";
+                else if(findRoom.charAt(0) == '2') ret = "Sala znajduje się na II piętrze w CTI";
+                else if(findRoom.charAt(0) == '4') ret = "Sala znajduje się na IV piętrze w CTI";
+                else {
+                    tvInfo.setTextColor(Color.RED);
+                    ret = "Nie ma takiej sali do zajęć w B14";
+                }
+            } else {
+                tvInfo.setTextColor(Color.RED);
+                ret = "Nie ma takiej sali do zajęć w CTI";
+            }
+        } else if(whichBuilding.equals("B14")) {
+            if(findRoom.equals("0.4") || findRoom.contains("major")) ret ="Aula major znajduje się na parterze w B14";
+            else if(findRoom.equals("0.8") || findRoom.contains("minor")) ret ="Aula minor znajduje się na parterze w B14";
+            else if(findRoom.equals("0.17") || findRoom.contains("magica") || findRoom.contains("Magica")) ret ="Aula Magica znajduje się na parterze w B14";
+            else if(findRoom.equals("0.27") || findRoom.equals("1.04") || findRoom.equals("1.05") || findRoom.equals("1.12")
+                    || findRoom.equals("3.02") || findRoom.equals("3.03")) {
+                if(findRoom.charAt(0) == '1') ret = "Audytorium projektowe / komputerowe znajduje się na \nI piętrze w B14 \nInstytut Fizyki";
+                else if(findRoom.charAt(0) == '3') ret = "Audytorium projektowe / komputerowe znajduje się na \nIII piętrze w B14 \nInstytut Fizyki";
+                else ret = "Audytorium projektowe / komputerowe znajduje się na parterze w B14 \nInstytut Fizyki";
+            }
+            else if((findRoom.charAt(0) == '1' && findRoom.charAt(1) == '.')) ret = "Sala prawdopodobnie znajduje się na I piętrze w B14";
+            else if((findRoom.charAt(0) == '2' && findRoom.charAt(1) == '.')) ret = "Sala prawdopodobnie znajduje się na II piętrze w B14";
+            else if(findRoom.equals("F1")) ret = "Audytorium znajduje się na parterze w B14";
+            else {
+                tvInfo.setTextColor(Color.RED);
+                ret = "Nie ma takiej sali do zajęć w B14";
+            }
         }
         return ret;
     }
