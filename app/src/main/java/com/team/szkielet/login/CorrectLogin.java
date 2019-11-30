@@ -2,6 +2,7 @@ package com.team.szkielet.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.media.Image;
@@ -36,15 +37,18 @@ public class CorrectLogin extends AppCompatActivity {
     Button btnSignOut, btnGoMain;
     GoogleSignInClient mGoogleSignInClient;
     public static Person person;
+    private CardView idUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_correct_login);
 
+        idUserEmail = findViewById(R.id.idUserEmail);
         tvName = findViewById(R.id.tvName);
         tvEmail = findViewById(R.id.tvEmail);
         tvID = findViewById(R.id.tvID);
+        tvID.setVisibility(View.GONE);
         ivPhoto = findViewById(R.id.ivPhoto);
         btnSignOut = findViewById(R.id.btnSignOut);
 
@@ -55,7 +59,7 @@ public class CorrectLogin extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(CorrectLogin.this);
-        if(acct != null) {
+        if (acct != null) {
             String personName = acct.getDisplayName();
             String personGivenName = acct.getGivenName();
             String personFamilyName = acct.getFamilyName();
@@ -70,7 +74,7 @@ public class CorrectLogin extends AppCompatActivity {
             tvID.setText(personID);
             Glide.with(CorrectLogin.this).load(personPhoto).into(ivPhoto);
             Toast toast = Toast.makeText(CorrectLogin.this, "Jesteś zalogowany na " + personEmail, Toast.LENGTH_SHORT);
-            ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
+            ((TextView) ((LinearLayout) toast.getView()).getChildAt(0))
                     .setGravity(Gravity.CENTER_HORIZONTAL);
             toast.show();
         }
@@ -89,6 +93,13 @@ public class CorrectLogin extends AppCompatActivity {
                 Intent intent = new Intent(CorrectLogin.this, MainActivityBetter.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+            }
+        });
+
+        idUserEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //ukryte osiągnięcie XD
             }
         });
 

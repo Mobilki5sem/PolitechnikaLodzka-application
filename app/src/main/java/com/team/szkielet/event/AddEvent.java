@@ -2,6 +2,7 @@ package com.team.szkielet.event;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,10 +19,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.team.szkielet.MainActivityBetter;
 import com.team.szkielet.R;
+import com.team.szkielet.login.SignIn;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -41,6 +49,8 @@ public class AddEvent extends AppCompatActivity {
     private Button btnAddEvent, btnCheckLink;
     private RadioButton rbChecked;
     private CalendarView calendar;
+    GoogleSignInClient mGoogleSignInClient;
+    private String userEmail;
 
     private boolean ifLinkWasChecked = false;
     private int Mday, Mmonth, Myear;
@@ -49,6 +59,23 @@ public class AddEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(AddEvent.this);
+        if(acct != null) {
+            String name = acct.getDisplayName();
+            userEmail = acct.getEmail();
+        } else {
+            Toast.makeText(AddEvent.this, "Musisz się zalogować na konto google aby dodać event!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AddEvent.this, SignIn.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
 
 
         calendar = findViewById(R.id.calendarView);
@@ -70,7 +97,7 @@ public class AddEvent extends AppCompatActivity {
         cbMamWydarzenie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(cbMamWydarzenie.isChecked()) {
+                if (cbMamWydarzenie.isChecked()) {
                     etLink.setVisibility(View.VISIBLE);
                     btnCheckLink.setVisibility(View.VISIBLE);
                 } else {
@@ -112,7 +139,7 @@ public class AddEvent extends AppCompatActivity {
                     Toast.makeText(AddEvent.this, whichImageUseToDescribeEvent(), Toast.LENGTH_LONG).show();*/
                 if (tab[0] && tab[1] && tab[2] && tab[3] && tab[4]) {
                     String idObrazka = whichImageUseToDescribeEvent();
-                    if(!cbMamWydarzenie.isChecked()){
+                    if (!cbMamWydarzenie.isChecked()) {
                         Events.eventsList.add(new Event(
                                 etNazwaWydarzenia.getText().toString(),
                                 etOpis.getText().toString(),
@@ -120,9 +147,9 @@ public class AddEvent extends AppCompatActivity {
                                 idObrazka,
                                 Mday,
                                 Mmonth,
-                                Myear));
-                    }
-                    else {
+                                Myear,
+                                userEmail));
+                    } else {
                         Events.eventsList.add(new Event(
                                 etNazwaWydarzenia.getText().toString(),
                                 etOpis.getText().toString(),
@@ -130,13 +157,14 @@ public class AddEvent extends AppCompatActivity {
                                 idObrazka,
                                 Mday,
                                 Mmonth,
-                                Myear));
+                                Myear,
+                                userEmail));
                     }
 
-                        Toast.makeText(AddEvent.this, "Udało ci się dodać nowe wydarzenie!", Toast.LENGTH_LONG).show();
-                        onBackPressed();
+                    Toast.makeText(AddEvent.this, "Udało ci się dodać nowe wydarzenie!", Toast.LENGTH_LONG).show();
+                    onBackPressed();
 
-                        new Thread(new Runnable() {
+                    new Thread(new Runnable() {
                         public void run() {
                             try {
                                 jsonPUT();
@@ -162,12 +190,12 @@ public class AddEvent extends AppCompatActivity {
         //0 - nazwaWydarzeni, 1 - Opis, 2 - rodzajWydarzenia, 3 - link, 4 - data
         boolean tab[] = {false, false, false, false, false};
 
-        if(!etNazwaWydarzenia.getText().toString().equals(""))
+        if (!etNazwaWydarzenia.getText().toString().equals(""))
             tab[0] = true;
         else {
             Toast.makeText(AddEvent.this, "Dodaj nazwę wydarzenia.", Toast.LENGTH_SHORT).show();
         }
-        if(!etOpis.getText().toString().equals(""))
+        if (!etOpis.getText().toString().equals(""))
             tab[1] = true;
         else {
             Toast.makeText(AddEvent.this, "Dodaj opis wydarzenia.", Toast.LENGTH_SHORT).show();
@@ -179,20 +207,20 @@ public class AddEvent extends AppCompatActivity {
         } else {
             Toast.makeText(AddEvent.this, "Wybierz rodzaj wydarzenia.", Toast.LENGTH_SHORT).show();
         }
-        if(cbMamWydarzenie.isChecked()) {
-            if(!etLink.getText().toString().equals("")){
-                if(ifLinkWasChecked)
+        if (cbMamWydarzenie.isChecked()) {
+            if (!etLink.getText().toString().equals("")) {
+                if (ifLinkWasChecked)
                     tab[3] = true;
                 else {
                     toast = Toast.makeText(AddEvent.this, "Sprawdź poprawność linku powyższym przyciskiem lub zrezygnuj z niego.", Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
+                    ((TextView) ((LinearLayout) toast.getView()).getChildAt(0))
                             .setGravity(Gravity.CENTER_HORIZONTAL);
                     toast.show();
                 }
 
             } else {
                 toast = Toast.makeText(AddEvent.this, "Sprawdź poprawność linku powyższym przyciskiem lub zrezygnuj z niego.", Toast.LENGTH_LONG);
-                ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
+                ((TextView) ((LinearLayout) toast.getView()).getChildAt(0))
                         .setGravity(Gravity.CENTER_HORIZONTAL);
                 toast.show();
             }
@@ -200,17 +228,17 @@ public class AddEvent extends AppCompatActivity {
             tab[3] = true;
         }
         Date date = Calendar.getInstance().getTime();
-        String daya          = (String) DateFormat.format("dd",   date);
-        String monthNumber  = (String) DateFormat.format("MM",   date);
-        String yeara         = (String) DateFormat.format("yyyy", date);
-        if(Integer.parseInt(yeara) == Myear) {
-            if(Integer.parseInt(monthNumber) == Mmonth) {
-                if(Integer.parseInt(daya) < Mday) {
+        String daya = (String) DateFormat.format("dd", date);
+        String monthNumber = (String) DateFormat.format("MM", date);
+        String yeara = (String) DateFormat.format("yyyy", date);
+        if (Integer.parseInt(yeara) == Myear) {
+            if (Integer.parseInt(monthNumber) == Mmonth) {
+                if (Integer.parseInt(daya) < Mday) {
                     tab[4] = true;
                 } else {
                     Toast.makeText(AddEvent.this, "Dodaj prawidłową datę.", Toast.LENGTH_SHORT).show();
                 }
-            } else if(Integer.parseInt(monthNumber) < Mmonth) {
+            } else if (Integer.parseInt(monthNumber) < Mmonth) {
                 tab[4] = true;
             } else {
                 Toast.makeText(AddEvent.this, "Dodaj prawidłową datę.", Toast.LENGTH_SHORT).show();
@@ -227,7 +255,7 @@ public class AddEvent extends AppCompatActivity {
     public static void jsonPUT() throws JSONException, IOException {
         JSONArray array = new JSONArray();
         ArrayList<Event> list = Events.eventsList;
-        for(int i = 0; i < list.size(); i ++) {
+        for (int i = 0; i < list.size(); i++) {
             JSONObject postData = new JSONObject();
             postData.put("eventName", list.get(i).getEventName());
             postData.put("description", list.get(i).getDescription());
@@ -236,6 +264,7 @@ public class AddEvent extends AppCompatActivity {
             postData.put("day", list.get(i).getDay());
             postData.put("month", list.get(i).getMonth());
             postData.put("year", list.get(i).getYear());
+            postData.put("userEmail", list.get(i).getUserEmail());
 
             array.put(postData);
         }
@@ -256,7 +285,7 @@ public class AddEvent extends AppCompatActivity {
         System.err.println(connection.getResponseCode());
     }
 
-    public static boolean exists(String URLName){
+    public static boolean exists(String URLName) {
         try {
             HttpURLConnection.setFollowRedirects(false);
             // note : you may also need
@@ -265,8 +294,7 @@ public class AddEvent extends AppCompatActivity {
                     (HttpURLConnection) new URL(URLName).openConnection();
             con.setRequestMethod("HEAD");
             return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

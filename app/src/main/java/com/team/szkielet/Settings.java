@@ -1,6 +1,7 @@
 package com.team.szkielet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 public class Settings extends AppCompatActivity {
 
-    Button btnStudent, btnGoogle;
+    CardView btnStudent, btnGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

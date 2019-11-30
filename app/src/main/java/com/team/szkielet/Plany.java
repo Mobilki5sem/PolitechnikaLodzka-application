@@ -8,10 +8,12 @@ import androidx.cardview.widget.CardView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,16 +78,15 @@ public class Plany extends AppCompatActivity {
 
 
         boolean connected = false;
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             connected = true;
-        }
-        else
+        } else
             connected = false;
 
-        if(connected) {
+        if (connected) {
             ivRefresh.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
             webView.getSettings().setJavaScriptEnabled(true);
@@ -97,8 +98,7 @@ public class Plany extends AppCompatActivity {
                     webView.setVisibility(View.VISIBLE);
                 }
             });
-        }
-        else {
+        } else {
             ivRefresh.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             tvWaiting.setText("Oooops!!! \nSprawdź swoje połączenie z internetem.");
@@ -107,56 +107,42 @@ public class Plany extends AppCompatActivity {
     }
 
     String getLinkToPlan() {
-        if(rodzaj.equals("Stacjonarne")) {
-            if(stopien.equals("II")) {
+        if (rodzaj.equals("Stacjonarne")) {
+            if (stopien.equals("II")) {
                 return "https://drive.google.com/file/d/1F5m5atJRbbU-8QxLg-3ohZNChVhxmeIh/view?usp=sharing";
-            }
-            else if(stopien.equals("III")) {
+            } else if (stopien.equals("III")) {
                 return "https://drive.google.com/file/d/1XpanxDZRoLGclwNDZ9SItMFZoyaPFPYu/view?usp=sharing";
-            }
-            else if(stopien.equals("I")) {
-                if(rok.equals("1")) {
+            } else if (stopien.equals("I")) {
+                if (rok.equals("1")) {
                     return "https://drive.google.com/file/d/1i3jrN4CU4qn_a4C8jTlMd8bvplaaXErJ/view?usp=sharing";
-                }
-                else if(rok.equals(("2"))) {
+                } else if (rok.equals(("2"))) {
                     return "https://drive.google.com/file/d/1G31HId4nRJGukgR592kdCZsHd-wO2loz/view?usp=sharing";
-                }
-                else if(rok.equals("3")) {
+                } else if (rok.equals("3")) {
                     return "https://drive.google.com/file/d/1kI85gMGQQb2RL-VCNRY--gljygMNfO8e/view?usp=sharing";
-                }
-                else if(rok.equals("4")) {
+                } else if (rok.equals("4")) {
                     return "https://drive.google.com/file/d/1kXLPoS2KwdeGD2hl-ge8b6LGihI5iy5C/view?usp=sharing";
-                }
-                else
+                } else
                     return "error";
-            }
-            else
+            } else
                 return "error";
-        }
-        else { //niestacjonarne
-            if(stopien.equals("II")) {
-                if(rok.equals("1"))
+        } else { //niestacjonarne
+            if (stopien.equals("II")) {
+                if (rok.equals("1"))
                     return "https://drive.google.com/file/d/1RzBuP_yAHJ1yS_fw_y9_auV9dz03hRf1/view?usp=sharing";
                 else
                     return "https://drive.google.com/file/d/1dkSSJRHPlCaR2fUMhPVhn0-8zwysiGnu/view?usp=sharing";
-            }
-            else if(stopien.equals("I")) {
-                if(rok.equals("1")) {
+            } else if (stopien.equals("I")) {
+                if (rok.equals("1")) {
                     return "https://drive.google.com/file/d/1zugoxAbHMbhe7v0y8Jvp5XOBSSKO1I7X/view?usp=sharing";
-                }
-                else if(rok.equals(("2"))) {
+                } else if (rok.equals(("2"))) {
                     return "https://drive.google.com/file/d/1p5Rauz_iTh0WW_Z_rbYS1KDgwtzmcnox/view?usp=sharing";
-                }
-                else if(rok.equals("3")) {
+                } else if (rok.equals("3")) {
                     return "https://drive.google.com/file/d/1ZSchIpk2RKaah_SoIciW2nXf3PaD4IWo/view?usp=sharing";
-                }
-                else if(rok.equals("4")) {
+                } else if (rok.equals("4")) {
                     return "https://drive.google.com/file/d/1F_8NssnZSqhcrp3LH-nz5bcPtEC4xSJz/view?usp=sharing";
-                }
-                else
+                } else
                     return "error";
-            }
-            else
+            } else
                 return "error";
         }
 
@@ -178,25 +164,21 @@ public class Plany extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.plany) {}
-        else if(item.getItemId() == R.id.prowadzacy) {
+        if (item.getItemId() == R.id.plany) {
+        } else if (item.getItemId() == R.id.prowadzacy) {
             Intent intent = new Intent(Plany.this, Prowadzacy.class);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.wydarzenia) {
+        } else if (item.getItemId() == R.id.wydarzenia) {
             Intent intent = new Intent(Plany.this, Events.class);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.start) {
+        } else if (item.getItemId() == R.id.start) {
             Intent intent = new Intent(Plany.this, MainActivityBetter.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.quiz) {
+        } else if (item.getItemId() == R.id.quiz) {
             Intent intent = new Intent(Plany.this, QuizMainActivity.class);
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.sale) {
+        } else if (item.getItemId() == R.id.sale) {
             Intent intent = new Intent(Plany.this, FindRoom.class);
             startActivity(intent);
         }
@@ -210,5 +192,10 @@ public class Plany extends AppCompatActivity {
         kierunek = sharedPref.getString("kierunek", "");
         rodzaj = sharedPref.getString("rodzaj", "");
         rok = sharedPref.getString("rok", "");
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }
