@@ -82,125 +82,123 @@ public class QuizAddQuestion extends AppCompatActivity {
 
                 }
                 else{
-                final String typed_question = type_question.getText().toString();
-                final String ansA = type_answ_a.getText().toString();
-                final String ansB = type_answ_b.getText().toString();
-                final String ansC = type_answ_c.getText().toString();
-                final String ansD = type_answ_d.getText().toString();
-                //Toast.makeText(QuizAddQuestion.this, Integer.toString(SPRAWDZ), Toast.LENGTH_SHORT).show();
+                    final String typed_question = type_question.getText().toString();
+                    final String ansA = type_answ_a.getText().toString();
+                    final String ansB = type_answ_b.getText().toString();
+                    final String ansC = type_answ_c.getText().toString();
+                    final String ansD = type_answ_d.getText().toString();
+                    //Toast.makeText(QuizAddQuestion.this, Integer.toString(SPRAWDZ), Toast.LENGTH_SHORT).show();
 
-                new Thread(new Runnable() {
-                    public void run() {
-                        try {
-                            sendPUT(typed_question, ansA, ansB, ansC, ansD);
-                        } catch (JSONException e) {
-                            Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        } catch (IOException e) {
-                            Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }).start();
-                afterSendQuestion();  
-            }
-        });
-
-    }
-
-    public void sendPUT(final String question, final String ansA, final String ansB, final String ansC, final String ansD) throws JSONException, IOException {
-        //SPRAWDZ++;
-        JSONArray jsonarray = new JSONArray();
-
-        URL url = new URL("https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("PUT");
-        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-        conn.setRequestProperty("Accept", "application/json");
-        conn.setDoOutput(true);
-        conn.setDoInput(true);
-        //dodaje to nowe pytanie do listy
-        questionsList.add(new Question(question, ansA, ansB, ansC, ansD, 0));
-        for (int i = 0; i < questionsList.size(); i++) {
-            JSONObject jsonParam = new JSONObject();
-            jsonParam.put("question", questionsList.get(i).getQuestion());
-            jsonParam.put("answerA", questionsList.get(i).getOption1());
-            jsonParam.put("answerB", questionsList.get(i).getOption2());
-            jsonParam.put("answerC", questionsList.get(i).getOption3());
-            jsonParam.put("answerD", questionsList.get(i).getOption4());
-            jsonarray.put(jsonParam);
-        }
-        //
-        JSONObject jsonCyk = new JSONObject();
-        jsonCyk.put("questionsList", jsonarray);
-
-        Log.i("JSON", jsonCyk.toString());
-        DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-        //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-        os.writeBytes(jsonCyk.toString());
-        os.flush();
-        os.close();
-
-        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-        Log.i("MSG", conn.getResponseMessage());
-
-        conn.disconnect();
-    }
-
-    //pobieramy z jsonbin
-    private void jsonParse() {
-        String url = "https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d/latest";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("questionsList");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonQuestionObject = jsonArray.getJSONObject(i);
-
-                                questionsList.add(new Question(jsonQuestionObject.getString("question"),
-                                        jsonQuestionObject.getString("answerA"),
-                                        jsonQuestionObject.getString("answerB"),
-                                        jsonQuestionObject.getString("answerC"),
-                                        jsonQuestionObject.getString("answerD"), 0));
-
-
+                    new Thread(new Runnable() {
+                        public void run() {
+                            try {
+                                sendPUT(typed_question, ansA, ansB, ansC, ansD);
+                            } catch (JSONException e) {
+                                Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            } catch (IOException e) {
+                                Toast.makeText(QuizAddQuestion.this, e.getMessage(), Toast.LENGTH_LONG).show();
                             }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                    }).start();
+                    afterSendQuestion();
+                }}
+            });
+        }
+
+        public void sendPUT(final String question, final String ansA, final String ansB, final String ansC, final String ansD) throws JSONException, IOException {
+            //SPRAWDZ++;
+            JSONArray jsonarray = new JSONArray();
+
+            URL url = new URL("https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            //dodaje to nowe pytanie do listy
+            questionsList.add(new Question(question, ansA, ansB, ansC, ansD, 0));
+            for (int i = 0; i < questionsList.size(); i++) {
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("question", questionsList.get(i).getQuestion());
+                jsonParam.put("answerA", questionsList.get(i).getOption1());
+                jsonParam.put("answerB", questionsList.get(i).getOption2());
+                jsonParam.put("answerC", questionsList.get(i).getOption3());
+                jsonParam.put("answerD", questionsList.get(i).getOption4());
+                jsonarray.put(jsonParam);
             }
-        });
+            //
+            JSONObject jsonCyk = new JSONObject();
+            jsonCyk.put("questionsList", jsonarray);
 
-        mQueue.add(request);
+            Log.i("JSON", jsonCyk.toString());
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+            os.writeBytes(jsonCyk.toString());
+            os.flush();
+            os.close();
+
+            Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+            Log.i("MSG", conn.getResponseMessage());
+
+            conn.disconnect();
+        }
+
+        //pobieramy z jsonbin
+        private void jsonParse() {
+            String url = "https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d/latest";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONArray jsonArray = response.getJSONArray("questionsList");
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonQuestionObject = jsonArray.getJSONObject(i);
+
+                                    questionsList.add(new Question(jsonQuestionObject.getString("question"),
+                                            jsonQuestionObject.getString("answerA"),
+                                            jsonQuestionObject.getString("answerB"),
+                                            jsonQuestionObject.getString("answerC"),
+                                            jsonQuestionObject.getString("answerD"), 0));
+
+
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+
+            mQueue.add(request);
+        }
+
+        private void readJSONFromURL() {
+            questionsList.clear();
+            mQueue = Volley.newRequestQueue(this);
+            jsonParse();
+        }
+
+        @Override
+        protected void onRestart() {
+            readJSONFromURL();
+            super.onRestart();
+        }
+
+        private void afterSendQuestion(){
+            finish();
+            Intent intent = new Intent(QuizAddQuestion.this, QuizMainActivity.class);
+            startActivity(intent);
+            Toast.makeText(QuizAddQuestion.this, "Dziękujemy, pomyślnie przesłałeś swoją propozycję pytania!", Toast.LENGTH_SHORT).show();
+        }
+
     }
-
-    private void readJSONFromURL() {
-        questionsList.clear();
-        mQueue = Volley.newRequestQueue(this);
-        jsonParse();
-    }
-
-    @Override
-    protected void onRestart() {
-        readJSONFromURL();
-        super.onRestart();
-    }
-
-    private void afterSendQuestion(){
-        finish();
-        Intent intent = new Intent(QuizAddQuestion.this, QuizMainActivity.class);
-        startActivity(intent);
-        Toast.makeText(QuizAddQuestion.this, "Dziękujemy, pomyślnie przesłałeś swoją propozycję pytania!", Toast.LENGTH_SHORT).show();
-    }
-
-}
-
