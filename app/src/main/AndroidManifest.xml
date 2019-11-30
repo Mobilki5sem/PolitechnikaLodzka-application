@@ -15,6 +15,7 @@
         <activity android:name=".quiz.QuizAddQuestion"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".rooms.FindRoom"
+            android:theme="@style/Main"
             android:screenOrientation="portrait"/>
         <activity android:name=".Settings"
             android:screenOrientation="portrait"

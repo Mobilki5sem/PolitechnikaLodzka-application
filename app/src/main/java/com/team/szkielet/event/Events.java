@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,11 +47,8 @@ public class Events extends AppCompatActivity {
     private EventAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton fabtnAdd;
-    //private SwipeRefreshLayout idSwipe;
     private RequestQueue mQueue;
-
     static public ArrayList<Event> eventsList = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +66,20 @@ public class Events extends AppCompatActivity {
                 startActivity(new Intent(Events.this, AddEvent.class));
             }
         });
-        addRecyclerView();
-
-//        final Handler ha = new Handler();
-//            ha.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    //call function
-//                    //jsonParseEventList();
-//                    readJSONFromURL();
-//                    ha.postDelayed(this, 5000);
-//                }
-//            }, 10000);
-
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        } else
+            connected = false;
+        if(connected){
+            addRecyclerView();
+        } else {
+            Toast.makeText(Events.this, "Musisz połączyć się z internetem!", Toast.LENGTH_LONG).show();
+            onBackPressed();
+        }
     }
 
     private void readJSONFromURL() {
@@ -125,7 +126,6 @@ public class Events extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
-        //Toast.makeText(Events.this, "onRestart", Toast.LENGTH_SHORT).show();
         addRecyclerView();
         super.onRestart();
     }

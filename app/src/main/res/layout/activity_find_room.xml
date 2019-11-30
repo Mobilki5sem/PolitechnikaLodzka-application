@@ -10,11 +10,12 @@
     android:baselineAligned="false"
     android:gravity="center">
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/ivBudynek"
-        android:layout_width="wrap_content"
-        android:layout_height="232dp"
-        android:src="@drawable/ic_classroom" />
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_margin="5dp"
+        android:orientation="vertical"></LinearLayout>
 
     <TextView
         android:id="@+id/textView6"
@@ -60,8 +61,20 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="B14 (Instytut Fizyki PŁ)" />
+            android:text="B14 (Fizyka)" />
     </RadioGroup>
+
+    <Button
+        android:id="@+id/btnPokazNaMapie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/my_button"
+        android:text="Pokaż na mapie"
+        android:textColor="@color/colorWHITE" />
 
     <TextView
         android:id="@+id/textView7"
@@ -79,10 +92,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="5dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="np F10"
+        android:hint="np. F10, 1.04 lub 432"
         android:inputType="textPersonName" />
 
     <TextView
@@ -95,12 +111,15 @@
         android:textColor="@android:color/black" />
 
     <Button
-        android:id="@+id/btnPokazNaMapie"
+        android:id="@+id/btnZnajdzSale"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/my_button"
-        android:text="Pokaż na mapie"
+        android:text="Znajdź salę"
         android:textColor="@color/colorWHITE" />
 
 </LinearLayout>
