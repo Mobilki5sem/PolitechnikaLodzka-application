@@ -80,7 +80,8 @@ public class QuizActivity extends AppCompatActivity {
         QuizDbHelper dbHelper = new QuizDbHelper(this);
         //jak wywolujemy pierwszy raz to stworzy to tez baze
         questionList = dbHelper.getAllQuestions();
-        questionTotal = questionList.size();
+        //questionTotal = questionList.size();
+        questionTotal = 5;
         Collections.shuffle(questionList);
         showNextQuestion(); //pokaz pierwsze pytanie, metoda wykona sie tylko raz, pozniej juz tylko onClickListener
         btn_confirm_next.setOnClickListener(new View.OnClickListener() {
