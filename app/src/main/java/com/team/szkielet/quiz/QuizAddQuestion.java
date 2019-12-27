@@ -146,41 +146,41 @@ public class QuizAddQuestion extends AppCompatActivity {
 
         //pobieramy z jsonbin
         private void jsonParse() {
-            String url = "https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d/latest";
+        String url = "https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d/latest";
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
 
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                JSONArray jsonArray = response.getJSONArray("questionsList");
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("questionsList");
 
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonQuestionObject = jsonArray.getJSONObject(i);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonQuestionObject = jsonArray.getJSONObject(i);
 
-                                    questionsList.add(new Question(jsonQuestionObject.getString("question"),
-                                            jsonQuestionObject.getString("answerA"),
-                                            jsonQuestionObject.getString("answerB"),
-                                            jsonQuestionObject.getString("answerC"),
-                                            jsonQuestionObject.getString("answerD"), 0));
+                                questionsList.add(new Question(jsonQuestionObject.getString("question"),
+                                        jsonQuestionObject.getString("answerA"),
+                                        jsonQuestionObject.getString("answerB"),
+                                        jsonQuestionObject.getString("answerC"),
+                                        jsonQuestionObject.getString("answerD"), 0));
 
 
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                }
-            });
 
-            mQueue.add(request);
-        }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        mQueue.add(request);
+    }
 
         private void readJSONFromURL() {
             questionsList.clear();
