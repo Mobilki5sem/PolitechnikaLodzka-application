@@ -46,6 +46,7 @@ public class QuizMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        readJSONFromURL();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_main_activity);
         ActionBar actionBar = getSupportActionBar();
@@ -58,7 +59,8 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //dodane
-                new Thread(new Runnable() {
+                Toast.makeText(QuizMainActivity.this, String.valueOf(highscoreList.size()), Toast.LENGTH_SHORT).show();
+               /* new Thread(new Runnable() {
                     public void run() {
                         try {
                             sendPUT(highscore);
@@ -68,7 +70,8 @@ public class QuizMainActivity extends AppCompatActivity {
                             Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
-                }).start();
+                }).start();*/
+                checkIfHighscoreUpdateNeeded("kubawu1912@wp.pl");
                 //dodane
                 startQuiz();
             }
@@ -134,8 +137,7 @@ public class QuizMainActivity extends AppCompatActivity {
         conn.setRequestProperty("Accept", "application/json");
         conn.setDoOutput(true);
         conn.setDoInput(true);
-        //dodaje to nowe pytanie do listy
-        highscoreList.add(new Highscore(highscore,"kubawu1910@wp.pl"));
+        highscoreList.add(new Highscore(highscore, "kubawu1912@wp.pl"));
         for (int i = 0; i < highscoreList.size(); i++) {
             JSONObject jsonParam = new JSONObject();
             jsonParam.put("highscore", highscoreList.get(i).getHighscore());
@@ -175,8 +177,6 @@ public class QuizMainActivity extends AppCompatActivity {
 
                                 highscoreList.add(new Highscore(jsonQuestionObject.getInt("highscore"),
                                         jsonQuestionObject.getString("email")));
-
-
                             }
 
                         } catch (JSONException e) {
@@ -197,6 +197,7 @@ public class QuizMainActivity extends AppCompatActivity {
         highscoreList.clear();
         mQueue = Volley.newRequestQueue(this);
         jsonParse();
+
     }
 
     @Override
@@ -205,22 +206,32 @@ public class QuizMainActivity extends AppCompatActivity {
         super.onRestart();
     }
 
- //   public void checkIfHighscoreUpdateNeeded(String email){
-//
-    //    for(int i=0;i<highscoreList.size();i++)
-//
-//
-   //     if()
-   //     new Thread(new Runnable() {
-   //         public void run() {
-    //            try {
-    //                sendPUT(highscore);
-   //             } catch (JSONException e) {
-   //                 Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-   //             } catch (IOException e) {
-    //                Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-   //             }
-   //         }
-   //     }).start();
-   // }
+    public void checkIfHighscoreUpdateNeeded(String email) {
+        int licznik = 0;
+        for (int i = 0; i < highscoreList.size(); i++) {
+            if (highscoreList.get(i).getEmail().equals(email)) {
+                licznik++;
+                if (highscoreList.get(i).getHighscore() < highscore) {
+                    //to wtedy usun stare z listy
+                    highscoreList.remove(highscoreList.get(i));
+                    // Toast.makeText(this, "XD6", Toast.LENGTH_SHORT).show();
+                    new Thread(new Runnable() {
+                        public void run() {
+                            try {
+                                sendPUT(highscore);
+                            } catch (JSONException e) {
+                                Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            } catch (IOException e) {
+                                Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }).start();
+                }
+            }
+        }
+
+        Toast.makeText(this, String.valueOf(highscoreList.size()), Toast.LENGTH_SHORT).show();
+
+
+    }
 }

@@ -80,8 +80,7 @@ public class QuizAddQuestion extends AppCompatActivity {
                     Toast.makeText(QuizAddQuestion.this, "Wypelnij wszystkie pola!", Toast.LENGTH_SHORT).show();
                     //dataGET();
 
-                }
-                else{
+                } else {
                     final String typed_question = type_question.getText().toString();
                     final String ansA = type_answ_a.getText().toString();
                     final String ansB = type_answ_b.getText().toString();
@@ -101,51 +100,52 @@ public class QuizAddQuestion extends AppCompatActivity {
                         }
                     }).start();
                     afterSendQuestion();
-                }}
-            });
-        }
-
-        public void sendPUT(final String question, final String ansA, final String ansB, final String ansC, final String ansD) throws JSONException, IOException {
-            //SPRAWDZ++;
-            JSONArray jsonarray = new JSONArray();
-
-            URL url = new URL("https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("PUT");
-            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            //dodaje to nowe pytanie do listy
-            questionsList.add(new Question(question, ansA, ansB, ansC, ansD, 0));
-            for (int i = 0; i < questionsList.size(); i++) {
-                JSONObject jsonParam = new JSONObject();
-                jsonParam.put("question", questionsList.get(i).getQuestion());
-                jsonParam.put("answerA", questionsList.get(i).getOption1());
-                jsonParam.put("answerB", questionsList.get(i).getOption2());
-                jsonParam.put("answerC", questionsList.get(i).getOption3());
-                jsonParam.put("answerD", questionsList.get(i).getOption4());
-                jsonarray.put(jsonParam);
+                }
             }
-            //
-            JSONObject jsonCyk = new JSONObject();
-            jsonCyk.put("questionsList", jsonarray);
+        });
+    }
 
-            Log.i("JSON", jsonCyk.toString());
-            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-            //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-            os.writeBytes(jsonCyk.toString());
-            os.flush();
-            os.close();
+    public void sendPUT(final String question, final String ansA, final String ansB, final String ansC, final String ansD) throws JSONException, IOException {
+        //SPRAWDZ++;
+        JSONArray jsonarray = new JSONArray();
 
-            Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-            Log.i("MSG", conn.getResponseMessage());
-
-            conn.disconnect();
+        URL url = new URL("https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("PUT");
+        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        //dodaje to nowe pytanie do listy
+        questionsList.add(new Question(question, ansA, ansB, ansC, ansD, 0));
+        for (int i = 0; i < questionsList.size(); i++) {
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("question", questionsList.get(i).getQuestion());
+            jsonParam.put("answerA", questionsList.get(i).getOption1());
+            jsonParam.put("answerB", questionsList.get(i).getOption2());
+            jsonParam.put("answerC", questionsList.get(i).getOption3());
+            jsonParam.put("answerD", questionsList.get(i).getOption4());
+            jsonarray.put(jsonParam);
         }
+        //
+        JSONObject jsonCyk = new JSONObject();
+        jsonCyk.put("questionsList", jsonarray);
 
-        //pobieramy z jsonbin
-        private void jsonParse() {
+        Log.i("JSON", jsonCyk.toString());
+        DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+        //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+        os.writeBytes(jsonCyk.toString());
+        os.flush();
+        os.close();
+
+        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+        Log.i("MSG", conn.getResponseMessage());
+
+        conn.disconnect();
+    }
+
+    //pobieramy z jsonbin
+    private void jsonParse() {
         String url = "https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d/latest";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -182,23 +182,23 @@ public class QuizAddQuestion extends AppCompatActivity {
         mQueue.add(request);
     }
 
-        private void readJSONFromURL() {
-            questionsList.clear();
-            mQueue = Volley.newRequestQueue(this);
-            jsonParse();
-        }
-
-        @Override
-        protected void onRestart() {
-            readJSONFromURL();
-            super.onRestart();
-        }
-
-        private void afterSendQuestion(){
-            finish();
-            Intent intent = new Intent(QuizAddQuestion.this, QuizMainActivity.class);
-            startActivity(intent);
-            Toast.makeText(QuizAddQuestion.this, "Dziękujemy, pomyślnie przesłałeś swoją propozycję pytania!", Toast.LENGTH_SHORT).show();
-        }
-
+    private void readJSONFromURL() {
+        questionsList.clear();
+        mQueue = Volley.newRequestQueue(this);
+        jsonParse();
     }
+
+    @Override
+    protected void onRestart() {
+        readJSONFromURL();
+        super.onRestart();
+    }
+
+    private void afterSendQuestion() {
+        finish();
+        Intent intent = new Intent(QuizAddQuestion.this, QuizMainActivity.class);
+        startActivity(intent);
+        Toast.makeText(QuizAddQuestion.this, "Dziękujemy, pomyślnie przesłałeś swoją propozycję pytania!", Toast.LENGTH_SHORT).show();
+    }
+
+}
