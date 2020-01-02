@@ -17,7 +17,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.team.szkielet.R;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +35,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class QuizMainActivity extends AppCompatActivity {
+    private String userEmail;
+    GoogleSignInClient mGoogleSignInClient;
 
     TextView start_txt;
     Button btn_start_quiz;
@@ -46,6 +53,16 @@ public class QuizMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(QuizMainActivity.this);
+        userEmail = acct.getEmail();
+
+
         readJSONFromURL();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_main_activity);
@@ -58,21 +75,10 @@ public class QuizMainActivity extends AppCompatActivity {
         btn_start_quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //dodane
-                Toast.makeText(QuizMainActivity.this, String.valueOf(highscoreList.size()), Toast.LENGTH_SHORT).show();
-               /* new Thread(new Runnable() {
-                    public void run() {
-                        try {
-                            sendPUT(highscore);
-                        } catch (JSONException e) {
-                            Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        } catch (IOException e) {
-                            Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }).start();*/
-                checkIfHighscoreUpdateNeeded("kubawu1912@wp.pl");
-                //dodane
+
+                Toast.makeText(QuizMainActivity.this, userEmail, Toast.LENGTH_SHORT).show();
+                checkIfHighscoreUpdateNeeded(userEmail);
+
                 startQuiz();
             }
         });
@@ -137,7 +143,7 @@ public class QuizMainActivity extends AppCompatActivity {
         conn.setRequestProperty("Accept", "application/json");
         conn.setDoOutput(true);
         conn.setDoInput(true);
-        highscoreList.add(new Highscore(highscore, "kubawu1912@wp.pl"));
+        highscoreList.add(new Highscore(highscore, userEmail));
         for (int i = 0; i < highscoreList.size(); i++) {
             JSONObject jsonParam = new JSONObject();
             jsonParam.put("highscore", highscoreList.get(i).getHighscore());
@@ -209,29 +215,44 @@ public class QuizMainActivity extends AppCompatActivity {
     public void checkIfHighscoreUpdateNeeded(String email) {
         int licznik = 0;
         for (int i = 0; i < highscoreList.size(); i++) {
+            if (highscoreList.get(i).getEmail().equals(email)) licznik++;
+        }
+
+
+        for (int i = 0; i < highscoreList.size(); i++) {
             if (highscoreList.get(i).getEmail().equals(email)) {
-                licznik++;
                 if (highscoreList.get(i).getHighscore() < highscore) {
                     //to wtedy usun stare z listy
                     highscoreList.remove(highscoreList.get(i));
                     // Toast.makeText(this, "XD6", Toast.LENGTH_SHORT).show();
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
-                                sendPUT(highscore);
-                            } catch (JSONException e) {
-                                Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                            } catch (IOException e) {
-                                Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }).start();
+                    sendData();
                 }
             }
         }
 
+        //jesli jeszcze nie ma w bazie
+        if (licznik == 0) sendData();
+
         Toast.makeText(this, String.valueOf(highscoreList.size()), Toast.LENGTH_SHORT).show();
 
+
+    }
+
+    public void sendData() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    sendPUT(highscore);
+                } catch (JSONException e) {
+                    Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                    Toast.makeText(QuizMainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }).start();
+    }
+
+    public void showYourRanking(){
 
     }
 }
