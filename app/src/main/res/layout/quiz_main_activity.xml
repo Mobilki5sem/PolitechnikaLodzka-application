@@ -59,4 +59,17 @@
         android:fontFamily="@font/creepster"
         android:textSize="30dp"
         android:text="ADD QUESTION" />
+
+    <TextView
+        android:id="@+id/yourPlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_marginBottom="50dp"
+        android:fontFamily="@font/creepster"
+        android:text='"YOUR SCORE OR HIGHER GOT... "'
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 </RelativeLayout>
