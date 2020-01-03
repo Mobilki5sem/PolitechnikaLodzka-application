@@ -262,4 +262,11 @@ public class QuizMainActivity extends AppCompatActivity {
         return place2;
 
     }
+
+    @Override
+    protected void onResume(){
+        readJSONFromURL();
+        super.onResume();
+
+    }
 }
