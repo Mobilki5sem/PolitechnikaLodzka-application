@@ -178,6 +178,7 @@ public class QuizMainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            highscoreList.clear();
                             JSONArray jsonArray = response.getJSONArray("highscoreList");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
