@@ -12,6 +12,7 @@
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:ems="10"
         android:hint="@string/imie_hint"
         android:inputType="textPersonName"
@@ -21,6 +22,7 @@
         android:id="@+id/etSurname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:ems="10"
         android:hint="@string/nazwisko_hint"
         android:inputType="textPersonName"
@@ -34,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:background="@drawable/lecturers_button"
+        android:background="@drawable/my_button"
         android:text="@string/szukaj"
         android:textColor="@android:color/white" />
 
