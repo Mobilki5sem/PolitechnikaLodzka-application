@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -38,6 +40,7 @@ public class QuizMainActivity extends AppCompatActivity {
     private String userEmail;
     GoogleSignInClient mGoogleSignInClient;
 
+    TextView yourPlace_txt;
     TextView start_txt;
     Button btn_start_quiz;
     TextView highscore_txt;
@@ -56,12 +59,9 @@ public class QuizMainActivity extends AppCompatActivity {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(QuizMainActivity.this);
         userEmail = acct.getEmail();
-
 
         readJSONFromURL();
         super.onCreate(savedInstanceState);
@@ -71,19 +71,16 @@ public class QuizMainActivity extends AppCompatActivity {
         start_txt = findViewById(R.id.start_txt);
         btn_start_quiz = findViewById(R.id.btn_start_quiz);
         highscore_txt = findViewById(R.id.highscore_txt);
+        yourPlace_txt = findViewById(R.id.yourPlace);
+        btn_add_quest = findViewById(R.id.btn_add_quest);
         loadHighscore();
         btn_start_quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(QuizMainActivity.this, userEmail, Toast.LENGTH_SHORT).show();
                 checkIfHighscoreUpdateNeeded(userEmail);
-
                 startQuiz();
             }
         });
-        btn_add_quest = findViewById(R.id.btn_add_quest);
-
         btn_add_quest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,12 +89,19 @@ public class QuizMainActivity extends AppCompatActivity {
             }
         });
 
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                yourPlace_txt.setTextColor(Color.RED);
+                yourPlace_txt.setText("YOUR SCORE OR HIGHER GOT " + showYourRanking() + "%" + " OF PLAYERS");
+            }
+        }, 2000);
 
     }
 
     private void startQuiz() {
         Intent intent = new Intent(QuizMainActivity.this, QuizActivity.class);
-        //startActivity(intent);
         startActivityForResult(intent, REQUEST_CODE_QUIZ);
     }
 
@@ -133,7 +137,6 @@ public class QuizMainActivity extends AppCompatActivity {
 
     //wyslij
     public void sendPUT(int highscore) throws JSONException, IOException {
-        //SPRAWDZ++;
         JSONArray jsonarray = new JSONArray();
 
         URL url = new URL("https://api.jsonbin.io/b/5e051657e3eeeb70eb972f3d");
@@ -150,13 +153,12 @@ public class QuizMainActivity extends AppCompatActivity {
             jsonParam.put("email", highscoreList.get(i).getEmail());
             jsonarray.put(jsonParam);
         }
-        //
+
         JSONObject jsonCyk = new JSONObject();
         jsonCyk.put("highscoreList", jsonarray);
 
         Log.i("JSON", jsonCyk.toString());
         DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-        //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
         os.writeBytes(jsonCyk.toString());
         os.flush();
         os.close();
@@ -213,29 +215,23 @@ public class QuizMainActivity extends AppCompatActivity {
     }
 
     public void checkIfHighscoreUpdateNeeded(String email) {
-        int licznik = 0;
+        int cnt = 0;
         for (int i = 0; i < highscoreList.size(); i++) {
-            if (highscoreList.get(i).getEmail().equals(email)) licznik++;
+            if (highscoreList.get(i).getEmail().equals(email)) cnt++;
         }
 
 
         for (int i = 0; i < highscoreList.size(); i++) {
             if (highscoreList.get(i).getEmail().equals(email)) {
                 if (highscoreList.get(i).getHighscore() < highscore) {
-                    //to wtedy usun stare z listy
+                    //wtedy usun stare z listy
                     highscoreList.remove(highscoreList.get(i));
-                    // Toast.makeText(this, "XD6", Toast.LENGTH_SHORT).show();
                     sendData();
                 }
             }
         }
-
         //jesli jeszcze nie ma w bazie
-        if (licznik == 0) sendData();
-
-        Toast.makeText(this, String.valueOf(highscoreList.size()), Toast.LENGTH_SHORT).show();
-
-
+        if (cnt == 0) sendData();
     }
 
     public void sendData() {
@@ -252,7 +248,18 @@ public class QuizMainActivity extends AppCompatActivity {
         }).start();
     }
 
-    public void showYourRanking(){
+    public String showYourRanking() {
+        double numberOfUsers = highscoreList.size();
+        double counter = 0;
+
+        for (int i = 0; i < highscoreList.size(); i++) {
+            if (highscoreList.get(i).getHighscore() >= highscore) {
+                counter++;
+            }
+        }
+        double place = (counter / numberOfUsers) * 100;
+        String place2 = String.valueOf(place);
+        return place2;
 
     }
 }
