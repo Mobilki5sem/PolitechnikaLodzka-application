@@ -249,13 +249,13 @@ public class QuizActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        Intent intent = new Intent(QuizActivity.this, MainActivityBetter.class);
-        startActivity(intent);
+        //Intent intent = new Intent(QuizActivity.this, MainActivityBetter.class);
+       // startActivity(intent);
         Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie QUIZu!!! ", Toast.LENGTH_SHORT).show();
     }
+
 }

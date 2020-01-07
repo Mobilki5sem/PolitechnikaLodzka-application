@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import com.team.szkielet.MainActivityBetter;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -215,6 +216,13 @@ public class QuizMainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         readJSONFromURL();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkIfHighscoreUpdateNeeded(userEmail);
+            }
+        }, 2000);
         super.onRestart();
     }
 
@@ -279,7 +287,22 @@ public class QuizMainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         readJSONFromURL();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkIfHighscoreUpdateNeeded(userEmail);
+            }
+        }, 2000);
         super.onResume();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        //Intent intent = new Intent(QuizMainActivity.this, MainActivityBetter.class);
+        //startActivity(intent);
     }
 }
