@@ -73,10 +73,10 @@ public class CorrectLogin extends AppCompatActivity {
             tvEmail.setText(personEmail);
             tvID.setText(personID);
             Glide.with(CorrectLogin.this).load(personPhoto).into(ivPhoto);
-            Toast toast = Toast.makeText(CorrectLogin.this, "Jesteś zalogowany na " + personEmail, Toast.LENGTH_SHORT);
-            ((TextView) ((LinearLayout) toast.getView()).getChildAt(0))
-                    .setGravity(Gravity.CENTER_HORIZONTAL);
-            toast.show();
+//            Toast toast = Toast.makeText(CorrectLogin.this, "Jesteś zalogowany na " + personEmail, Toast.LENGTH_SHORT);
+//            ((TextView) ((LinearLayout) toast.getView()).getChildAt(0))
+//                    .setGravity(Gravity.CENTER_HORIZONTAL);
+//            toast.show();
         }
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {

@@ -66,8 +66,8 @@ public class QuizMainActivity extends AppCompatActivity {
         readJSONFromURL();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_main_activity);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Quiz");
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle("Quiz");
         start_txt = findViewById(R.id.start_txt);
         btn_start_quiz = findViewById(R.id.btn_start_quiz);
         highscore_txt = findViewById(R.id.highscore_txt);

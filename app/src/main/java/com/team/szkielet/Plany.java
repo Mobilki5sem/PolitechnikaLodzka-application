@@ -41,10 +41,10 @@ public class Plany extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plany);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Plany zajęć");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle("Plany zajęć");
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setDisplayShowHomeEnabled(true);
         readFromSharedPreferences();
 
         progressBar = findViewById(R.id.progressBar);

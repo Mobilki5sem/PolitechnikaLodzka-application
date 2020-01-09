@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -47,6 +48,7 @@ public class FindRoom extends AppCompatActivity {
         btnPokazNaMapie = findViewById(R.id.btnPokazNaMapie);
         btnZnajdzSale = findViewById(R.id.btnZnajdzSale);
         tvInfo = findViewById(R.id.tvInfo);
+        tvInfo.setVisibility(View.GONE);
         ivBudynek = findViewById(R.id.ivBudynek);
         ivBudynek.setBackgroundResource(R.drawable.elko);
         rgBudynek = findViewById(R.id.rgBudynek);
@@ -102,6 +104,13 @@ public class FindRoom extends AppCompatActivity {
                         Toast.makeText(FindRoom.this, "Najpierw wybierz budynek", Toast.LENGTH_SHORT).show();
                     } else {
                         tvInfo.setText(checkWhereIsRoom(checkedRB, etSala.getText().toString()));
+                        tvInfo.setVisibility(View.VISIBLE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                tvInfo.setVisibility(View.GONE);
+                            }
+                        }, 6000);
                     }
                 } else {
                     Toast.makeText(FindRoom.this, "Najpierw wpisz salę do wyszukania", Toast.LENGTH_SHORT).show();
@@ -153,7 +162,11 @@ public class FindRoom extends AppCompatActivity {
             else if(findRoom.charAt(0) == 'F') {
                 if(findRoom.equals("F2") || findRoom.equals("F3") || findRoom.equals("F4") || findRoom.equals("F5") || findRoom.equals("F6") ||
                         findRoom.equals("F6a") || findRoom.equals("F7") || findRoom.equals("F8") || findRoom.equals("F9") || findRoom.equals("F10")) {
-                    ret = "No to tutaj mamy jazde bez trzymanki na sale z F";
+                    if(findRoom.equals("F2") || findRoom.equals("F3") || findRoom.equals("F4") || findRoom.equals("F5") || findRoom.equals("F6") || findRoom.equals("F6a")){
+                        ret = "Audytorium znajduje się na parterze w B9.";
+                    } else {
+                        ret = "Audytorium znajduje się na III piętrze w B9.";
+                    }
                 } else {
                     tvInfo.setTextColor(Color.RED);
                     ret = "Nie ma takiego audytorium w B9";
