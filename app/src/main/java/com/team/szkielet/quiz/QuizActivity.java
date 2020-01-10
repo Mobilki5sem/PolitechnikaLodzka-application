@@ -112,7 +112,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (answerNr == currentQuestion.getAnswerNr()) {
             score++;
-            score = score + (int)(timeLeft/1000);
+            score = score + (int) (timeLeft / 1000);
             score_txt.setText("Score:" + score);
         }
 
@@ -147,7 +147,7 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    private void showFinish(){
+    private void showFinish() {
         btn_confirm_next.setText("Finish Quiz");
         question_txt.setTextColor(Color.WHITE);
         btn_confirm_next.setTextSize(35);
@@ -255,12 +255,13 @@ public class QuizActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
         //Intent intent = new Intent(QuizActivity.this, MainActivityBetter.class);
-       // startActivity(intent);
+        // startActivity(intent);
         Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie QUIZu!!! ", Toast.LENGTH_SHORT).show();
     }
 
