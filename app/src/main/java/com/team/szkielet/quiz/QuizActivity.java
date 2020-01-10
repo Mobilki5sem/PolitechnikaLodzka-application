@@ -112,6 +112,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (answerNr == currentQuestion.getAnswerNr()) {
             score++;
+            score = score + (int)(timeLeft/1000);
             score_txt.setText("Score:" + score);
         }
 

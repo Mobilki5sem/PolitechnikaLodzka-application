@@ -79,8 +79,14 @@ public class QuizMainActivity extends AppCompatActivity {
         btn_start_quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkIfHighscoreUpdateNeeded(userEmail);
-                startQuiz();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkIfHighscoreUpdateNeeded(userEmail);
+                        startQuiz();
+                    }
+                }, 500);
             }
         });
         btn_add_quest.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +102,8 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 yourPlace_txt.setTextColor(Color.RED);
-                yourPlace_txt.setText("YOUR SCORE OR HIGHER GOT " + showYourRanking() + "%" + " OF PLAYERS");
+                //yourPlace_txt.setText("YOUR SCORE OR HIGHER GOT " + showYourRanking() + "%" + " OF PLAYERS");
+                yourPlace_txt.setText("YOUR RANKING: " + showYourRanking());
             }
         }, 2000);
 
@@ -261,17 +268,18 @@ public class QuizMainActivity extends AppCompatActivity {
     }
 
     public String showYourRanking() {
-        double numberOfUsers = highscoreList.size();
-        double counter = 0;
+        int numberOfUsers = highscoreList.size();
+        int counter = 1;
 
         for (int i = 0; i < highscoreList.size(); i++) {
-            if (highscoreList.get(i).getHighscore() >= highscore) {
+            if (highscoreList.get(i).getHighscore() > highscore && !(highscoreList.get(i).getEmail().equals(userEmail))) {
                 counter++;
             }
         }
-        double place = (counter / numberOfUsers) * 100;
-        String place2 = String.valueOf(place);
-        return place2;
+        //double place = (counter / numberOfUsers) * 100;
+        //String place2 = String.valueOf(place);
+        String place = counter + "/" + numberOfUsers;
+        return place;
 
     }
 
