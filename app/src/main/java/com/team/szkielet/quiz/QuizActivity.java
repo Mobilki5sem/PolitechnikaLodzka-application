@@ -9,6 +9,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -138,24 +139,28 @@ public class QuizActivity extends AppCompatActivity {
                 break;
         }
         if (questionCounter < questionTotal) {
-            btn_confirm_next.setText("Next");
+            btn_confirm_next.setText("NEXT");
         } else {
-            btn_confirm_next.setText("Finish Quiz");
-            question_txt.setTextColor(Color.WHITE);
-            btn_confirm_next.setTextSize(35);
-            question_txt.setText("BRAWO, DOTRWAŁES DO KONCA!");
-            relativeLayout.setBackgroundColor(Color.BLACK);
-            score_txt.setTextColor(Color.WHITE);
-            radio_group.setVisibility(View.GONE);
-
-            btn_confirm_next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finishQuiz();
-                }
-            });
+            btn_confirm_next.setText("END QUIZ");
         }
 
+    }
+
+    private void showFinish(){
+        btn_confirm_next.setText("Finish Quiz");
+        question_txt.setTextColor(Color.WHITE);
+        btn_confirm_next.setTextSize(35);
+        question_txt.setText("BRAWO, DOTRWAŁES DO KONCA!");
+        relativeLayout.setBackgroundColor(Color.BLACK);
+        score_txt.setTextColor(Color.WHITE);
+        radio_group.setVisibility(View.GONE);
+
+        btn_confirm_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishQuiz();
+            }
+        });
     }
 
     private void showNextQuestion() {
@@ -182,9 +187,9 @@ public class QuizActivity extends AppCompatActivity {
 
         } else {
             //Jak odpowiiem na wszystkie pytania
-            btn_confirm_next.setText("Finish Quiz");
+            btn_confirm_next.setText("GO BACK TO MENU");
             question_txt.setTextColor(Color.WHITE);
-            btn_confirm_next.setTextSize(35);
+            btn_confirm_next.setTextSize(15);
             question_txt.setText("BRAWO, DOTRWAŁES DO KONCA!");
             relativeLayout.setBackgroundColor(Color.BLACK);
             score_txt.setTextColor(Color.WHITE);
