@@ -9,40 +9,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.team.szkielet.R;
-import com.team.szkielet.event.AddEvent;
-import com.team.szkielet.event.Events;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-
-import org.apache.http.client.methods.*;
-import org.apache.http.impl.client.*;
 
 public class QuizAddQuestion extends AppCompatActivity {
 
@@ -86,7 +70,6 @@ public class QuizAddQuestion extends AppCompatActivity {
                     final String ansB = type_answ_b.getText().toString();
                     final String ansC = type_answ_c.getText().toString();
                     final String ansD = type_answ_d.getText().toString();
-                    //Toast.makeText(QuizAddQuestion.this, Integer.toString(SPRAWDZ), Toast.LENGTH_SHORT).show();
 
                     new Thread(new Runnable() {
                         public void run() {
@@ -106,7 +89,6 @@ public class QuizAddQuestion extends AppCompatActivity {
     }
 
     public void sendPUT(final String question, final String ansA, final String ansB, final String ansC, final String ansD) throws JSONException, IOException {
-        //SPRAWDZ++;
         JSONArray jsonarray = new JSONArray();
 
         URL url = new URL("https://api.jsonbin.io/b/5dc5302cc9b247772abc4e2d");
@@ -133,7 +115,7 @@ public class QuizAddQuestion extends AppCompatActivity {
 
         Log.i("JSON", jsonCyk.toString());
         DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-        //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+
         os.writeBytes(jsonCyk.toString());
         os.flush();
         os.close();
@@ -196,8 +178,6 @@ public class QuizAddQuestion extends AppCompatActivity {
 
     private void afterSendQuestion() {
         finish();
-        Intent intent = new Intent(QuizAddQuestion.this, QuizMainActivity.class);
-        startActivity(intent);
         Toast.makeText(QuizAddQuestion.this, "Dziękujemy, pomyślnie przesłałeś swoją propozycję pytania!", Toast.LENGTH_SHORT).show();
     }
 
