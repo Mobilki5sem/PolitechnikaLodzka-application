@@ -9,7 +9,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -18,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.team.szkielet.MainActivityBetter;
 import com.team.szkielet.R;
 
 import java.util.Collections;
@@ -81,8 +79,7 @@ public class QuizActivity extends AppCompatActivity {
         QuizDbHelper dbHelper = new QuizDbHelper(this);
         //jak wywolujemy pierwszy raz to stworzy to tez baze
         questionList = dbHelper.getAllQuestions();
-        //questionTotal = questionList.size();
-        questionTotal = 5;
+        questionTotal = 10;
         Collections.shuffle(questionList);
         showNextQuestion(); //pokaz pierwsze pytanie, metoda wykona sie tylko raz, pozniej juz tylko onClickListener
         btn_confirm_next.setOnClickListener(new View.OnClickListener() {
@@ -242,10 +239,6 @@ public class QuizActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_SCORE, score);
         setResult(RESULT_OK, intent);
         finish();
-        // startActivity(intent);
-        // Toast.makeText(QuizActivity.this, "Quiz Zakonczony", Toast.LENGTH_SHORT).show();
-
-
     }
 
     @Override
@@ -260,8 +253,6 @@ public class QuizActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        //Intent intent = new Intent(QuizActivity.this, MainActivityBetter.class);
-        // startActivity(intent);
         Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie QUIZu!!! ", Toast.LENGTH_SHORT).show();
     }
 

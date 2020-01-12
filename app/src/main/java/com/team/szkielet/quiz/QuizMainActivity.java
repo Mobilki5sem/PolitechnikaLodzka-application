@@ -1,7 +1,6 @@
 package com.team.szkielet.quiz;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
-import com.team.szkielet.MainActivityBetter;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -68,14 +66,11 @@ public class QuizMainActivity extends AppCompatActivity {
         readJSONFromURL();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_main_activity);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setTitle("Quiz");
         start_txt = findViewById(R.id.start_txt);
         btn_start_quiz = findViewById(R.id.btn_start_quiz);
         highscore_txt = findViewById(R.id.highscore_txt);
         yourPlace_txt = findViewById(R.id.yourPlace);
         btn_add_quest = findViewById(R.id.btn_add_quest);
-        //loadHighscore();
         btn_start_quiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +97,6 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 yourPlace_txt.setTextColor(Color.RED);
-                //yourPlace_txt.setText("YOUR SCORE OR HIGHER GOT " + showYourRanking() + "%" + " OF PLAYERS");
                 yourPlace_txt.setText("YOUR RANKING: " + showYourRanking());
             }
         }, 2000);
@@ -127,13 +121,6 @@ public class QuizMainActivity extends AppCompatActivity {
             }
         }
     }
-
-    //  private void loadHighscore() {
-    //     SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-    //       highscore =
-//                //prefs.getInt(KEY_HIGHSCORE, 0);
-    //      highscore_txt.setText("Highscore: " + highscore);
-    //   }
 
     private void updateHighscore(int highscoreNew) {
         highscore = highscoreNew;
@@ -276,8 +263,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 counter++;
             }
         }
-        //double place = (counter / numberOfUsers) * 100;
-        //String place2 = String.valueOf(place);
+
         String place = counter + "/" + numberOfUsers;
         return place;
 
@@ -310,7 +296,5 @@ public class QuizMainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        //Intent intent = new Intent(QuizMainActivity.this, MainActivityBetter.class);
-        //startActivity(intent);
     }
 }
