@@ -154,7 +154,8 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="5dp"
-        android:text="Sprawdź link" />
+        android:text="Sprawdź link"
+        android:background="@drawable/my_button"/>
 
     <Button
         android:id="@+id/btnAddEvent"
@@ -164,7 +165,8 @@
         android:layout_marginTop="25dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="15dp"
-        android:text="Dodaj nowe wydarzenie" />
+        android:text="Dodaj nowe wydarzenie"
+        android:background="@drawable/my_button"/>
 
 </LinearLayout>
 </ScrollView>

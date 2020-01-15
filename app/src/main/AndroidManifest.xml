@@ -34,6 +34,7 @@
             android:theme="@style/Main"
             android:screenOrientation="portrait"/>
         <activity android:name=".quiz.QuizActivity"
+            android:theme="@style/Main"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".PopUpInPlany"

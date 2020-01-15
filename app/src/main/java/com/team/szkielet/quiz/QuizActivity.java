@@ -59,8 +59,6 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_activity);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Quiz");
         score_txt = findViewById(R.id.score_txt);
         question_count_txt = findViewById(R.id.question_count_txt);
         question_txt = findViewById(R.id.question_txt);
@@ -139,7 +137,7 @@ public class QuizActivity extends AppCompatActivity {
         if (questionCounter < questionTotal) {
             btn_confirm_next.setText("NEXT");
         } else {
-            btn_confirm_next.setText("END QUIZ");
+            btn_confirm_next.setText("Zakoncz quiz");
         }
 
     }
@@ -185,7 +183,8 @@ public class QuizActivity extends AppCompatActivity {
 
         } else {
             //Jak odpowiiem na wszystkie pytania
-            btn_confirm_next.setText("GO BACK TO MENU");
+            time_txt.setVisibility(View.GONE);
+            btn_confirm_next.setText("Wroc do menu quizu.");
             question_txt.setTextColor(Color.WHITE);
             btn_confirm_next.setTextSize(15);
             question_txt.setText("BRAWO, DOTRWAŁES DO KONCA!");
