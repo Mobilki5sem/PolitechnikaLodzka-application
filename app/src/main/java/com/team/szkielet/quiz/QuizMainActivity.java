@@ -217,6 +217,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 checkIfHighscoreUpdateNeeded(userEmail);
             }
         }, 2000);
+        Toast.makeText(this, "onRestart()", Toast.LENGTH_SHORT).show();
         super.onRestart();
     }
 
@@ -226,18 +227,21 @@ public class QuizMainActivity extends AppCompatActivity {
             if (highscoreList.get(i).getEmail().equals(email)) cnt++;
         }
 
-
-        for (int i = 0; i < highscoreList.size(); i++) {
-            if (highscoreList.get(i).getEmail().equals(email)) {
-                if (highscoreList.get(i).getHighscore() < highscore) {
-                    //wtedy usun stare z listy
-                    highscoreList.remove(highscoreList.get(i));
-                    sendData();
+        if(cnt == 0) {
+            sendData();
+        } else {
+            for (int i = 0; i < highscoreList.size(); i++) {
+                if (highscoreList.get(i).getEmail().equals(email)) {
+                    if (highscoreList.get(i).getHighscore() < highscore) {
+                        //wtedy usun stare z listy
+                        highscoreList.remove(highscoreList.get(i));
+                        sendData();
+                    }
                 }
             }
         }
         //jesli jeszcze nie ma w bazie
-        if (cnt == 0) sendData();
+       // if (cnt == 0) sendData();
     }
 
     public void sendData() {
@@ -288,6 +292,7 @@ public class QuizMainActivity extends AppCompatActivity {
                 checkIfHighscoreUpdateNeeded(userEmail);
             }
         }, 2000);
+        Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
         super.onResume();
 
     }
