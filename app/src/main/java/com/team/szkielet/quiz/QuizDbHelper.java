@@ -14,7 +14,7 @@ import java.util.List;
 public class QuizDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "PolitechnikaQuiz.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     private SQLiteDatabase db;
 
     public QuizDbHelper(Context context) {
