@@ -32,6 +32,7 @@ public class SignIn extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in_button);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 
@@ -62,7 +63,7 @@ public class SignIn extends AppCompatActivity {
             startActivity(new Intent(SignIn.this, CorrectLogin.class));
         } catch (ApiException e) {
             Log.w("Google Sign in Error", "signInResult:failed code=" + e.getStatusCode());
-            Toast.makeText(SignIn.this, "ZAAKTUALIZUJ GOOGLE PLAY SERVICE", Toast.LENGTH_LONG).show();
+            Toast.makeText(SignIn.this, "signInResult:failed code=" + e.getStatusCode(), Toast.LENGTH_LONG).show();
         }
     }
 
