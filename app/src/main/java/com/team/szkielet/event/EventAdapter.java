@@ -5,9 +5,11 @@ import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -24,6 +26,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+        void onLongClicked(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -46,6 +49,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             cvID = itemView.findViewById(R.id.cvID);
             llWitam = itemView.findViewById(R.id.llWitam);
             ivBackground = itemView.findViewById(R.id.ivBackground);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -55,6 +59,19 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                             listener.onItemClick(position);
                         }
                     }
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onLongClicked(position);
+                        }
+                    }
+                    return true;
                 }
             });
         }

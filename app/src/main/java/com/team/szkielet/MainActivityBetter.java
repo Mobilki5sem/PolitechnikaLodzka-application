@@ -26,6 +26,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.team.szkielet.event.Event;
 import com.team.szkielet.event.Events;
+import com.team.szkielet.event.Skarga;
 import com.team.szkielet.login.SignIn;
 import com.team.szkielet.quiz.QuizMainActivity;
 import com.team.szkielet.rooms.FindRoom;
@@ -189,6 +190,8 @@ public class MainActivityBetter extends AppCompatActivity {
         Events.eventsList.clear();
         mQueue = Volley.newRequestQueue(this);
         jsonParseEventList();
+        jsonParselistaSkarg();
+        Toast.makeText(MainActivityBetter.this, "done", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -290,6 +293,34 @@ public class MainActivityBetter extends AppCompatActivity {
                                             employee.getInt("year"),
                                             employee.getString("userEmail")));
                                 }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(request);
+    }
+
+    private void jsonParselistaSkarg() {
+        String url = "https://api.jsonbin.io/b/5e2afbd4593fd741856f8e2f/latest";
+        Events.listaSkarg.clear();
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("skargi");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject skarga = jsonArray.getJSONObject(i);
+                                Events.listaSkarg.add(new Skarga(skarga.getString("eventName"), skarga.getString("mail")));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

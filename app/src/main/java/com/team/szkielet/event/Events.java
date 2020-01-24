@@ -2,11 +2,13 @@ package com.team.szkielet.event;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -24,11 +26,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.team.szkielet.MainActivityBetter;
 import com.team.szkielet.Plany;
 import com.team.szkielet.Prowadzacy;
 import com.team.szkielet.R;
+import com.team.szkielet.login.SignIn;
 import com.team.szkielet.quiz.QuizMainActivity;
 import com.team.szkielet.rooms.FindRoom;
 
@@ -36,6 +43,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -49,6 +63,9 @@ public class Events extends AppCompatActivity {
     private FloatingActionButton fabtnAdd;
     private RequestQueue mQueue;
     static public ArrayList<Event> eventsList = new ArrayList<>();
+    static public ArrayList<Skarga> listaSkarg = new ArrayList<>();
+    GoogleSignInClient mGoogleSignInClient;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +75,21 @@ public class Events extends AppCompatActivity {
         actionBar.setTitle("Wydarzenia");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(Events.this);
+        if(acct != null) {
+            userEmail = acct.getEmail();
+        } else {
+            Toast.makeText(Events.this, "Musisz się zalogować na konto google aby móc przeglądać nadchodzące wydarzenia!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Events.this, SignIn.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+
 
         fabtnAdd = findViewById(R.id.fabtnAdd);
         fabtnAdd.setOnClickListener(new View.OnClickListener() {
@@ -114,12 +146,53 @@ public class Events extends AppCompatActivity {
                     Toast.makeText(Events.this, "Nie ma linku do wydarzenia.", Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            public void onLongClicked(final int position) {
+                final String eventName = eventsList.get(position).getEventName();
+                AlertDialog.Builder builder = new AlertDialog.Builder(Events.this);
+                builder.setCancelable(true);
+                builder.setTitle("Potwierdzenie");
+                builder.setMessage("Czy aby na pewno chcesz zgłosić wydarzenie \"" + eventName + "\"? Uważasz, że jest nieodpowiednie, bądź obraża innych? Kliknij przycisk 'ZGŁOŚ'.");
+                builder.setPositiveButton("Zgłoś",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(!checkIfYouDontHaveSkargaOnThisEvent(eventName)) {
+                                    listaSkarg.add(new Skarga(eventName,userEmail));
+                                    new Thread(new Runnable() {
+                                        public void run() {
+                                            try {
+                                                jsonPUTSkargi();
+                                            } catch (JSONException e) {
+                                                Toast.makeText(Events.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            } catch (IOException e) {
+                                                Toast.makeText(Events.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    }).start();
+                                    Toast.makeText(Events.this, "Dziękujemy za informację o problematycznym wydarzeniu.", Toast.LENGTH_SHORT).show();
+                                    //checkHowManySkargiEventHave();
+                                } else {
+                                    Toast.makeText(Events.this, "To wydarzenie zostało już przez Ciebie zgłoszone!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(Events.this, "Zgłoszenie zostało anulowane.", Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
         });
     }
 
     @Override
     protected void onResume() {
-        //Toast.makeText(Events.this, "onResume", Toast.LENGTH_SHORT).show();
         addRecyclerView();
         super.onResume();
     }
@@ -225,5 +298,42 @@ public class Events extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    public static void jsonPUTSkargi() throws JSONException, IOException {
+        JSONArray array = new JSONArray();
+        ArrayList<Skarga> list = Events.listaSkarg;
+        for (int i = 0; i < list.size(); i++) {
+            JSONObject postData = new JSONObject();
+            postData.put("eventName", list.get(i).getEventName());
+            postData.put("mail", list.get(i).getMail());
+            array.put(postData);
+        }
+        JSONObject start = new JSONObject();
+        start.put("skargi", array);
+
+        URL url = new URL("https://api.jsonbin.io/b/5e2afbd4593fd741856f8e2f");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("PUT");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        OutputStream out = new BufferedOutputStream(connection.getOutputStream());
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                out, "UTF-8"));
+        writer.write(start.toString());
+        writer.flush();
+        System.err.println(connection.getResponseCode());
+    }
+
+    public boolean checkIfYouDontHaveSkargaOnThisEvent(String eventSkarga){
+        for(int i = 0; i < listaSkarg.size(); i++) {
+            if(listaSkarg.get(i).getMail().equals(userEmail)) {
+                if(listaSkarg.get(i).getEventName().equals(eventSkarga)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
