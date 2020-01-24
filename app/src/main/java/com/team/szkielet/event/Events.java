@@ -71,10 +71,7 @@ public class Events extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Wydarzenia");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -172,7 +169,7 @@ public class Events extends AppCompatActivity {
                                         }
                                     }).start();
                                     Toast.makeText(Events.this, "Dziękujemy za informację o problematycznym wydarzeniu.", Toast.LENGTH_SHORT).show();
-                                    //checkHowManySkargiEventHave();
+                                    checkHowManySkargiEventHave(position, eventName);
                                 } else {
                                     Toast.makeText(Events.this, "To wydarzenie zostało już przez Ciebie zgłoszone!", Toast.LENGTH_SHORT).show();
                                 }
@@ -335,5 +332,66 @@ public class Events extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    public void checkHowManySkargiEventHave(int position, String eventSkarga) {
+        int howManySkargi = 0;
+        for(int i = 0; i < listaSkarg.size(); i++) {
+            if (listaSkarg.get(i).getEventName().equals(eventSkarga)) {
+                howManySkargi++;
+            }
+        }
+        if(howManySkargi > 10) {
+            //usuwamy z EventList event o pozycji position
+            eventsList.remove(position);
+            //wysyłamy PUT z aktualizacją na binJSON
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        jsonPUT();
+                    } catch (JSONException e) {
+                        Toast.makeText(Events.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        Toast.makeText(Events.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }).start();
+            Toast.makeText(Events.this, "Wydarzenie zostanie usunięte!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(Events.this, "Aby wydarzenie zostało usunięte potrzeba jeszcze " + (10 - howManySkargi) + " zgłoszeń.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void jsonPUT() throws JSONException, IOException {
+        JSONArray array = new JSONArray();
+        ArrayList<Event> list = Events.eventsList;
+        for (int i = 0; i < list.size(); i++) {
+            JSONObject postData = new JSONObject();
+            postData.put("eventName", list.get(i).getEventName());
+            postData.put("description", list.get(i).getDescription());
+            postData.put("linkToEvent", list.get(i).getLinkToEvent());
+            postData.put("image", list.get(i).getImage());
+            postData.put("day", list.get(i).getDay());
+            postData.put("month", list.get(i).getMonth());
+            postData.put("year", list.get(i).getYear());
+            postData.put("userEmail", list.get(i).getUserEmail());
+
+            array.put(postData);
+        }
+        JSONObject start = new JSONObject();
+        start.put("events", array);
+
+        URL url = new URL("https://api.jsonbin.io/b/5db729fbc24f785e64f6226c");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("PUT");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        OutputStream out = new BufferedOutputStream(connection.getOutputStream());
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                out, "UTF-8"));
+        writer.write(start.toString());
+        writer.flush();
+        System.err.println(connection.getResponseCode());
     }
 }

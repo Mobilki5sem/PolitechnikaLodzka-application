@@ -191,7 +191,7 @@ public class MainActivityBetter extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
         jsonParseEventList();
         jsonParselistaSkarg();
-        Toast.makeText(MainActivityBetter.this, "done", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivityBetter.this, "done", Toast.LENGTH_SHORT).show();
     }
 
     @Override

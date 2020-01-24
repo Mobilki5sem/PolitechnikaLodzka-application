@@ -29,6 +29,7 @@
         <activity android:name=".event.AddEvent"
             android:screenOrientation="portrait"/>
         <activity android:name=".event.Events"
+            android:theme="@style/Main"
             android:screenOrientation="portrait"/>
         <activity android:name=".quiz.QuizMainActivity"
             android:theme="@style/Main"

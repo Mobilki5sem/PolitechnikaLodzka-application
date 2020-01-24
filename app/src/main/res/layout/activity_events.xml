@@ -8,11 +8,26 @@
     android:orientation="vertical"
     android:background="@color/colorBackground">
 
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="Zielone tło - wydarzenie ma link.\nŻółte tło - wydarzenie nie ma linku.\nAby zgłosić wydarzenie przytrzymaj je dłużej."
+        android:textColor="@android:color/black"
+        android:textStyle="italic" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="65dp"
         android:layout_marginBottom="10dp"
         android:padding="4dp"
         android:scrollbars="vertical" />
