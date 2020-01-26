@@ -216,7 +216,7 @@ public class QuizMainActivity extends AppCompatActivity {
             public void run() {
                 checkIfHighscoreUpdateNeeded(userEmail);
             }
-        }, 2000);
+        }, 1000);
         //Toast.makeText(this, "onRestart()", Toast.LENGTH_SHORT).show();
         super.onRestart();
     }
@@ -291,7 +291,7 @@ public class QuizMainActivity extends AppCompatActivity {
             public void run() {
                 checkIfHighscoreUpdateNeeded(userEmail);
             }
-        }, 2000);
+        }, 3000);
         //Toast.makeText(this, "onResume()", Toast.LENGTH_SHORT).show();
         super.onResume();
 
