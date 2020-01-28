@@ -112,7 +112,7 @@ public class Prowadzacy extends AppCompatActivity {
                     @SuppressLint("SetTextI18n")
                     public void run() {
                         if (ifNotFound) {
-                            Toast.makeText(Prowadzacy.this, "Nic nie znaleziono. Spróbuj wyszukać jeszcze raz podając inne dane.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Prowadzacy.this, "Nic nie znaleziono. Spróbuj wyszukać jeszcze raz podając inne dane.", Toast.LENGTH_LONG).show();
                             setVisibleState();
                             wwProw.setVisibility(View.GONE);
                         }
