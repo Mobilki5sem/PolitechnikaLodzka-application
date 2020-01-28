@@ -80,7 +80,6 @@ public class FindRoom extends AppCompatActivity {
                     if (rgBudynek.getCheckedRadioButtonId() != -1) {
                         int rbID = rgBudynek.getCheckedRadioButtonId();
                         rbChecked = findViewById(rbID);
-                        String maps = rbChecked.getText().toString();
                         // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
                         Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
                         // Make the Intent explicit by setting the Google Maps package
@@ -103,14 +102,9 @@ public class FindRoom extends AppCompatActivity {
                     if(checkedRB == "") {
                         Toast.makeText(FindRoom.this, "Najpierw wybierz budynek", Toast.LENGTH_SHORT).show();
                     } else {
-                        tvInfo.setText(checkWhereIsRoom(checkedRB, etSala.getText().toString()));
+                        String sala = etSala.getText().toString().toLowerCase().replace(" ", "");
+                        tvInfo.setText(checkWhereIsRoom(checkedRB, sala));
                         tvInfo.setVisibility(View.VISIBLE);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                tvInfo.setVisibility(View.GONE);
-                            }
-                        }, 6000);
                     }
                 } else {
                     Toast.makeText(FindRoom.this, "Najpierw wpisz salę do wyszukania", Toast.LENGTH_SHORT).show();
@@ -159,10 +153,10 @@ public class FindRoom extends AppCompatActivity {
                 }
             }
             else if(findRoom.equals("53a")) ret = "Sala znajduje się na parterze w B9 \nInstytut Matematyki";
-            else if(findRoom.charAt(0) == 'F') {
-                if(findRoom.equals("F2") || findRoom.equals("F3") || findRoom.equals("F4") || findRoom.equals("F5") || findRoom.equals("F6") ||
-                        findRoom.equals("F6a") || findRoom.equals("F7") || findRoom.equals("F8") || findRoom.equals("F9") || findRoom.equals("F10")) {
-                    if(findRoom.equals("F2") || findRoom.equals("F3") || findRoom.equals("F4") || findRoom.equals("F5") || findRoom.equals("F6") || findRoom.equals("F6a")){
+            else if(findRoom.charAt(0) == 'f') {
+                if(findRoom.equals("f2") || findRoom.equals("f3") || findRoom.equals("f4") || findRoom.equals("f5") || findRoom.equals("f6") ||
+                        findRoom.equals("f6a") || findRoom.equals("f7") || findRoom.equals("f8") || findRoom.equals("f9") || findRoom.equals("f10")) {
+                    if(findRoom.equals("f2") || findRoom.equals("f3") || findRoom.equals("f4") || findRoom.equals("f5") || findRoom.equals("f6") || findRoom.equals("f6a")){
                         ret = "Audytorium znajduje się na parterze w B9.";
                     } else {
                         ret = "Audytorium znajduje się na III piętrze w B9.";
@@ -195,13 +189,13 @@ public class FindRoom extends AppCompatActivity {
             else if(findRoom.equals("0.17") || findRoom.contains("magica") || findRoom.contains("Magica")) ret ="Aula Magica znajduje się na parterze w B14";
             else if(findRoom.equals("0.27") || findRoom.equals("1.04") || findRoom.equals("1.05") || findRoom.equals("1.12")
                     || findRoom.equals("3.02") || findRoom.equals("3.03")) {
-                if(findRoom.charAt(0) == '1') ret = "Audytorium projektowe / komputerowe znajduje się na \nI piętrze w B14 \nInstytut Fizyki";
-                else if(findRoom.charAt(0) == '3') ret = "Audytorium projektowe / komputerowe znajduje się na \nIII piętrze w B14 \nInstytut Fizyki";
-                else ret = "Audytorium projektowe / komputerowe znajduje się na parterze w B14 \nInstytut Fizyki";
+                if(findRoom.charAt(0) == '1') ret = "Audytorium projektowe/komputerowe znajduje się na \nI piętrze w B14 \nInstytut Fizyki";
+                else if(findRoom.charAt(0) == '3') ret = "Audytorium projektowe/komputerowe znajduje się na \nIII piętrze w B14 \nInstytut Fizyki";
+                else ret = "Audytorium projektowe/komputerowe znajduje się na parterze w B14 \nInstytut Fizyki";
             }
             else if((findRoom.charAt(0) == '1' && findRoom.charAt(1) == '.')) ret = "Sala prawdopodobnie znajduje się na I piętrze w B14";
             else if((findRoom.charAt(0) == '2' && findRoom.charAt(1) == '.')) ret = "Sala prawdopodobnie znajduje się na II piętrze w B14";
-            else if(findRoom.equals("F1")) ret = "Audytorium znajduje się na parterze w B14";
+            else if(findRoom.equals("f1")) ret = "Audytorium znajduje się na parterze w B14";
             else {
                 tvInfo.setTextColor(Color.RED);
                 ret = "Nie ma takiej sali do zajęć w B14";
