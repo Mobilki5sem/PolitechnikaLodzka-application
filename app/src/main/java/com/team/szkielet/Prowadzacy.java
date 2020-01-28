@@ -28,7 +28,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.team.szkielet.event.Events;
-import com.team.szkielet.quiz.QuizActivity;
 import com.team.szkielet.quiz.QuizMainActivity;
 import com.team.szkielet.rooms.FindRoom;
 
@@ -51,6 +50,7 @@ public class Prowadzacy extends AppCompatActivity {
     TextView textViewSurname;
     TextView textViewDegree;
     ScrollView scrollViewProw;
+    boolean ifNotFound;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -101,6 +101,24 @@ public class Prowadzacy extends AppCompatActivity {
                 System.out.println(wwProw.getUrl());
                 wwProw.evaluateJavascript("javascript:window.document.getElementById(\"page-header-wrapper\").style.display = \"none\";", null);
                 wwProw.evaluateJavascript("javascript:window.document.getElementById(\"page-footer\").style.display = \"none\";", null);
+                wwProw.evaluateJavascript("javascript:document.getElementsByClassName('userlist-header').item(0).textContent.includes('Nic nie znaleziono. Spróbuj wyszukać jeszcze raz podając inne dane.');", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        ifNotFound = Boolean.valueOf(value);
+                    }
+                });
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @SuppressLint("SetTextI18n")
+                    public void run() {
+                        if (ifNotFound) {
+                            Toast.makeText(Prowadzacy.this, "Nic nie znaleziono. Spróbuj wyszukać jeszcze raz podając inne dane.", Toast.LENGTH_LONG).show();
+                            setVisibleState();
+                            wwProw.setVisibility(View.GONE);
+                        }
+                    }
+                }, 3000);
+
                 //-----------------
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
                     wwProw.evaluateJavascript("javascript: function a() {\n" +
@@ -114,7 +132,7 @@ public class Prowadzacy extends AppCompatActivity {
                             "                    }\n" +
                             "                    a();", null);
 
-                    setVisibleState();
+                    //setVisibleState();
                 }
                 if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/profile.php?id")) {
                     System.out.println("wwProw.getUrl().startsWith(\"https://adm.edu.p.lodz.pl/user/profile.php?id\"");
@@ -161,12 +179,12 @@ public class Prowadzacy extends AppCompatActivity {
             }
 
 
-            @Override
+            /*@Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 //if (wwProw.getUrl().startsWith("https://adm.edu.p.lodz.pl/user/users.php?search=")) {
                 setLoadingState();
                 // }
-            }
+            }*/
         });
 
 //on click listener ----------------------------------------------------------------
@@ -185,6 +203,7 @@ public class Prowadzacy extends AppCompatActivity {
                     return;
                 }
                 String googleSearch;
+                setNulls();
                 setLoadingState();
                 googleSearch = "https://adm.edu.p.lodz.pl/user/users.php?search=" + name + "+" + surname;
                 wwProw.loadUrl(googleSearch);
@@ -192,6 +211,13 @@ public class Prowadzacy extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void setNulls() {
+        textViewDegree.setText(" ");
+        textViewName.setText(" ");
+        textViewSurname.setText(" ");
+        textView.setText(" ");
     }
 
     public void parseContent() {
