@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_SCORE = "extraScore";
+    MediaPlayer mediaPlayer;
 
     TextView score_txt;
     TextView question_count_txt;
@@ -59,6 +61,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_activity);
+
         score_txt = findViewById(R.id.score_txt);
         question_count_txt = findViewById(R.id.question_count_txt);
         question_txt = findViewById(R.id.question_txt);
@@ -93,8 +96,8 @@ public class QuizActivity extends AppCompatActivity {
                     showNextQuestion(); //jesli wezme NEXT lub Confirm to wywola sie ta metoda i pokaze nowe pytanie
             }
         });
-
-
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.muzyka);
+        mediaPlayer.start();
     }
 
     private void checkAnswer() {
@@ -323,6 +326,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void finishQuiz() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
         Intent intent = new Intent();
         intent.putExtra(EXTRA_SCORE, score);
         setResult(RESULT_OK, intent);
@@ -342,6 +347,8 @@ public class QuizActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
         Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie QUIZu!!! ", Toast.LENGTH_SHORT).show();
+        mediaPlayer.stop();
+        mediaPlayer.release();
     }
 
 }
