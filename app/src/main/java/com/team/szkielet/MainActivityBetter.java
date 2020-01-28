@@ -163,20 +163,20 @@ public class MainActivityBetter extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(MainActivityBetter.this);
-        if (acct != null) {
-            String name = acct.getDisplayName();
+        //if (acct != null) {
+//            String name = acct.getDisplayName();
             //String email = acct.getEmail();
-            tvHello.setText("Cześć " + name + "!!!");
+            tvHello.setText("Cześć !!!");
             /*Toast toast = Toast.makeText(MainActivityBetter.this, "Jesteś zalogowany na " + email, Toast.LENGTH_SHORT);
             ((TextView)((LinearLayout)toast.getView()).getChildAt(0))
                     .setGravity(Gravity.CENTER_HORIZONTAL);
             toast.show();*/
-        } else {
-            Toast.makeText(MainActivityBetter.this, "Musisz się zalogować!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(MainActivityBetter.this, SignIn.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
+      //  } else {
+      //      Toast.makeText(MainActivityBetter.this, "Musisz się zalogować!", Toast.LENGTH_SHORT).show();
+      //      Intent intent = new Intent(MainActivityBetter.this, SignIn.class);
+      //      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      //      startActivity(intent);
+      //  }
     }
 
     @Override
