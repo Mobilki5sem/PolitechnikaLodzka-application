@@ -97,7 +97,7 @@ public class QuizMainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 yourPlace_txt.setTextColor(Color.RED);
-                yourPlace_txt.setText("YOUR RANKING: " + showYourRanking());
+                yourPlace_txt.setText("TWOJE MIEJSCE W RANKINGU: " + showYourRanking());
             }
         }, 2000);
 
