@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ScrollView01"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundQuiz">>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:id="@+id/relative_layout"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundQuiz"
@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/question_txt"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:background="#030303">
 
@@ -69,7 +69,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/quizbutton"
-            android:fontFamily="@font/creepster"
+            android:fontFamily="@font/bowlby_one_sc"
             android:text="RadioButton"
             android:textColor="#000000" />
 
@@ -80,7 +80,7 @@
             android:layout_below="@id/radioButton"
             android:layout_marginTop="20dp"
             android:background="@drawable/quizbutton"
-            android:fontFamily="@font/creepster"
+            android:fontFamily="@font/bowlby_one_sc"
             android:text="RadioButton"
             android:textColor="#000000" />
 
@@ -91,7 +91,7 @@
             android:layout_below="@id/radioButton2"
             android:layout_marginTop="20dp"
             android:background="@drawable/quizbutton"
-            android:fontFamily="@font/creepster"
+            android:fontFamily="@font/bowlby_one_sc"
             android:text="RadioButton"
             android:textColor="#000000" />
 
@@ -102,7 +102,7 @@
             android:layout_below="@id/radioButton3"
             android:layout_marginTop="20dp"
             android:background="@drawable/quizbutton"
-            android:fontFamily="@font/creepster"
+            android:fontFamily="@font/bowlby_one_sc"
             android:text="RadioButton"
             android:textColor="#000000" />
 
@@ -118,7 +118,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/quiz_confirm_button"
-        android:fontFamily="@font/alfa_slab_one"
+        android:fontFamily="@font/bowlby_one_sc"
         android:text="Confirm" />
 
     <TextView
@@ -126,11 +126,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-        android:fontFamily="@font/creepster"
-        android:text="ddddddddddddd"
+        android:fontFamily="@font/bowlby_one_sc"
+        android:text="róża"
         android:textAlignment="center"
         android:textColor="#47A891"
-        android:textSize="35sp" />
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

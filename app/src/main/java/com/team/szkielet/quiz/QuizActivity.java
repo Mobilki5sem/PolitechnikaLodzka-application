@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_SCORE = "extraScore";
+    //MediaPlayer mediaPlayer;
 
     TextView score_txt;
     TextView question_count_txt;
@@ -59,6 +61,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_activity);
+
         score_txt = findViewById(R.id.score_txt);
         question_count_txt = findViewById(R.id.question_count_txt);
         question_txt = findViewById(R.id.question_txt);
@@ -93,8 +96,8 @@ public class QuizActivity extends AppCompatActivity {
                     showNextQuestion(); //jesli wezme NEXT lub Confirm to wywola sie ta metoda i pokaze nowe pytanie
             }
         });
-
-
+        //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.muzyka);
+        //mediaPlayer.start();
     }
 
     private void checkAnswer() {
@@ -169,6 +172,95 @@ public class QuizActivity extends AppCompatActivity {
 
         if (questionCounter < questionTotal) {
             currentQuestion = questionList.get(questionCounter);
+            int correctAnswer = currentQuestion.getAnswerNr();
+            int newCorrectAnswer;
+            double randomDouble;
+            do {
+                randomDouble = Math.random();
+                randomDouble = randomDouble * 4 + 1;
+                newCorrectAnswer = (int) randomDouble;
+            } while (newCorrectAnswer == correctAnswer);
+
+            String answerA;
+            if(correctAnswer == 1) {
+                answerA = currentQuestion.getOption1();
+            } else if(correctAnswer == 2) {
+                answerA = currentQuestion.getOption2();
+            } else if (correctAnswer == 3) {
+                answerA = currentQuestion.getOption3();
+            } else {
+                answerA = currentQuestion.getOption4();
+            }
+            String answerB = "";
+            if(newCorrectAnswer == 1) {
+                answerB = currentQuestion.getOption1();
+                if(correctAnswer == 1) {
+                    //NIC
+                } else if(correctAnswer == 2) {
+                    currentQuestion.setOption2(answerB);
+                    currentQuestion.setOption1(answerA);
+                    currentQuestion.setAnswerNr(1);
+                } else if (correctAnswer == 3) {
+                    currentQuestion.setOption3(answerB);
+                    currentQuestion.setOption1(answerA);
+                    currentQuestion.setAnswerNr(1);
+                } else {
+                    currentQuestion.setOption4(answerB);
+                    currentQuestion.setOption1(answerA);
+                    currentQuestion.setAnswerNr(1);
+                }
+            } else if(newCorrectAnswer == 2) {
+                answerB = currentQuestion.getOption2();
+                if(correctAnswer == 1) {
+                    currentQuestion.setOption1(answerB);
+                    currentQuestion.setOption2(answerA);
+                    currentQuestion.setAnswerNr(2);
+                } else if(correctAnswer == 2) {
+                    //NIC
+                } else if (correctAnswer == 3) {
+                    currentQuestion.setOption3(answerB);
+                    currentQuestion.setOption2(answerA);
+                    currentQuestion.setAnswerNr(2);
+                } else {
+                    currentQuestion.setOption4(answerB);
+                    currentQuestion.setOption2(answerA);
+                    currentQuestion.setAnswerNr(2);
+                }
+            } else if (newCorrectAnswer == 3) {
+                answerB = currentQuestion.getOption3();
+                if(correctAnswer == 1) {
+                    currentQuestion.setOption1(answerB);
+                    currentQuestion.setOption3(answerA);
+                    currentQuestion.setAnswerNr(3);
+                } else if(correctAnswer == 2) {
+                    currentQuestion.setOption2(answerB);
+                    currentQuestion.setOption3(answerA);
+                    currentQuestion.setAnswerNr(3);
+                } else if (correctAnswer == 3) {
+                    //nic
+                } else {
+                    currentQuestion.setOption4(answerB);
+                    currentQuestion.setOption3(answerA);
+                    currentQuestion.setAnswerNr(3);
+                }
+            } else {
+                answerB = currentQuestion.getOption4();
+                if(correctAnswer == 1) {
+                    currentQuestion.setOption1(answerB);
+                    currentQuestion.setOption4(answerA);
+                    currentQuestion.setAnswerNr(4);
+                } else if(correctAnswer == 2) {
+                    currentQuestion.setOption2(answerB);
+                    currentQuestion.setOption4(answerA);
+                    currentQuestion.setAnswerNr(4);
+                } else if (correctAnswer == 3) {
+                    currentQuestion.setOption3(answerB);
+                    currentQuestion.setOption4(answerA);
+                    currentQuestion.setAnswerNr(4);
+                } else {
+                    //NIC
+                }
+            }
             question_txt.setText(currentQuestion.getQuestion());
             radioButton.setText(currentQuestion.getOption1());
             radioButton2.setText(currentQuestion.getOption2());
@@ -234,6 +326,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void finishQuiz() {
+        //mediaPlayer.stop();
+        //mediaPlayer.release();
         Intent intent = new Intent();
         intent.putExtra(EXTRA_SCORE, score);
         setResult(RESULT_OK, intent);
@@ -253,6 +347,8 @@ public class QuizActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
         Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie QUIZu!!! ", Toast.LENGTH_SHORT).show();
+        //mediaPlayer.stop();
+        //mediaPlayer.release();
     }
 
 }
