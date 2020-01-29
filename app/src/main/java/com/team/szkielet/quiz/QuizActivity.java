@@ -3,10 +3,13 @@ package com.team.szkielet.quiz;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -91,7 +94,7 @@ public class QuizActivity extends AppCompatActivity {
                     if (radioButton.isChecked() || radioButton2.isChecked() || radioButton3.isChecked() || radioButton4.isChecked()) {
                         checkAnswer(); //jesli cos zaznaczyl to sprawdz odpowiedz
                     } else
-                        Toast.makeText(QuizActivity.this, "Choose your Answer", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QuizActivity.this, "Wybierz swoją odpowiedź!", Toast.LENGTH_SHORT).show();
                 } else
                     showNextQuestion(); //jesli wezme NEXT lub Confirm to wywola sie ta metoda i pokaze nowe pytanie
             }
@@ -111,7 +114,7 @@ public class QuizActivity extends AppCompatActivity {
         if (answerNr == currentQuestion.getAnswerNr()) {
             score++;
             score = score + (int) (timeLeft / 1000);
-            score_txt.setText("Score:" + score);
+            score_txt.setText("WYNIK:" + score);
         }
 
         showSolution();
@@ -125,41 +128,24 @@ public class QuizActivity extends AppCompatActivity {
 
         switch (currentQuestion.getAnswerNr()) {
             case 1:
-                radioButton.setTextColor(Color.GREEN);
+                radioButton.setTextColor(Color.rgb(30,150,50));
                 break;
             case 2:
-                radioButton2.setTextColor(Color.GREEN);
+                radioButton2.setTextColor(Color.rgb(30,150,50));
                 break;
             case 3:
-                radioButton3.setTextColor(Color.GREEN);
+                radioButton3.setTextColor(Color.rgb(30,150,50));
                 break;
             case 4:
-                radioButton4.setTextColor(Color.GREEN);
+                radioButton4.setTextColor(Color.rgb(30,150,50));
                 break;
         }
         if (questionCounter < questionTotal) {
-            btn_confirm_next.setText("NEXT");
+            btn_confirm_next.setText("DALEJ");
         } else {
-            btn_confirm_next.setText("Zakoncz quiz");
+            btn_confirm_next.setText("KONIEC QUIZU");
         }
 
-    }
-
-    private void showFinish() {
-        btn_confirm_next.setText("Finish Quiz");
-        question_txt.setTextColor(Color.WHITE);
-        btn_confirm_next.setTextSize(35);
-        question_txt.setText("BRAWO, DOTRWAŁES DO KONCA!");
-        relativeLayout.setBackgroundColor(Color.BLACK);
-        score_txt.setTextColor(Color.WHITE);
-        radio_group.setVisibility(View.GONE);
-
-        btn_confirm_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishQuiz();
-            }
-        });
     }
 
     private void showNextQuestion() {
@@ -268,18 +254,21 @@ public class QuizActivity extends AppCompatActivity {
             radioButton4.setText(currentQuestion.getOption4());
             questionCounter++;
 
-            question_count_txt.setText("Question: " + questionCounter + "/" + questionTotal);
+            question_count_txt.setText("PYTANIE: " + questionCounter + "/" + questionTotal);
 
             answered = false;
-            btn_confirm_next.setText("Confirm");
+            btn_confirm_next.setText("AKCEPTUJ");
 
         } else {
+            //Typeface type = Typeface.createFromAsset(getAssets(),"font/stalinist_one.xml");
+           // question_txt.setTypeface(type);
             //Jak odpowiiem na wszystkie pytania
             time_txt.setVisibility(View.GONE);
-            btn_confirm_next.setText("Wroc do menu quizu.");
-            question_txt.setTextColor(Color.WHITE);
-            btn_confirm_next.setTextSize(15);
-            question_txt.setText("BRAWO, DOTRWAŁES DO KONCA!");
+            btn_confirm_next.setText("MENU QUIZU");
+            question_txt.setTextColor(Color.rgb(255,165,0));
+            btn_confirm_next.setTextSize(30);
+            question_txt.setText("mission passed: \n respect ++");
+            question_txt.setTextSize(35);
             relativeLayout.setBackgroundColor(Color.BLACK);
             score_txt.setTextColor(Color.WHITE);
             radio_group.setVisibility(View.GONE);
@@ -346,7 +335,7 @@ public class QuizActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie QUIZu!!! ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie Quizu!!! ", Toast.LENGTH_SHORT).show();
         //mediaPlayer.stop();
         //mediaPlayer.release();
     }
