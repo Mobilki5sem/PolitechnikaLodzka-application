@@ -3,9 +3,12 @@ package com.team.szkielet;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
@@ -117,14 +120,27 @@ public class MainActivityBetter extends AppCompatActivity {
         cvQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivityBetter.this, "Witamy w Quizie", Toast.LENGTH_SHORT).show();
-                final Intent intent = new Intent(MainActivityBetter.this, QuizMainActivity.class);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        startActivity(intent);
-                    }
-                }, 300);
+                boolean connected;
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                        connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                    //we are connected to a network
+                    connected = true;
+                } else
+                    connected = false;
+                if(connected) {
+                    Toast.makeText(MainActivityBetter.this, "Witamy w Quizie", Toast.LENGTH_SHORT).show();
+                    final Intent intent = new Intent(MainActivityBetter.this, QuizMainActivity.class);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            startActivity(intent);
+                        }
+                    }, 300);
+                } else {
+                    Toast.makeText(MainActivityBetter.this, "Połącz się z internetem i spróbuj ponownie.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

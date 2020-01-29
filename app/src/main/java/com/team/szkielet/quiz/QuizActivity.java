@@ -335,7 +335,7 @@ public class QuizActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie Quizu!!! ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie Quizu!!! ", Toast.LENGTH_SHORT).show();
         //mediaPlayer.stop();
         //mediaPlayer.release();
     }
