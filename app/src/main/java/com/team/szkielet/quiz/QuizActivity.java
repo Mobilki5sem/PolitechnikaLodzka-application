@@ -128,16 +128,16 @@ public class QuizActivity extends AppCompatActivity {
 
         switch (currentQuestion.getAnswerNr()) {
             case 1:
-                radioButton.setTextColor(Color.GREEN);
+                radioButton.setTextColor(Color.rgb(30,150,50));
                 break;
             case 2:
-                radioButton2.setTextColor(Color.GREEN);
+                radioButton2.setTextColor(Color.rgb(30,150,50));
                 break;
             case 3:
-                radioButton3.setTextColor(Color.GREEN);
+                radioButton3.setTextColor(Color.rgb(30,150,50));
                 break;
             case 4:
-                radioButton4.setTextColor(Color.GREEN);
+                radioButton4.setTextColor(Color.rgb(30,150,50));
                 break;
         }
         if (questionCounter < questionTotal) {
