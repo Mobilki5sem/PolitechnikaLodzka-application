@@ -5,8 +5,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,8 +28,8 @@ import java.util.Locale;
 
 public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_SCORE = "extraScore";
-    //MediaPlayer mediaPlayer;
 
+    MediaPlayer myMediaPlayer;
     TextView score_txt;
     TextView question_count_txt;
     TextView question_txt;
@@ -96,8 +98,25 @@ public class QuizActivity extends AppCompatActivity {
                     showNextQuestion(); //jesli wezme NEXT lub Confirm to wywola sie ta metoda i pokaze nowe pytanie
             }
         });
-        //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.muzyka);
-        //mediaPlayer.start();
+
+        myMediaPlayer = new MediaPlayer();
+        AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.warriors);
+        if (afd == null) return;
+        else {
+            try {
+                myMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                afd.close();
+                myMediaPlayer.prepareAsync();
+            } catch (Exception elo) {
+                elo.printStackTrace();
+            }
+        }
+        myMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.start();
+            }
+        });
     }
 
     private void checkAnswer() {
@@ -326,8 +345,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void finishQuiz() {
-        //mediaPlayer.stop();
-        //mediaPlayer.release();
+        myMediaPlayer.stop();
+        myMediaPlayer.release();
         Intent intent = new Intent();
         intent.putExtra(EXTRA_SCORE, score);
         setResult(RESULT_OK, intent);
@@ -347,8 +366,8 @@ public class QuizActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
         Toast.makeText(QuizActivity.this, "Przycisk COFNIJ spowodował zamknięcie QUIZu!!! ", Toast.LENGTH_SHORT).show();
-        //mediaPlayer.stop();
-        //mediaPlayer.release();
+        myMediaPlayer.stop();
+        myMediaPlayer.release();
     }
 
 }
